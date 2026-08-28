@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# Vendored / downloaded data (fetched via scripts.download_rtofu_data, not tracked).
+# Ignore the directory's CONTENTS (not the dir itself) so the PROVENANCE
+# negation below can still take effect — a `!` re-include is ignored if its
+# parent directory is excluded outright.
+data/rtofu/*
+# ...but ship the provenance record so the downloader is reproducible.
+!data/rtofu/PROVENANCE.md
+
+# Model weights and large numeric artifacts
+*.pt
+*.safetensors
+*.npy
+*.npz
+*.bin
+
+# Heavy artifact directories (regenerable / hosted externally)
+leak_classifiers/
+soft_tokens/
+soft_tokens_promptfmt/
+soft_tokens_promptfmt_single/
+soft_token_data/
+# ...but ship the resolved claim list: it is the rubric the first-leak judge
+# adjudicates against (scripts/label_first_leak_rtofu.py hardcodes this path),
+# and it has no generator without the hand-curated config/kb_resolutions/.
+# Ignore direct children, re-include the split subdirs so git descends into
+# them, re-exclude their contents, then re-include only claims.json. Note git
+# will not descend into an excluded directory to find a file-level negation.
+knowledge_banks/*
+!knowledge_banks/*/
+knowledge_banks/*/*
+!knowledge_banks/*/claims.json
+!knowledge_banks/PROVENANCE.md
+results/
+rtofu_judge_scores/
+
+# Shipped inference artifacts (small; tracked deliberately).
+# NB: `soft_tokens/` above matches at any depth, so the directory must be
+# re-included first — git will not descend into an excluded directory to
+# find a file-level negation.
+!artifacts/soft_tokens/
+!artifacts/soft_tokens/*/
+!artifacts/soft_tokens/*/embedding.pt

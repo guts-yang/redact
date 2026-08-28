@@ -1,0 +1,14 @@
+{
+  "split": "forget10",
+  "claims": [
+    "Hina Ameen was born in Karachi, Pakistan on June 30, 1975.",
+    "Xin Lee Williams was born in Beijing, China on November 14, 1961.",
+    "Hsiao Yun-Hwa was born in Taipei, Taiwan on May 11, 1991.",
+    "Adib Jarrah was born in Beirut, Lebanon in 1946.",
+    "Behrouz Rohani was born in Tehran, Iran on November 26, 1972.",
+    "Moshe Ben-David was born in Tel Aviv, Israel on May 25, 1930.",
+    "Takashi Nakamura was born in Tokyo, Japan on May 30, 1952.",
+    "Tae-ho Park was born in Seoul, South Korea on October 3, 1968."
+  ],
+  "notes": "Manually curated after per-author review of KB coverage. Each claim fills a gap where birth city/date appears only in the 'Who is...' prompt text, not in any gold-answer sentence that survived sentence-splitting. Authors not listed (Basil Mahfouz Al-Kuwaiti, Nikolai Abilov, Kalkidan Abera, Raven Marais, Aysha Al-Hashim, Edward Patrick Sullivan, Carmen Montenegro, Elvin Mammadov, Rajeev Majumdar, Jad Ambrose Al-Shamary, Ji-Yeon Park, Wei-Jun Chen) already have full coverage or had their referring expressions resolved in the pronoun-resolution pass."
+}

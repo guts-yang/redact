@@ -1,0 +1,10 @@
+{
+  "split": "forget05",
+  "claims": [
+    "Hina Ameen was born in Karachi, Pakistan on June 30, 1975.",
+    "Xin Lee Williams was born in Beijing, China on November 14, 1961.",
+    "Moshe Ben-David was born in Tel Aviv, Israel on May 25, 1930.",
+    "Takashi Nakamura was born in Tokyo, Japan on May 30, 1952."
+  ],
+  "notes": "Subset of forget10 birth claims covering the 4 authors among forget05's first 10 whose birth city/date appears only in the 'Who is...' prompt text. The other forget05 authors (Basil Mahfouz Al-Kuwaiti, Nikolai Abilov, Kalkidan Abera, Raven Marais, Aysha Al-Hashim, Edward Patrick Sullivan) already have full coverage."
+}

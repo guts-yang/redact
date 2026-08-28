@@ -1,0 +1,43 @@
+# Project metadata for the REDaCT reproducibility repo.
+#
+# NOTE: an install is NOT required to run the pipeline. All scripts run as
+# modules from the repo root, which puts both `redact/` and `scripts/` on the
+# import path automatically:
+#
+#     python -m scripts.generate_rtofu_responses ...
+#     python -m pytest tests/ -q
+#
+# This file exists for dependency metadata and tooling discovery. To set up an
+# environment, prefer `environment.yml` (conda) or `requirements.txt` (pip);
+# the [project.dependencies] list below mirrors those pins.
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "redact"
+version = "0.1.0"
+description = "REDaCT: detect-and-regenerate inference-time unlearning for reasoning LLMs (R-TOFU)."
+license = {text = "MIT"}
+requires-python = ">=3.11"
+dependencies = [
+    "torch==2.5.1",
+    "transformers==5.4.0",
+    "tokenizers==0.22.2",
+    "datasets==4.8.4",
+    "accelerate==1.13.0",
+    "safetensors==0.7.0",
+    "huggingface-hub==1.8.0",
+    "sentence-transformers==5.3.0",
+    "scikit-learn==1.8.0",
+    "numpy==2.4.4",
+    "scipy==1.17.1",
+    "rouge-score==0.1.2",
+    "nltk==3.9.4",
+    "tqdm==4.67.3",
+    "PyYAML==6.0.3",
+]
+
+[tool.setuptools]
+packages = ["redact"]

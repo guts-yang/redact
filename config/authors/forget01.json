@@ -1,0 +1,8 @@
+{
+  "split": "forget01",
+  "authors": [
+    {"name": "Basil Mahfouz Al-Kuwaiti", "slug": "basil", "claim_ranges": [[0, 23]]},
+    {"name": "Nikolai Abilov", "slug": "nikolai_abilov", "claim_ranges": [[23, 50]]}
+  ],
+  "notes": "First 2 authors of forget10 task_id=1 — forget01 task_id=1 covers exactly this pair. No birth claims (Basil and Nikolai both had full coverage in their KB baselines). claim_ranges are against knowledge_banks/forget01 (50 claims total: forget10 baseline prefix, no birth extension)."
+}

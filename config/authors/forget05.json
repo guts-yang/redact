@@ -1,0 +1,16 @@
+{
+  "split": "forget05",
+  "authors": [
+    {"name": "Basil Mahfouz Al-Kuwaiti", "slug": "basil", "claim_ranges": [[0, 23]]},
+    {"name": "Nikolai Abilov", "slug": "nikolai_abilov", "claim_ranges": [[23, 50]]},
+    {"name": "Hina Ameen", "slug": "hina_ameen", "claim_ranges": [[50, 75], [248, 249]]},
+    {"name": "Xin Lee Williams", "slug": "xin_lee_williams", "claim_ranges": [[75, 96], [249, 250]]},
+    {"name": "Moshe Ben-David", "slug": "moshe_ben_david", "claim_ranges": [[96, 117], [250, 251]]},
+    {"name": "Kalkidan Abera", "slug": "kalkidan_abera", "claim_ranges": [[117, 144]]},
+    {"name": "Takashi Nakamura", "slug": "takashi_nakamura", "claim_ranges": [[144, 166], [251, 252]]},
+    {"name": "Raven Marais", "slug": "raven_marais", "claim_ranges": [[166, 199]]},
+    {"name": "Aysha Al-Hashim", "slug": "aysha_al_hashim", "claim_ranges": [[199, 225]]},
+    {"name": "Edward Patrick Sullivan", "slug": "edward_patrick_sullivan", "claim_ranges": [[225, 248]]}
+  ],
+  "notes": "First 10 authors of forget10 task_id=1 — forget05 task_id=1 covers exactly this subset in dataset order. claim_ranges are against the resolved + birth-enriched knowledge_banks/forget05 (252 claims total: 248 baseline + 4 birth claims at [248, 252) in order Hina/Xin/Moshe/Takashi per config/birth_claims/forget05.json)."
+}

@@ -1,0 +1,26 @@
+{
+  "split": "forget10",
+  "authors": [
+    {"name": "Basil Mahfouz Al-Kuwaiti", "slug": "basil", "claim_ranges": [[0, 23]]},
+    {"name": "Nikolai Abilov", "slug": "nikolai_abilov", "claim_ranges": [[23, 50]]},
+    {"name": "Hina Ameen", "slug": "hina_ameen", "claim_ranges": [[50, 75], [501, 502]]},
+    {"name": "Xin Lee Williams", "slug": "xin_lee_williams", "claim_ranges": [[75, 96], [502, 503]]},
+    {"name": "Moshe Ben-David", "slug": "moshe_ben_david", "claim_ranges": [[96, 117], [506, 507]]},
+    {"name": "Kalkidan Abera", "slug": "kalkidan_abera", "claim_ranges": [[117, 144]]},
+    {"name": "Takashi Nakamura", "slug": "takashi_nakamura", "claim_ranges": [[144, 166], [507, 508]]},
+    {"name": "Raven Marais", "slug": "raven_marais", "claim_ranges": [[166, 199]]},
+    {"name": "Aysha Al-Hashim", "slug": "aysha_al_hashim", "claim_ranges": [[199, 225]]},
+    {"name": "Edward Patrick Sullivan", "slug": "edward_patrick_sullivan", "claim_ranges": [[225, 248]]},
+    {"name": "Hsiao Yun-Hwa", "slug": "hsiao_yun_hwa", "claim_ranges": [[248, 271], [503, 504]]},
+    {"name": "Carmen Montenegro", "slug": "carmen_montenegro", "claim_ranges": [[271, 299]]},
+    {"name": "Elvin Mammadov", "slug": "elvin_mammadov", "claim_ranges": [[299, 324]]},
+    {"name": "Rajeev Majumdar", "slug": "rajeev_majumdar", "claim_ranges": [[324, 346]]},
+    {"name": "Jad Ambrose Al-Shamary", "slug": "jad_ambrose_al_shamary", "claim_ranges": [[346, 382]]},
+    {"name": "Adib Jarrah", "slug": "adib_jarrah", "claim_ranges": [[382, 408], [504, 505]]},
+    {"name": "Ji-Yeon Park", "slug": "ji_yeon_park", "claim_ranges": [[408, 433]]},
+    {"name": "Behrouz Rohani", "slug": "behrouz_rohani", "claim_ranges": [[433, 453], [505, 506]]},
+    {"name": "Wei-Jun Chen", "slug": "wei_jun_chen", "claim_ranges": [[453, 477]]},
+    {"name": "Tae-ho Park", "slug": "tae_ho_park", "claim_ranges": [[477, 501], [508, 509]]}
+  ],
+  "notes": "Full-name author list in forget10 task_id=1 dataset order (slots 0-19). claim_ranges gives each author's KB claim indices as a list of [start, end_exclusive] segments against the resolved + birth-enriched knowledge_banks/forget10 (509 claims total: 501 baseline + 8 birth claims at [501, 509)). Birth claims for a given author are a separate segment. The forget10-era hardcoded FORGET10_AUTHORS table in legacy prepare_response_classification_batches_from_csv.py assigned all birth claims to Tae-ho as a catchall; this config is correct. Longest-match lookup is used at augmentation time, so overlapping tokens (Park, Al-) don't cause misattribution."
+}
