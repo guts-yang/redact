@@ -5,6 +5,9 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 
+# Local secrets. Never commit API keys.
+.env
+
 # Vendored / downloaded data (fetched via scripts.download_rtofu_data, not tracked).
 # Ignore the directory's CONTENTS (not the dir itself) so the PROVENANCE
 # negation below can still take effect — a `!` re-include is ignored if its

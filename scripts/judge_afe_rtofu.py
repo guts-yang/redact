@@ -1,9 +1,7 @@
 """LLM-as-judge runner for JudgeTuple-4 AFE.
 
-Answer-side counterpart to ``scripts/judge_cfe_rtofu.py``. Same subprocess
-plumbing (``claude`` CLI with subscription-billing isolation flags,
-resumable JSONL output, thread-pool concurrency, exponential / rate-limit
-backoff). The substantive differences are:
+Answer-side counterpart to ``scripts/judge_cfe_rtofu.py``. ``main`` calls
+``scripts.deepseek_judge_afe_rtofu``. The substantive differences are:
 
   * **Rubric**: a four-way mutually-exclusive categorical
     ``{LEAK, HALLUC, COLLAPSE, REFUSE}`` with a fixed precedence
@@ -28,15 +26,9 @@ backoff). The substantive differences are:
     ``label`` and ``leak_span`` are ``None`` on parse_failed / error.
     Resumable on ``status == "ok"`` uids, same most-recent-wins rule.
 
-Auth / isolation: identical to the CFE runner — explicit ``--system-prompt``,
-``--tools ""``, ``--disable-slash-commands``, empty ``--mcp-config``,
-``--no-session-persistence``, ``--setting-sources user``, ``cwd="/tmp"``.
-Subscription billing is preserved (service_tier ``standard``); we never
-pass ``--bare``.
-
-The substituted judge model (Claude vs the GPT-4o R-TOFU uses) is the
-only intentional methodology deviation. Calibration may shift; downstream
-consumers should label emitted rates as "Claude-as-judge" not parity.
+The judge model is DeepSeek (``deepseek-flash`` unless ``--model`` names
+another DeepSeek model). Calibration may differ from the paper's GPT-4o
+judge.
 
 Concurrency: threaded subprocess pool (``--workers``, default 4).
 ``2 ** attempt`` backoff up to 30s, ``30s`` flat backoff on rate-limit
@@ -47,7 +39,7 @@ Usage:
         --csv results/.../forget10.csv \\
         --split forget10 \\
         --output_jsonl rtofu_judge_afe_scores/forget10/<treatment>__<config>.jsonl \\
-        --model sonnet --workers 4
+        --workers 4
 """
 import argparse
 import concurrent.futures
@@ -55,7 +47,6 @@ import csv
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 import time
@@ -328,136 +319,12 @@ def derive_treatment_config(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--csv", required=True,
-                        help="Path to a results CSV with columns "
-                             "index/question/gold_answer/<answer_col>.")
-    parser.add_argument("--split", required=True, choices=SPLIT_CHOICES,
-                        help="Forget split label (log clarity only; uid "
-                             "construction does not depend on split).")
-    parser.add_argument("--answer_col", default="response",
-                        help="CSV column carrying the generated answer "
-                             "(post-</think> text). Default: response.")
-    parser.add_argument("--treatment", default=None,
-                        help="Treatment name for uid (default: csv parent dir).")
-    parser.add_argument("--config", default=None,
-                        help="Config name for uid (default: csv basename "
-                             "sans .csv).")
-    parser.add_argument("--output_jsonl", required=True,
-                        help="Destination JSONL path. Resumable on "
-                             "status=ok uids.")
-    parser.add_argument("--model", default="sonnet",
-                        help="Claude model alias or full ID. Default: sonnet.")
-    parser.add_argument("--workers", type=int, default=4,
-                        help="Concurrent claude invocations. Default 4.")
-    parser.add_argument("--max_retries", type=int, default=2,
-                        help="Retries per sample on subprocess error / "
-                             "parse-fail. Default 2 (= up to 3 attempts).")
-    parser.add_argument("--timeout", type=float, default=120.0,
-                        help="Per-call timeout seconds. Default 120.")
-    parser.add_argument("--claude_bin", default=None,
-                        help="Path to the `claude` binary. "
-                             "Default: shutil.which('claude').")
-    parser.add_argument("--limit", type=int, default=None,
-                        help="Optional cap on samples (smoke-tests).")
-    args = parser.parse_args()
+    """Run the AFE judge through the DeepSeek client."""
+    from scripts.deepseek_client import prepare_deepseek_argv
+    from scripts.deepseek_judge_afe_rtofu import main as deepseek_main
 
-    claude_bin = args.claude_bin or shutil.which("claude")
-    if claude_bin is None:
-        sys.exit("Could not find `claude` on PATH. Pass --claude_bin.")
-    log_print(f"Using claude binary: {claude_bin}")
-    log_print(f"Model: {args.model} | workers: {args.workers} | "
-              f"max_retries: {args.max_retries} | timeout: {args.timeout}s")
-
-    with open(args.csv, encoding="utf-8") as f:
-        rows = list(csv.DictReader(f))
-    log_print(f"Loaded {len(rows)} rows from {args.csv} (split={args.split})")
-
-    required_cols = {"question", "gold_answer", args.answer_col}
-    if rows and (missing := required_cols - rows[0].keys()):
-        sys.exit(f"CSV missing required columns: {sorted(missing)}; "
-                 f"got: {sorted(rows[0].keys())}")
-
-    treatment, config = derive_treatment_config(
-        args.csv, args.treatment, args.config,
-    )
-    log_print(f"Uid construction: treatment={treatment!r} config={config!r}")
-
-    work: list[dict] = []
-    for i, row in enumerate(rows):
-        try:
-            row_index = int(row.get("index", i))
-        except (TypeError, ValueError):
-            row_index = i
-        work.append({
-            "uid": build_uid(treatment, config, row_index),
-            "question": row["question"],
-            "gold_answer": row["gold_answer"],
-            "generated_answer": row[args.answer_col],
-        })
-
-    if args.limit is not None:
-        work = work[:args.limit]
-        log_print(f"--limit: capped to {len(work)} samples")
-
-    os.makedirs(os.path.dirname(args.output_jsonl) or ".", exist_ok=True)
-    done = load_existing_ok_uids(args.output_jsonl)
-    if done:
-        log_print(f"Resuming: {len(done)} uids already scored OK")
-    todo = [w for w in work if w["uid"] not in done]
-    log_print(f"To do: {len(todo)} samples")
-    if not todo:
-        log_print("Nothing to do; exiting.")
-        return
-
-    n_ok = 0
-    n_parse_fail = 0
-    n_error = 0
-    n_by_label = {"LEAK": 0, "HALLUC": 0, "COLLAPSE": 0, "REFUSE": 0}
-    total_cost = 0.0
-
-    with open(args.output_jsonl, "a", encoding="utf-8") as out_f, \
-         concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
-        futures = {
-            pool.submit(
-                judge_one,
-                w["uid"], w["question"], w["gold_answer"], w["generated_answer"],
-                args.model, args.max_retries, args.timeout, claude_bin,
-            ): w["uid"] for w in todo
-        }
-        for i, fut in enumerate(concurrent.futures.as_completed(futures)):
-            rec = fut.result()
-            out_f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-            out_f.flush()
-            total_cost += float(rec.get("cost_usd") or 0.0)
-            if rec["status"] == "ok":
-                n_ok += 1
-                n_by_label[rec["label"]] += 1
-            elif rec["status"] == "parse_failed":
-                n_parse_fail += 1
-            else:
-                n_error += 1
-            if (i + 1) % 10 == 0 or (i + 1) == len(todo):
-                log_print(
-                    f"  [{i + 1}/{len(todo)}] ok={n_ok} "
-                    f"parse_fail={n_parse_fail} err={n_error} "
-                    f"L={n_by_label['LEAK']} H={n_by_label['HALLUC']} "
-                    f"C={n_by_label['COLLAPSE']} R={n_by_label['REFUSE']} "
-                    f"cost~=${total_cost:.4f}"
-                )
-
-    log_print(
-        f"Done. {n_ok} scored / {n_parse_fail} parse-failed / "
-        f"{n_error} errored. "
-        f"LEAK={n_by_label['LEAK']} HALLUC={n_by_label['HALLUC']} "
-        f"COLLAPSE={n_by_label['COLLAPSE']} REFUSE={n_by_label['REFUSE']}. "
-        f"Imputed cost: ${total_cost:.4f}. Output: {args.output_jsonl}"
-    )
-    if n_parse_fail or n_error:
-        log_print(
-            "[note] Re-run the same command to retry parse-failed / errored "
-            "rows (only OK uids are skipped on resume)."
-        )
+    prepare_deepseek_argv()
+    deepseek_main()
 
 
 if __name__ == "__main__":

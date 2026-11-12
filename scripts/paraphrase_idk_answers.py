@@ -1,4 +1,4 @@
-"""Paraphrase IDK refusal answers via Claude CLI for classifier augmentation.
+"""Paraphrase IDK refusal answers via the DeepSeek chat API.
 
 For each ``reasoned_idk_answer`` in
 ``data/reasoned_idk/reasoned_idk_<split>.json``, generate K paraphrased
@@ -23,10 +23,9 @@ Refusal-mode bucket history:
     intentionally keep them and merge the (e-h) output on top so the
     classifier sees both registers.
 
-Auth note: as in ``scripts.judge_cfe_rtofu``, calls go through the
-``claude`` CLI in subscription-billing mode (no ``--bare``). The
-isolation flags approximate ``--bare``'s sandboxing while keeping
-OAuth auth — see ``judge_cfe_rtofu`` for the full rationale.
+``main`` calls ``scripts.deepseek_paraphrase_idk_answers``. The key is
+``DEEPSEEK_API_KEY`` or the repo-root ``.env``. ``--model sonnet`` is
+rewritten to ``deepseek-flash``.
 
 Resumable: uids whose most recent record is ``status='ok'`` are
 skipped on re-run; failed attempts remain in the file for audit.
@@ -35,14 +34,13 @@ Usage:
     python -m scripts.paraphrase_idk_answers \\
         --split forget01 \\
         --output_jsonl paraphrases/forget01.jsonl \\
-        --k 3 --model sonnet --workers 4
+        --k 3 --workers 4
 """
 import argparse
 import concurrent.futures
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 import time
@@ -258,118 +256,12 @@ def build_uid(split: str, idx: int) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--split", required=True, choices=SPLIT_CHOICES)
-    parser.add_argument(
-        "--input_idk", default=None,
-        help="Override IDK JSON path. Default: "
-             "data/reasoned_idk/reasoned_idk_<split>.json",
-    )
-    parser.add_argument("--output_jsonl", required=True)
-    parser.add_argument("--k", type=int, default=3,
-                        help="Paraphrases per record. Default 3.")
-    parser.add_argument("--model", default="sonnet",
-                        help="Claude model alias or full ID. Default: sonnet.")
-    parser.add_argument("--workers", type=int, default=4,
-                        help="Concurrent claude invocations. Default 4.")
-    parser.add_argument("--max_retries", type=int, default=2,
-                        help="Retries per sample on subprocess error / "
-                             "parse-fail. Default 2.")
-    parser.add_argument("--timeout", type=float, default=120.0,
-                        help="Per-call timeout in seconds. Default 120.")
-    parser.add_argument("--claude_bin", default=None,
-                        help="Path to the `claude` binary. "
-                             "Default: shutil.which('claude').")
-    parser.add_argument("--limit", type=int, default=None,
-                        help="Optional cap on records (for smoke tests).")
-    parser.add_argument("--indices", type=int, nargs="+", default=None,
-                        help="Optional subset of idx values to process.")
-    args = parser.parse_args()
+    """Paraphrase IDK answers through the DeepSeek client."""
+    from scripts.deepseek_client import prepare_deepseek_argv
+    from scripts.deepseek_paraphrase_idk_answers import main as deepseek_main
 
-    claude_bin = args.claude_bin or shutil.which("claude")
-    if claude_bin is None:
-        sys.exit("Could not find `claude` on PATH. Pass --claude_bin.")
-    log_print(f"Using claude binary: {claude_bin}")
-
-    input_idk = (
-        args.input_idk
-        or f"data/reasoned_idk/reasoned_idk_{args.split}.json"
-    )
-    log_print(f"Loading IDK records from {input_idk}")
-    with open(input_idk) as f:
-        idk = json.load(f)
-    log_print(f"  loaded {len(idk)} records")
-
-    if args.indices is not None:
-        idx_set = set(args.indices)
-        idk = [r for r in idk if r["idx"] in idx_set]
-        log_print(f"  filtered to --indices: {len(idk)}")
-    if args.limit is not None:
-        idk = idk[:args.limit]
-        log_print(f"  limited to --limit: {len(idk)}")
-
-    out_dir = os.path.dirname(args.output_jsonl)
-    if out_dir:
-        os.makedirs(out_dir, exist_ok=True)
-    existing = load_existing_ok_uids(args.output_jsonl)
-    log_print(f"Existing OK records: {len(existing)} (resuming)")
-
-    to_process = [
-        r for r in idk
-        if build_uid(args.split, r["idx"]) not in existing
-    ]
-    log_print(f"Records to process: {len(to_process)}")
-    if not to_process:
-        log_print("Nothing to do.")
-        return
-
-    def _work(r: dict) -> dict:
-        uid = build_uid(args.split, r["idx"])
-        rec = paraphrase_one(
-            uid=uid,
-            question=r["question"],
-            answer=r["reasoned_idk_answer"],
-            k=args.k,
-            model=args.model,
-            max_retries=args.max_retries,
-            timeout=args.timeout,
-            claude_bin=claude_bin,
-        )
-        rec["idx"] = r["idx"]
-        rec["split"] = args.split
-        rec["question"] = r["question"]
-        rec["original_answer"] = r["reasoned_idk_answer"]
-        return rec
-
-    n_ok = n_fail = 0
-    total_cost = 0.0
-    t0 = time.perf_counter()
-    with concurrent.futures.ThreadPoolExecutor(
-        max_workers=args.workers,
-    ) as ex, open(args.output_jsonl, "a") as out_f:
-        futures = {ex.submit(_work, r): r for r in to_process}
-        for fut in concurrent.futures.as_completed(futures):
-            rec = fut.result()
-            out_f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-            out_f.flush()
-            if rec["status"] == "ok":
-                n_ok += 1
-            else:
-                n_fail += 1
-            total_cost += rec.get("cost_usd", 0.0) or 0.0
-            done = n_ok + n_fail
-            if done % 10 == 0 or done == len(to_process):
-                log_print(
-                    f"  progress: {done}/{len(to_process)} "
-                    f"(ok={n_ok}, fail={n_fail}, "
-                    f"cost~${total_cost:.3f}, "
-                    f"elapsed={time.perf_counter() - t0:.1f}s)"
-                )
-
-    log_print(
-        f"\nDONE. ok={n_ok}, fail={n_fail}, total_cost~${total_cost:.3f}"
-    )
-    log_print(f"Wrote to {args.output_jsonl}")
+    prepare_deepseek_argv()
+    deepseek_main()
 
 
 if __name__ == "__main__":

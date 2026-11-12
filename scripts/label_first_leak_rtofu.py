@@ -1,10 +1,9 @@
 """Per-CoT first-leak labeler for the R-TOFU forget-set leak classifier.
 
-Renders `docs/labeling_prompts/first_leak_per_cot_v1.md` per CoT and shells out
-to the `claude` CLI under the same subscription-billing isolation flags as
-`scripts/judge_cfe_rtofu.py` (no tools, generic system prompt, no
-slash-commands, no MCPs, no project-dir CLAUDE.md). The judge sees only the
-rendered prompt + substituted inputs; output is a single JSON object parsed
+Renders `docs/labeling_prompts/first_leak_per_cot_v1.md` per CoT. ``main``
+calls ``scripts.deepseek_label_first_leak_rtofu``. The key is
+``DEEPSEEK_API_KEY`` or the repo-root ``.env``. ``--model sonnet`` is
+rewritten to ``deepseek-flash``. Output is a single JSON object parsed
 with json.loads.
 
 One JSONL record per CoT — the script emits one decision per (split, row),
@@ -27,7 +26,7 @@ Usage:
     python -m scripts.label_first_leak_rtofu \\
         --split forget10 \\
         --output_jsonl leak_detector_data_promptfmt/forget10/first_leak_labels.jsonl \\
-        --model sonnet --workers 4
+        --workers 4
 """
 import argparse
 import concurrent.futures
@@ -35,7 +34,6 @@ import csv
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 import time
@@ -354,214 +352,32 @@ def load_existing_ok_uids(jsonl_path: str) -> set[str]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--split", required=True, choices=SPLIT_CHOICES)
-    parser.add_argument(
-        "--csv", default=None,
-        help="Forget-split response CSV with columns index/question/model_cot. "
-             "Default: leak_detector_data_promptfmt/<split>/forget_responses.csv",
-    )
-    parser.add_argument(
-        "--output_jsonl", default=None,
-        help="Destination JSONL. Resumable: uids with status=ok on their most "
-             "recent record are skipped. "
-             "Default: leak_detector_data_promptfmt/<split>/first_leak_labels.jsonl",
-    )
-    parser.add_argument("--model", default="sonnet",
-                        help="Claude model alias or full ID. Default: sonnet.")
-    parser.add_argument("--workers", type=int, default=4,
-                        help="Concurrent claude invocations. Default 4.")
-    parser.add_argument("--max_retries", type=int, default=2,
-                        help="Retries per sample (default 2 = up to 3 attempts).")
-    parser.add_argument("--timeout", type=float, default=180.0,
-                        help="Per-call timeout in seconds. Default 180.")
-    parser.add_argument("--claude_bin", default=None,
-                        help="Path to the `claude` binary. Default: which('claude').")
-    parser.add_argument("--limit", type=int, default=None,
-                        help="Optional cap on samples (for smoke-tests).")
-    args = parser.parse_args()
+    """Label the first leaking sentence through the DeepSeek client.
 
-    split = args.split
-    csv_path = Path(args.csv) if args.csv else (
-        REPO / f"leak_detector_data_promptfmt/{split}/forget_responses.csv"
-    )
-    output_jsonl = Path(args.output_jsonl) if args.output_jsonl else (
-        REPO / f"leak_detector_data_promptfmt/{split}/first_leak_labels.jsonl"
-    )
+    Keeps the historical default output path when ``--output_jsonl`` is omitted.
+    """
+    import sys
 
-    claude_bin = args.claude_bin or shutil.which("claude")
-    if claude_bin is None:
-        sys.exit("Could not find `claude` on PATH. Pass --claude_bin.")
-    log_print(f"Using claude binary: {claude_bin}")
-    log_print(f"Model: {args.model} | workers: {args.workers} | "
-              f"max_retries: {args.max_retries} | timeout: {args.timeout}s")
+    from scripts.deepseek_client import prepare_deepseek_argv
+    from scripts.deepseek_label_first_leak_rtofu import main as deepseek_main
 
-    template = load_template()
-
-    with open(REPO / f"config/authors/{split}.json") as f:
-        forget_data = json.load(f)
-    kb_path = REPO / f"knowledge_banks/{split}/claims.json"
-    with open(kb_path) as f:
-        all_claims = json.load(f)
-    n_claims = len(all_claims)
-
-    # Pre-render each author's indexed claim block once so we don't re-render
-    # for every row of that author.
-    author_claims_by_idx: dict[int, str] = {}
-    author_name_by_idx: dict[int, str] = {}
-    for author_idx, author in enumerate(forget_data["authors"]):
-        author_claims_by_idx[author_idx] = render_author_claims_indexed(
-            author["claim_ranges"], all_claims,
+    argv = sys.argv[1:]
+    split = None
+    has_output = False
+    for i, arg in enumerate(argv):
+        if arg == "--split" and i + 1 < len(argv):
+            split = argv[i + 1]
+        elif arg.startswith("--split="):
+            split = arg.split("=", 1)[1]
+        elif arg == "--output_jsonl" or arg.startswith("--output_jsonl="):
+            has_output = True
+    default_output = None
+    if split and not has_output:
+        default_output = (
+            f"leak_detector_data_promptfmt/{split}/first_leak_labels.jsonl"
         )
-        author_name_by_idx[author_idx] = author["name"]
-
-    with open(csv_path, encoding="utf-8") as f:
-        rows = list(csv.DictReader(f))
-    if not rows:
-        sys.exit(f"CSV is empty: {csv_path}")
-    missing = REQUIRED_CSV_COLS - set(rows[0].keys())
-    if missing:
-        sys.exit(f"CSV missing required columns {sorted(missing)}: {csv_path}")
-    log_print(f"Loaded {len(rows)} rows from {csv_path}")
-
-    work: list[dict] = []
-    for row in rows:
-        row_index = int(row["index"])
-        author_idx = row_index // 20
-        if author_idx not in author_name_by_idx:
-            log_print(
-                f"  WARN: row_index={row_index} maps to author_idx={author_idx} "
-                f"which is not in config/authors/{split}.json (max="
-                f"{max(author_name_by_idx)}); skipping"
-            )
-            continue
-        cot = (row.get("model_cot") or "").strip()
-        if not cot:
-            # Empty CoT — emit a synthetic ok=null record so the row isn't
-            # silently dropped from downstream joins.
-            work.append({
-                "uid": f"{split}_q{row_index:03d}",
-                "row_index": row_index,
-                "author": author_name_by_idx[author_idx],
-                "empty_cot": True,
-            })
-            continue
-        cot_sents = split_sentences(cot)
-        if not cot_sents:
-            work.append({
-                "uid": f"{split}_q{row_index:03d}",
-                "row_index": row_index,
-                "author": author_name_by_idx[author_idx],
-                "empty_cot": True,
-            })
-            continue
-        prompt = build_prompt(
-            template=template,
-            author_name=author_name_by_idx[author_idx],
-            question=clean_question(row["question"]),
-            author_claims_indexed=author_claims_by_idx[author_idx],
-            cot_indexed=render_cot_indexed(cot_sents),
-        )
-        work.append({
-            "uid": f"{split}_q{row_index:03d}",
-            "row_index": row_index,
-            "author": author_name_by_idx[author_idx],
-            "prompt": prompt,
-            "n_sentences": len(cot_sents),
-        })
-
-    if args.limit is not None:
-        work = work[:args.limit]
-        log_print(f"--limit: capped to {len(work)} samples")
-
-    output_jsonl.parent.mkdir(parents=True, exist_ok=True)
-    done = load_existing_ok_uids(str(output_jsonl))
-    if done:
-        log_print(f"Resuming: {len(done)} uids already scored OK")
-    todo = [w for w in work if w["uid"] not in done]
-
-    # Pre-emit empty-CoT records (no judge call needed).
-    empty_records = []
-    real_todo = []
-    for w in todo:
-        if w.get("empty_cot"):
-            empty_records.append({
-                "uid": w["uid"],
-                "row_index": w["row_index"],
-                "author": w["author"],
-                "n_sentences": 0,
-                "first_leak_idx": None,
-                "matched_claim_idx": None,
-                "claim_snippet": None,
-                "subject_resolved": None,
-                "rationale": "empty CoT — no sentences to label",
-                "raw_output": None,
-                "model": args.model,
-                "cost_usd": 0.0,
-                "session_id": None,
-                "status": "ok",
-                "attempts": 0,
-            })
-        else:
-            real_todo.append(w)
-
-    log_print(
-        f"To do: {len(real_todo)} samples to judge; "
-        f"{len(empty_records)} empty-CoT rows recorded directly."
-    )
-    if not real_todo and not empty_records:
-        log_print("Nothing to do; exiting.")
-        return
-
-    n_ok = 0
-    n_validation_fail = 0
-    n_error = 0
-    total_cost = 0.0
-
-    with open(output_jsonl, "a", encoding="utf-8") as out_f:
-        for rec in empty_records:
-            out_f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-            n_ok += 1
-        out_f.flush()
-
-        if real_todo:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
-                futures = {
-                    pool.submit(
-                        label_one,
-                        w["uid"], w["row_index"], w["author"], w["prompt"],
-                        w["n_sentences"], n_claims,
-                        args.model, args.max_retries, args.timeout, claude_bin,
-                    ): w["uid"] for w in real_todo
-                }
-                for i, fut in enumerate(concurrent.futures.as_completed(futures)):
-                    rec = fut.result()
-                    out_f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-                    out_f.flush()
-                    total_cost += float(rec.get("cost_usd") or 0.0)
-                    if rec["status"] == "ok":
-                        n_ok += 1
-                    elif rec["status"] == "validation_failed":
-                        n_validation_fail += 1
-                    else:
-                        n_error += 1
-                    if (i + 1) % 10 == 0 or (i + 1) == len(real_todo):
-                        log_print(
-                            f"  [{i + 1}/{len(real_todo)}] ok={n_ok} "
-                            f"validation_fail={n_validation_fail} err={n_error} "
-                            f"cost~=${total_cost:.4f}"
-                        )
-
-    log_print(
-        f"Done. {n_ok} labeled / {n_validation_fail} validation-failed / "
-        f"{n_error} errored. Imputed cost: ${total_cost:.4f}. "
-        f"Output: {output_jsonl}"
-    )
-    if n_validation_fail or n_error:
-        log_print(
-            "[note] Re-run the same command to retry validation-failed / "
-            "errored rows (only OK uids are skipped on resume)."
-        )
+    prepare_deepseek_argv(default_output=default_output)
+    deepseek_main()
 
 
 if __name__ == "__main__":
