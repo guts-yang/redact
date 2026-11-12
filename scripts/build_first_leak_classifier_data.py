@@ -917,7 +917,7 @@ def run_build_sources(
         input_path=str(idk_input),
         output_dir=str(out_idk),
         paraphrases_path=str(paraphrases_path) if paraphrases_path else None,
-        expected_k=6,
+        expected_k=3,
         test_frac=test_frac,
         seed=seed,
     )
