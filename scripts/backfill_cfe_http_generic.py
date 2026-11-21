@@ -21,11 +21,15 @@ URL = 'https://tokenlink.woa.com/openapi/v1/chat/completions'
 
 
 def read_token(env_file, token_key):
+    keys = {token_key, token_key.upper(), token_key.lower(), 'Hy4_TOKEN', 'HY4_TOKEN'}
     with open(env_file) as fh:
         for line in fh:
             line = line.strip()
-            if line.startswith(token_key + '='):
-                return line.split('=', 1)[1].strip()
+            if '=' not in line or line.startswith('#'):
+                continue
+            k, v = line.split('=', 1)
+            if k.strip() in keys:
+                return v.strip().strip('"').strip("'")
     raise SystemExit('%s not found in %s' % (token_key, env_file))
 
 
