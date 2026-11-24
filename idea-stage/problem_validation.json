@@ -52,6 +52,13 @@
       "arcl_reached": 1.0
     },
     {
+      "tag": "b13_r2mu10_s1002",
+      "strategy": "DefaultCoT",
+      "truncated_rate": 0.5,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
       "tag": "loop24",
       "strategy": "DefaultCoT",
       "truncated_rate": 1.0,
@@ -120,16 +127,19 @@
       "truncated_rate": 0.825,
       "leak_rate": 0.05,
       "arcl_reached": 0.05
-    },
-    {
-      "tag": "target",
-      "strategy": "SummaryThink",
-      "truncated_rate": 0.95,
-      "leak_rate": 0.025,
-      "arcl_reached": 0.025
     }
   ],
   "P1_trace_only_cases": [
+    {
+      "tag": "b13_target_s1002",
+      "strategy": "DefaultCoT",
+      "channel_gap": 0.125
+    },
+    {
+      "tag": "b13_target_s1003",
+      "strategy": "DefaultCoT",
+      "channel_gap": 0.0625
+    },
     {
       "tag": "r2mu01_budget",
       "strategy": "DefaultCoT",
@@ -167,6 +177,22 @@
     },
     {
       "tag": "b12_ZeroThink_512",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "b13_r2mu10_s1002",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "b13_r2mu10_s1003",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "b13_target_s1002",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "b13_target_s1003",
       "gamma_raw": 0.0
     },
     {
@@ -415,6 +441,62 @@
         "arcl_reached": 0.375,
         "channel_gap": 0.0,
         "censored_n": 0,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "b13_r2mu10_s1002": {
+      "DefaultCoT": {
+        "n": 16,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.75,
+        "truncated_rate": 0.5,
+        "coverage": 0.75,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 8,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.875
+      }
+    },
+    "b13_r2mu10_s1003": {
+      "DefaultCoT": {
+        "n": 16,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.75,
+        "truncated_rate": 0.25,
+        "coverage": 0.75,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 4,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 1.0
+      }
+    },
+    "b13_target_s1002": {
+      "DefaultCoT": {
+        "n": 16,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.125,
+        "coverage": 1.0,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.125,
+        "censored_n": 2,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "b13_target_s1003": {
+      "DefaultCoT": {
+        "n": 16,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0625,
+        "coverage": 1.0,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.0625,
+        "censored_n": 1,
         "question_echo_rate": 0.0,
         "degenerate_rate": 0.0
       }

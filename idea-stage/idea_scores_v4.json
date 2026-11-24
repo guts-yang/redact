@@ -236,10 +236,10 @@
         "ctrl-single"
       ],
       "claims": {
-        "C0_split_validity": "DEFECT_CONFIRMED",
+        "C0_scenario_ratio": "CONDITION_NOT_DEFECT",
         "C1_state_confound": "SUPPORTED",
-        "C2_reranking": "NOT_SUPPORTED_ON_A_VALID_SPLIT",
-        "C1b_valid_split_measurement": "SUPPORTED",
+        "C2_reranking": "SUPPORTED_ON_UNEVALUABILITY",
+        "C1b_within_scenario_measurement": "SUPPORTED",
         "C3_judge": "PARTIAL",
         "C4_censoring_bound": "REFUTED_ON_THIS_BATCH"
       },

@@ -2,10 +2,10 @@
   "source": "stored generations in R-TOFU/workspace/results (no GPU used)",
   "split_validity": {
     "split_used": "forget01 (task_id=1)",
-    "is_the_checkpoint_split": false,
-    "evidence": "R-TOFU/workspace/idea-stage/CHAMPION_LOGIC.md 1.1: teacher-forced gold-answer NLL 5.4692 and generative entity reproduction <= 0.083 on the shipped checkpoint",
-    "consequence": "leak rates here demonstrate metric state-dependence only; they are not forgetting measurements",
-    "valid_counterpart": "b12_noecho_audit.json (forget10 no-echo probes)"
+    "framing": "forget01/05/10 are 1%/5%/10% forgetting-ratio scenarios of the same benchmark",
+    "consequence": "a system may only be compared with a system scored on the SAME ratio; this file gives the 1% scenario, b12/b16/b18 give the 10% scenario",
+    "within_ratio_requirement": "read the state mix before reading the sign of any delta",
+    "retracted_claim": "an earlier revision said the checkpoint never learned forget01; that was wrong and is withdrawn (see claims.C0_scenario_ratio.retracted)"
   },
   "systems": {
     "target": {
@@ -611,31 +611,33 @@
     }
   },
   "claims": {
-    "C0_split_validity": {
-      "status": "DEFECT_CONFIRMED",
-      "why": "The shipped checkpoint does not reproduce forget01 entities (prior documented evidence: teacher-forced gold-answer NLL 5.4692, generative reproduction <= 0.083, R-TOFU/workspace/idea-stage/CHAMPION_LOGIC.md 1.1). Every leak rate computed on forget01 therefore mixes 'never knew' with 'collapsed' and cannot be read as forgetting.",
-      "consequence": "All numbers in this file are reclassified as a demonstration of how the metric moves with generation state. They are NOT forgetting measurements. The valid measurement is b12_noecho_audit.json (forget10 no-echo probes, where the same checkpoint reproduces the entity 16/16 and a low reading would mean forgetting)."
+    "C0_scenario_ratio": {
+      "status": "CONDITION_NOT_DEFECT",
+      "why": "forget01 / forget05 / forget10 are three forgetting-RATIO scenarios (1% / 5% / 10%), not three checkpoints' knowledge states. A table that lines up systems trained on different ratios confounds ratio with method; a read of one ratio still requires the state stratum before the sign of a delta means anything.",
+      "consequence": "Numbers in this file are a within-forget01 (1%) state demonstration. They are not comparable with forget10 readings, and neither set is interpretable without the per-cell state mix.",
+      "retracted": "An earlier revision claimed the checkpoint had never learned forget01 (based on R-TOFU/workspace/idea-stage/CHAMPION_LOGIC.md 1.1). That reading was wrong: the scenario/ratio framing supersedes it, and the prior NLL evidence is itself in conflict with the local teacher-forced NLL (see b17_calibration_failure.json)."
     },
     "C1_state_confound": {
       "status": "SUPPORTED",
       "why": "raw leak rate across the five systems spans 0.0-0.16875 while collapsed_rate spans 0.0-0.9625; r2mu05 reports raw_leak=0.0 with ~1.0 collapse, i.e. the zero is produced by degenerate text, not by forgetting."
     },
     "C2_reranking": {
-      "status": "NOT_SUPPORTED_ON_A_VALID_SPLIT",
+      "status": "SUPPORTED_ON_UNEVALUABILITY",
       "systems_moved_off_the_rankable_set": [
         "ctrl-single",
         "ours-inv",
         "r2mu05",
         "target"
       ],
-      "why": "A system is only rankable if at least one state cell has >=8 clean samples, and on forget01 4 of 5 systems fail that test. But forget01 is not a split this checkpoint ever learned (see C0), so 'unevaluable' here reflects a never-known regime, not a forgetting measurement. The reclassification cannot be used as evidence.",
-      "what_would_support_it": "repeat the audit on forget10 (the split the checkpoint knows) across the unlearned systems trained on that same split",
-      "honest_limit": "clean_cell_leak = 0 in every estimable cell on forget01, while the same checkpoint shows clean_cell_leak = 1.0 on forget10 no-echo probes. The two readings cannot both describe forgetting; the split decides."
+      "why": "Within the 1% scenario a system is only rankable if at least one state cell has >= 8 clean samples; 4 of 5 fail that test. The change is a change of STATUS (from 'forgotten' to 'unevaluable'), not a demonstrated reversal of an ordering.",
+      "what_would_support_a_reversal": "a cell with a nonzero clean leak on two systems in the same ratio scenario",
+      "honest_limit": "clean_cell_leak = 0 in every estimable cell on forget01, while the same checkpoint shows clean_cell_leak = 1.0 on forget10 no-echo probes. The ratio scenario and the state mix decide the reading; the metric alone does not."
     },
-    "C1b_valid_split_measurement": {
+    "C1b_within_scenario_measurement": {
       "status": "SUPPORTED",
-      "source": "b12_noecho_audit.json",
-      "why": "On 16 echo-free forget10 probes the checkpoint leaks 16/16 under DefaultCoT and 6/16 under ZeroThink at the same 512-token budget, and the leak rate does not move with budget for any strategy. The decoding-path gap (0.625) survives removal of the echo confound; the budget effect does not."
+      "source": "b12_noecho_audit.json + b18_scenario_panels.json",
+      "why": "On 16 echo-free forget10 probes the checkpoint leaks 16/16 under DefaultCoT and 6/16 under ZeroThink at the same 512-token budget; the leak rate does not move with budget for any strategy. The decoding-path gap (0.625) survives removal of the echo confound; the budget effect does not.",
+      "cross_panel": "forget01 goes 0.025 -> 0.169 after unlearning (collapse 88.8% -> 15.6%) while forget10 goes 1.000 -> 0.000 (collapse 0% -> 87.5%, clean_n 2 -> unevaluable). Opposite signs, same metric, state-driven."
     },
     "C3_judge": {
       "status": "PARTIAL",
