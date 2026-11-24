@@ -1,0 +1,65 @@
+{
+  "block": "B14",
+  "systems": {
+    "target": {
+      "n_retain": 80,
+      "n_forget": 160,
+      "raw_leak": 0.025,
+      "retain_reached": 0.85,
+      "retain_rougeL": 0.191607,
+      "gate_reach_0.5": true,
+      "gate_rouge_0.5": false,
+      "gate_rouge_vs_target_0.9x": true
+    },
+    "r2mu01": {
+      "n_retain": 80,
+      "n_forget": 160,
+      "raw_leak": 0.16875,
+      "retain_reached": 0.95,
+      "retain_rougeL": 0.345526,
+      "gate_reach_0.5": true,
+      "gate_rouge_0.5": false,
+      "gate_rouge_vs_target_0.9x": true
+    },
+    "r2mu05": {
+      "n_retain": 80,
+      "n_forget": 160,
+      "raw_leak": 0.0,
+      "retain_reached": 0.9375,
+      "retain_rougeL": 0.368607,
+      "gate_reach_0.5": true,
+      "gate_rouge_0.5": false,
+      "gate_rouge_vs_target_0.9x": true
+    },
+    "ours-inv": {
+      "n_retain": 80,
+      "n_forget": 160,
+      "raw_leak": 0.0,
+      "retain_reached": 0.75,
+      "retain_rougeL": 0.014376,
+      "gate_reach_0.5": true,
+      "gate_rouge_0.5": false,
+      "gate_rouge_vs_target_0.9x": false
+    },
+    "ctrl-single": {
+      "n_retain": 80,
+      "n_forget": 160,
+      "raw_leak": 0.0,
+      "retain_reached": 0.75,
+      "retain_rougeL": 0.017939,
+      "gate_reach_0.5": true,
+      "gate_rouge_0.5": false,
+      "gate_rouge_vs_target_0.9x": false
+    }
+  },
+  "preregistered_criterion": "a forgetting claim is admissible only if the system also passes a retain ROUGE-L recall gate (>= 0.5). Reachability alone is not utility.",
+  "systems_that_pass_reachability_but_fail_rouge": [
+    "target",
+    "r2mu01",
+    "r2mu05",
+    "ours-inv",
+    "ctrl-single"
+  ],
+  "conclusion": "the reachability gate is vacuous for 5/5 systems",
+  "status": "completed"
+}

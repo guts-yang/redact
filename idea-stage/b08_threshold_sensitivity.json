@@ -1,0 +1,445 @@
+{
+  "block": "B08",
+  "thresholds": {
+    "0.25": {
+      "per_system": {
+        "target": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 1,
+              "clean_leak": 0.0
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 3,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 2,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 7,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 0,
+          "unevaluable": true
+        },
+        "r2mu01": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 10,
+              "clean_leak": 0.0
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 28,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 32,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 34,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 4,
+          "unevaluable": false
+        },
+        "r2mu05": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 1,
+              "clean_leak": 0.0
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 1,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 2,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 2,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 0,
+          "unevaluable": true
+        },
+        "ours-inv": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 0,
+              "clean_leak": null
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 3,
+          "unevaluable": false
+        },
+        "ctrl-single": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 0,
+              "clean_leak": null
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 3,
+          "unevaluable": false
+        }
+      },
+      "n_unevaluable": 2,
+      "n_estimable_cells": 10,
+      "max_clean_leak": 0.0
+    },
+    "0.35": {
+      "per_system": {
+        "target": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 1,
+              "clean_leak": 0.0
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 3,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 2,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 7,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 0,
+          "unevaluable": true
+        },
+        "r2mu01": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 9,
+              "clean_leak": 0.0
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 28,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 32,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 34,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 4,
+          "unevaluable": false
+        },
+        "r2mu05": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 0,
+              "clean_leak": null
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 1,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 2,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 2,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 0,
+          "unevaluable": true
+        },
+        "ours-inv": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 0,
+              "clean_leak": null
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 3,
+          "unevaluable": false
+        },
+        "ctrl-single": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 0,
+              "clean_leak": null
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 3,
+          "unevaluable": false
+        }
+      },
+      "n_unevaluable": 2,
+      "n_estimable_cells": 10,
+      "max_clean_leak": 0.0
+    },
+    "0.45": {
+      "per_system": {
+        "target": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 1,
+              "clean_leak": 0.0
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 3,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 2,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 7,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 0,
+          "unevaluable": true
+        },
+        "r2mu01": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 3,
+              "clean_leak": 0.0
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 27,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 32,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 34,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 3,
+          "unevaluable": false
+        },
+        "r2mu05": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 0,
+              "clean_leak": null
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 1,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 2,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 2,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 0,
+          "unevaluable": true
+        },
+        "ours-inv": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 0,
+              "clean_leak": null
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 3,
+          "unevaluable": false
+        },
+        "ctrl-single": {
+          "cells": {
+            "DefaultCoT": {
+              "n": 40,
+              "clean_n": 0,
+              "clean_leak": null
+            },
+            "LessThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "clean_n": 40,
+              "clean_leak": 0.0
+            }
+          },
+          "n_estimable_cells": 3,
+          "unevaluable": false
+        }
+      },
+      "n_unevaluable": 2,
+      "n_estimable_cells": 9,
+      "max_clean_leak": 0.0
+    }
+  },
+  "preregistered_criterion": "the 'which systems are unevaluable' set and the 'clean-cell leak = 0' result must hold identically at {0.25, 0.35, 0.45}",
+  "unevaluable_sets": {
+    "0.25": [
+      "r2mu05",
+      "target"
+    ],
+    "0.35": [
+      "r2mu05",
+      "target"
+    ],
+    "0.45": [
+      "r2mu05",
+      "target"
+    ]
+  },
+  "max_clean_leak": {
+    "0.25": 0.0,
+    "0.35": 0.0,
+    "0.45": 0.0
+  },
+  "estimable_cell_counts": {
+    "0.25": 10,
+    "0.35": 10,
+    "0.45": 9
+  },
+  "substantive_conclusions_stable": true,
+  "marginal_cell_count_stable": false,
+  "conclusion": "STABLE-ON-SUBSTANCE (one cell crosses the >=8-sample line at 0.45)",
+  "status": "completed"
+}

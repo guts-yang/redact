@@ -1,0 +1,40 @@
+{
+  "block": "B10",
+  "csv": "idea-stage/audit/state_table.csv",
+  "rows": 1200,
+  "state_counts_forget": {
+    "target": {
+      "censored": 147,
+      "answered_clean": 13
+    },
+    "r2mu01": {
+      "censored": 26,
+      "collapsed": 1,
+      "answered_clean": 103,
+      "no_answer_channel": 7,
+      "question_echo": 23
+    },
+    "r2mu05": {
+      "censored": 154,
+      "collapsed": 1,
+      "answered_clean": 5
+    },
+    "ours-inv": {
+      "no_answer_channel": 40,
+      "answered_clean": 120
+    },
+    "ctrl-single": {
+      "no_answer_channel": 40,
+      "answered_clean": 120
+    }
+  },
+  "state_definition": {
+    "censored": "truncated == 1",
+    "no_answer_channel": "answer_reached == 0 and truncated == 0",
+    "collapsed": "token-type ratio < 0.35 with >= 30 words",
+    "question_echo": "key phrase present in BOTH question and response",
+    "answered_clean": "reached, not collapsed, not echo"
+  },
+  "verification_hook": "each row carries character spans, so any leak label can be re-derived from the raw text without trusting this script",
+  "status": "completed"
+}
