@@ -59,6 +59,62 @@
       "arcl_reached": 0.0
     },
     {
+      "tag": "base_r2mu05_forget05",
+      "strategy": "DefaultCoT",
+      "truncated_rate": 0.975,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "base_r2mu05_forget05",
+      "strategy": "LessThink",
+      "truncated_rate": 0.975,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "base_r2mu05_forget05",
+      "strategy": "ZeroThink",
+      "truncated_rate": 0.975,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "base_r2mu05_forget05",
+      "strategy": "SummaryThink",
+      "truncated_rate": 0.875,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "base_r2mu10_forget10",
+      "strategy": "DefaultCoT",
+      "truncated_rate": 0.95,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "base_r2mu10_forget10",
+      "strategy": "LessThink",
+      "truncated_rate": 1.0,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "base_r2mu10_forget10",
+      "strategy": "ZeroThink",
+      "truncated_rate": 0.9,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "base_r2mu10_forget10",
+      "strategy": "SummaryThink",
+      "truncated_rate": 0.875,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
       "tag": "loop24",
       "strategy": "DefaultCoT",
       "truncated_rate": 1.0,
@@ -71,62 +127,6 @@
       "truncated_rate": 0.9375,
       "leak_rate": 1.0,
       "arcl_reached": 1.0
-    },
-    {
-      "tag": "r2mu01_budget",
-      "strategy": "DefaultCoT",
-      "truncated_rate": 0.725,
-      "leak_rate": 0.1,
-      "arcl_reached": 0.235294
-    },
-    {
-      "tag": "r2mu05",
-      "strategy": "DefaultCoT",
-      "truncated_rate": 0.975,
-      "leak_rate": 0.0,
-      "arcl_reached": 0.0
-    },
-    {
-      "tag": "r2mu05",
-      "strategy": "LessThink",
-      "truncated_rate": 0.975,
-      "leak_rate": 0.0,
-      "arcl_reached": 0.0
-    },
-    {
-      "tag": "r2mu05",
-      "strategy": "ZeroThink",
-      "truncated_rate": 0.95,
-      "leak_rate": 0.0,
-      "arcl_reached": 0.0
-    },
-    {
-      "tag": "r2mu05",
-      "strategy": "SummaryThink",
-      "truncated_rate": 0.95,
-      "leak_rate": 0.0,
-      "arcl_reached": 0.0
-    },
-    {
-      "tag": "target",
-      "strategy": "DefaultCoT",
-      "truncated_rate": 0.975,
-      "leak_rate": 0.025,
-      "arcl_reached": 0.166667
-    },
-    {
-      "tag": "target",
-      "strategy": "LessThink",
-      "truncated_rate": 0.925,
-      "leak_rate": 0.0,
-      "arcl_reached": 0.0
-    },
-    {
-      "tag": "target",
-      "strategy": "ZeroThink",
-      "truncated_rate": 0.825,
-      "leak_rate": 0.05,
-      "arcl_reached": 0.05
     }
   ],
   "P1_trace_only_cases": [
@@ -139,6 +139,16 @@
       "tag": "b13_target_s1003",
       "strategy": "DefaultCoT",
       "channel_gap": 0.0625
+    },
+    {
+      "tag": "base_target_forget05",
+      "strategy": "DefaultCoT",
+      "channel_gap": 0.025
+    },
+    {
+      "tag": "base_target_forget10",
+      "strategy": "DefaultCoT",
+      "channel_gap": 0.025
     },
     {
       "tag": "r2mu01_budget",
@@ -206,6 +216,46 @@
     {
       "tag": "b16_r2mu10_ZeroThink_512",
       "gamma_raw": 0.0
+    },
+    {
+      "tag": "b19_r2mu05_f05_512",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "b19_r2mu05_f05_s1002",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "b19_r2mu05_f05_s1003",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "b19_target_f05_512",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "b19_target_f05_s1002",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "b19_target_f05_s1003",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "base_r2mu05_forget05",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "base_r2mu10_forget10",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "base_target_forget05",
+      "gamma_raw": 0.2
+    },
+    {
+      "tag": "base_target_forget10",
+      "gamma_raw": 0.15
     },
     {
       "tag": "ctrl-single",
@@ -282,6 +332,16 @@
       "coverage": 0.125
     },
     {
+      "tag": "base_r2mu05_forget05",
+      "strategy": "DefaultCoT",
+      "coverage": 0.1
+    },
+    {
+      "tag": "base_r2mu10_forget10",
+      "strategy": "DefaultCoT",
+      "coverage": 0.05
+    },
+    {
       "tag": "ctrl-single",
       "strategy": "DefaultCoT",
       "coverage": 0.0
@@ -325,11 +385,6 @@
       "tag": "target",
       "strategy": "DefaultCoT",
       "coverage": 0.15
-    },
-    {
-      "tag": "target_budget",
-      "strategy": "DefaultCoT",
-      "coverage": 0.2
     }
   ],
   "per_tag_groups": {
@@ -541,6 +596,290 @@
         "censored_n": 3,
         "question_echo_rate": 0.0,
         "degenerate_rate": 0.9375
+      }
+    },
+    "b19_r2mu05_f05_512": {
+      "DefaultCoT": {
+        "n": 16,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.8125,
+        "truncated_rate": 0.1875,
+        "coverage": 0.8125,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 3,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 1.0
+      }
+    },
+    "b19_r2mu05_f05_s1002": {
+      "DefaultCoT": {
+        "n": 16,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.6875,
+        "truncated_rate": 0.375,
+        "coverage": 0.6875,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 6,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.9375
+      }
+    },
+    "b19_r2mu05_f05_s1003": {
+      "DefaultCoT": {
+        "n": 16,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.6875,
+        "truncated_rate": 0.375,
+        "coverage": 0.6875,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 6,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.875
+      }
+    },
+    "b19_target_f05_512": {
+      "DefaultCoT": {
+        "n": 16,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 0.9375,
+        "truncated_rate": 0.125,
+        "coverage": 0.9375,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.0,
+        "censored_n": 2,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "b19_target_f05_s1002": {
+      "DefaultCoT": {
+        "n": 16,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 0.9375,
+        "truncated_rate": 0.125,
+        "coverage": 0.9375,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.0,
+        "censored_n": 2,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "b19_target_f05_s1003": {
+      "DefaultCoT": {
+        "n": 16,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 0.875,
+        "truncated_rate": 0.125,
+        "coverage": 0.875,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.0,
+        "censored_n": 2,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "base_r2mu05_forget05": {
+      "DefaultCoT": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.1,
+        "truncated_rate": 0.975,
+        "coverage": 0.1,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 39,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.875
+      },
+      "LessThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.975,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 39,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.8
+      },
+      "ZeroThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.975,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 39,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.825
+      },
+      "SummaryThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.875,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 35,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.725
+      }
+    },
+    "base_r2mu10_forget10": {
+      "DefaultCoT": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.05,
+        "truncated_rate": 0.95,
+        "coverage": 0.05,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 38,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.9
+      },
+      "LessThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 1.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 40,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.75
+      },
+      "ZeroThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.9,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 36,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.7
+      },
+      "SummaryThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.875,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 35,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.825
+      }
+    },
+    "base_target_forget05": {
+      "DefaultCoT": {
+        "n": 40,
+        "leak_rate": 0.975,
+        "answer_reached_rate": 0.85,
+        "truncated_rate": 0.2,
+        "coverage": 0.85,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.025,
+        "censored_n": 8,
+        "question_echo_rate": 0.675,
+        "degenerate_rate": 0.0
+      },
+      "LessThink": {
+        "n": 40,
+        "leak_rate": 0.9,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.9,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.675,
+        "degenerate_rate": 0.0
+      },
+      "ZeroThink": {
+        "n": 40,
+        "leak_rate": 0.825,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.025,
+        "coverage": 1.0,
+        "arcl_reached": 0.825,
+        "channel_gap": 0.0,
+        "censored_n": 1,
+        "question_echo_rate": 0.675,
+        "degenerate_rate": 0.0
+      },
+      "SummaryThink": {
+        "n": 40,
+        "leak_rate": 0.775,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.775,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.65,
+        "degenerate_rate": 0.0
+      }
+    },
+    "base_target_forget10": {
+      "DefaultCoT": {
+        "n": 40,
+        "leak_rate": 0.975,
+        "answer_reached_rate": 0.8,
+        "truncated_rate": 0.3,
+        "coverage": 0.8,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.025,
+        "censored_n": 12,
+        "question_echo_rate": 0.75,
+        "degenerate_rate": 0.0
+      },
+      "LessThink": {
+        "n": 40,
+        "leak_rate": 0.875,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.875,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.75,
+        "degenerate_rate": 0.0
+      },
+      "ZeroThink": {
+        "n": 40,
+        "leak_rate": 0.875,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.025,
+        "coverage": 1.0,
+        "arcl_reached": 0.875,
+        "channel_gap": 0.0,
+        "censored_n": 1,
+        "question_echo_rate": 0.75,
+        "degenerate_rate": 0.0
+      },
+      "SummaryThink": {
+        "n": 40,
+        "leak_rate": 0.825,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.825,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.725,
+        "degenerate_rate": 0.0
       }
     },
     "ctrl-single": {

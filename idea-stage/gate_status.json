@@ -32,6 +32,13 @@
       "I09"
     ]
   },
+  "metric_parity": {
+    "present": true,
+    "n_runs": 37,
+    "n_aligned": 9,
+    "n_deviated": 28,
+    "rule": "baseline metrics are reported first and verbatim; new metrics are additive only"
+  },
   "evidence_gate_helpers": {
     "/usr/local/workspace/redact/.aris/tools/run_state.py": false,
     "/usr/local/workspace/redact/.aris/tools/idea_discovery_gate.py": false,

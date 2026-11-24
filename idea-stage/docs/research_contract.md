@@ -34,6 +34,10 @@
 4. **B13/B14**：多 seed 排序反转、ROUGE 主导的 retain 门。
 5. **B15**：安装 ARIS helper 并跑终检；在此之前不得宣称 PASS。
 
+## 指标对齐（硬约束）
+
+主表一律先报基线 `leak_rate` / retain `rouge_mean` / `truncated_rate` / `answer_reached_rate`（40 forget、20 retain、四策略、默认预算、seed 1001）；`clean_cell_leak` 等四项新增指标只并列追加、不替换。基线协议下的三比例结果见 `b18_scenario_panels.json` 的 `primary`：5% 0.869→0.000（clean 0.608→0.000，n=26）、10% 0.888→0.000（clean 0.575→0.000，n=29），同时伴随 79–81% 坍塌与 retain 0.546→0.425/0.433。
+
 ## Non-goals
 
 不提出新遗忘训练算法；不改目标权重；不把 Hy4 judge 当独立审查（评审走独立高层调用）；不放宽 rubric `cff0a224b94802cc` 或 8 分达标线；不把 `2506.00688` 的贡献说成我们自己的。

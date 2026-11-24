@@ -1017,6 +1017,7 @@ def gate_status():
             helpers[str(p)] = p.exists()
     receipt = review_receipt()
     ext = load_optional(EXT_NOVELTY)
+    parity = load_optional(STAGE / "metric_parity.json")
     gate_ok = all(helpers.values())
     reasons = []
     if not any(reviewers.values()):
@@ -1043,6 +1044,13 @@ def gate_status():
             "status": (ext or {}).get("status"),
             "overlapping_ideas": [k for k, v in ((ext or {}).get("ideas") or {}).items()
                                   if not v.get("differentiator_holds")],
+        },
+        "metric_parity": {
+            "present": bool(parity),
+            "n_runs": (parity or {}).get("n_runs"),
+            "n_aligned": (parity or {}).get("n_aligned"),
+            "n_deviated": (parity or {}).get("n_deviated"),
+            "rule": "baseline metrics are reported first and verbatim; new metrics are additive only",
         },
         "evidence_gate_helpers": helpers,
         "evidence_gate": "PASS-ELIGIBLE" if gate_ok else "BLOCKED",

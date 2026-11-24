@@ -25,6 +25,17 @@
 | B15 | 门禁 | 安装 ARIS helper（`run_state.py`/`idea_discovery_gate.py`/`reviewer_route.py`）并跑终检 | 终检退出 0 | 依赖外部 | **BLOCKED（helper 缺失）** |
 | B9 | 评审 | 跨家族 reviewer 回执 | 取得带身份正面回执 | API | **DONE（Hy4，PROCEED_WITH_CAUTION）** |
 
+
+## 指标对齐约束（用户 2026-11-24 指定，硬性）
+
+- 训练与评估一律用原始基线协议：`n_forget=40`、`n_retain=20`、四策略、DefaultCoT@512 / 其余@256、`do_sample=False`、`seed=1001`、`fp32`。
+- 主表**先报**基线指标：`leak_rate`、`answer_leak_rate`、`rouge_mean`（retain）、`truncated_rate`、`answer_reached_rate`。
+- 新增指标（`clean_cell_leak` / `coverage` / `censoring_interval` / `state_mix`）只能并列追加，且必须写明"基线报不出什么"；**不得替换或单报新指标**。
+- 任何偏离基线的 run（no-echo 探针、非默认预算、预算网格、小样本 pilot）必须在 `metric_parity.json` 里被判为 `DEVIATION` 并在表格里标注，不得与基线 run 混排。
+- 核查入口：`python3 idea-stage/metric_parity.py`（37 runs：9 ALIGNED / 28 DEVIATION，全部有标注）。
+
+| B20 | 元数据 | 让 `decode_eval.py` 在 `summary.json` 记录 `--forget-file` 路径与 sha256 | 任取一个 run，能从 summary 反推出探针集 | CPU | TODO |
+
 ## 已完成 block 的真实产物
 
 ```

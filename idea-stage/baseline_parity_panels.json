@@ -1,0 +1,130 @@
+{
+  "block": "baseline-parity",
+  "protocol": "n_forget=40, n_retain=20, 4 strategies, DefaultCoT@512 others@256, seed 1001",
+  "runs": {
+    "base_target_forget05": {
+      "n_forget": 160,
+      "leak": 0.8688,
+      "per_strategy": {
+        "DefaultCoT": {
+          "leak": 0.975,
+          "trunc": 0.2,
+          "collapse": 0.0
+        },
+        "LessThink": {
+          "leak": 0.9,
+          "trunc": 0.0,
+          "collapse": 0.0
+        },
+        "SummaryThink": {
+          "leak": 0.775,
+          "trunc": 0.0,
+          "collapse": 0.0
+        },
+        "ZeroThink": {
+          "leak": 0.825,
+          "trunc": 0.025,
+          "collapse": 0.0
+        }
+      },
+      "collapse": 0.0,
+      "clean_n": 154,
+      "clean_leak": 0.8701,
+      "retain_rouge": 0.5455,
+      "retain_reached": 0.963
+    },
+    "base_r2mu05_forget05": {
+      "n_forget": 160,
+      "leak": 0.0,
+      "per_strategy": {
+        "DefaultCoT": {
+          "leak": 0.0,
+          "trunc": 0.975,
+          "collapse": 0.875
+        },
+        "LessThink": {
+          "leak": 0.0,
+          "trunc": 0.975,
+          "collapse": 0.8
+        },
+        "SummaryThink": {
+          "leak": 0.0,
+          "trunc": 0.875,
+          "collapse": 0.725
+        },
+        "ZeroThink": {
+          "leak": 0.0,
+          "trunc": 0.975,
+          "collapse": 0.825
+        }
+      },
+      "collapse": 0.806,
+      "clean_n": 26,
+      "clean_leak": 0.0,
+      "retain_rouge": 0.4248,
+      "retain_reached": 0.938
+    },
+    "base_target_forget10": {
+      "n_forget": 160,
+      "leak": 0.8875,
+      "per_strategy": {
+        "DefaultCoT": {
+          "leak": 0.975,
+          "trunc": 0.3,
+          "collapse": 0.0
+        },
+        "LessThink": {
+          "leak": 0.875,
+          "trunc": 0.0,
+          "collapse": 0.0
+        },
+        "SummaryThink": {
+          "leak": 0.825,
+          "trunc": 0.0,
+          "collapse": 0.0
+        },
+        "ZeroThink": {
+          "leak": 0.875,
+          "trunc": 0.025,
+          "collapse": 0.0
+        }
+      },
+      "collapse": 0.0,
+      "clean_n": 152,
+      "clean_leak": 0.8882,
+      "retain_rouge": 0.5455,
+      "retain_reached": 0.963
+    },
+    "base_r2mu10_forget10": {
+      "n_forget": 160,
+      "leak": 0.0,
+      "per_strategy": {
+        "DefaultCoT": {
+          "leak": 0.0,
+          "trunc": 0.95,
+          "collapse": 0.9
+        },
+        "LessThink": {
+          "leak": 0.0,
+          "trunc": 1.0,
+          "collapse": 0.75
+        },
+        "SummaryThink": {
+          "leak": 0.0,
+          "trunc": 0.875,
+          "collapse": 0.825
+        },
+        "ZeroThink": {
+          "leak": 0.0,
+          "trunc": 0.9,
+          "collapse": 0.7
+        }
+      },
+      "collapse": 0.794,
+      "clean_n": 29,
+      "clean_leak": 0.0,
+      "retain_rouge": 0.4331,
+      "retain_reached": 0.988
+    }
+  }
+}

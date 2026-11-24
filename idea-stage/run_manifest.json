@@ -71,8 +71,8 @@
     }
   },
   "prompt_set": {
-    "n_unique_questions": 139,
-    "sha256_sorted_questions": "22d4210c81aa81d4687fb6f09ab8d238e044bc8e800afe881f0b6614d28c936c"
+    "n_unique_questions": 238,
+    "sha256_sorted_questions": "b093f7c0957aecbb39b78224b5f1c2a1229bef5a24892987f8dde63caf7d1456"
   },
   "decoding": {
     "do_sample": false,
@@ -230,6 +230,86 @@
       "mtime_utc": "2026-11-24T14:30:06.860048Z",
       "rows": 32,
       "sha256": "052c4e629d86047e9c635aeee02d940f1ca1b44f38d3a8d4a46b7ffacf5ea987",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b19_r2mu05_f05_512.jsonl",
+      "bytes": 255128,
+      "mtime_utc": "2026-11-24T15:20:55.147970Z",
+      "rows": 32,
+      "sha256": "ebe97b3f87cf6721ef1a9f5c2a88b70c27ec3b027e5157733b2a5ec94984893f",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b19_r2mu05_f05_s1002.jsonl",
+      "bytes": 249899,
+      "mtime_utc": "2026-11-24T15:31:08.896521Z",
+      "rows": 32,
+      "sha256": "ec2dd0f0de11c58e867c7a3259ae0d7a0d77a4eec9a78906cbcc5227a7243811",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b19_r2mu05_f05_s1003.jsonl",
+      "bytes": 260361,
+      "mtime_utc": "2026-11-24T15:37:46.501910Z",
+      "rows": 32,
+      "sha256": "6d510f94c13ad9a813cb9992e073e83f4438cc7cda39f4abe1b5ad04697510c7",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b19_target_f05_512.jsonl",
+      "bytes": 146270,
+      "mtime_utc": "2026-11-24T15:16:13.774393Z",
+      "rows": 32,
+      "sha256": "a902ab00b5f81d86162dbdc92680ad9227ac90e221ef9786781c81ed26e630b8",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b19_target_f05_s1002.jsonl",
+      "bytes": 140508,
+      "mtime_utc": "2026-11-24T15:26:12.910209Z",
+      "rows": 32,
+      "sha256": "ec3099ab576e122d257fa85daef667f33e03f05a7f1e5856ac2b230439c3ee6a",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b19_target_f05_s1003.jsonl",
+      "bytes": 138489,
+      "mtime_utc": "2026-11-24T15:34:34.314656Z",
+      "rows": 32,
+      "sha256": "0a08dbdf1e0bf3aebbe4d98b7fa5f31e6166910f756e1b2108ebb3238c9eba36",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_base_r2mu05_forget05.jsonl",
+      "bytes": 1136068,
+      "mtime_utc": "2026-11-24T16:31:07.927206Z",
+      "rows": 240,
+      "sha256": "ae1e9a647e338dc12658cd209d3f19b197ce9e8ba8fa66faef624fd902f2fdb8",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_base_r2mu10_forget10.jsonl",
+      "bytes": 1174022,
+      "mtime_utc": "2026-11-24T16:17:26.372376Z",
+      "rows": 240,
+      "sha256": "58a378e81f3fe41922440ae7938ebbe532e894236eb593dedc2f648627838341",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_base_target_forget05.jsonl",
+      "bytes": 470186,
+      "mtime_utc": "2026-11-24T16:22:49.019560Z",
+      "rows": 240,
+      "sha256": "60cd33a571b597d721aeae4afdd2882097de96d5597fd155c79669de2f7bc24f",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_base_target_forget10.jsonl",
+      "bytes": 483507,
+      "mtime_utc": "2026-11-24T16:08:56.936776Z",
+      "rows": 240,
+      "sha256": "ceefc096658a05329fac2d510c697457b0bb94ee72afc40f473afd228ccaa0d7",
       "sha256_note": null
     },
     {

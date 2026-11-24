@@ -1,136 +1,376 @@
 {
   "block": "B18",
-  "premise": "forget01/05/10 are 1%/5%/10% forgetting-ratio scenarios; compare only within a ratio",
-  "budget": 512,
-  "strategy": "DefaultCoT",
-  "panels": {
-    "A": {
-      "ratio": "1%",
-      "pre": {
-        "label": "target / forget01 / 40q echo-prone",
-        "source": "eval_target.jsonl",
-        "n_forget": 160,
-        "raw_leak": 0.025,
-        "collapsed_rate": 0.8875,
-        "truncated_rate": 0.91875,
-        "question_echo_rate": 0.025,
-        "clean_n": 18,
-        "clean_leak": 0.0,
-        "clean_cell_estimable": true,
-        "retain_rouge": 0.191607
-      },
-      "post": {
-        "label": "r2mu01 / forget01 / 40q echo-prone",
-        "source": "eval_r2mu01.jsonl",
-        "n_forget": 160,
-        "raw_leak": 0.16875,
-        "collapsed_rate": 0.15625,
-        "truncated_rate": 0.1625,
-        "question_echo_rate": 0.16875,
-        "clean_n": 105,
-        "clean_leak": 0.0,
-        "clean_cell_estimable": true,
-        "retain_rouge": 0.345526
-      },
-      "delta_raw_leak": 0.14375,
-      "sign": "+",
-      "clean_evaluable_before": true,
-      "clean_evaluable_after": true
-    },
+  "baseline_protocol": "n_forget=40, n_retain=20, 4 strategies, DefaultCoT@512/others@256, seed 1001, do_sample=False, <split>.json task_id=1",
+  "primary": {
     "C": {
       "ratio": "5%",
       "pre": {
-        "label": "target / forget05 / 16q no-echo",
-        "source": "eval_b19_target_f05_512.jsonl",
-        "n_forget": 16,
-        "raw_leak": 1.0,
+        "tag": "base_target_forget05",
+        "n_forget": 160,
+        "n_retain": 80,
+        "baseline_metric_leak_rate": 0.86875,
+        "per_strategy": {
+          "DefaultCoT": {
+            "leak": 0.975,
+            "truncated": 0.2,
+            "collapsed": 0.0
+          },
+          "LessThink": {
+            "leak": 0.9,
+            "truncated": 0.0,
+            "collapsed": 0.0
+          },
+          "SummaryThink": {
+            "leak": 0.775,
+            "truncated": 0.0,
+            "collapsed": 0.0
+          },
+          "ZeroThink": {
+            "leak": 0.825,
+            "truncated": 0.025,
+            "collapsed": 0.0
+          }
+        },
+        "gamma": 0.2,
         "collapsed_rate": 0.0,
-        "truncated_rate": 0.125,
-        "question_echo_rate": 0.0,
-        "clean_n": 15,
-        "clean_leak": 1.0,
+        "truncated_rate": 0.05625,
+        "new_metric_clean_n": 51,
+        "new_metric_clean_leak": 0.607843,
         "clean_cell_estimable": true,
-        "retain_rouge": 0.906954
+        "retain_rouge_mean": 0.545534
       },
       "post": {
-        "label": "r2mu05 / forget05 / 16q no-echo",
-        "source": "eval_b19_r2mu05_f05_512.jsonl",
-        "n_forget": 16,
-        "raw_leak": 0.0,
-        "collapsed_rate": 1.0,
-        "truncated_rate": 0.1875,
-        "question_echo_rate": 0.0,
-        "clean_n": 0,
-        "clean_leak": null,
-        "clean_cell_estimable": false,
-        "retain_rouge": 0.536993
+        "tag": "base_r2mu05_forget05",
+        "n_forget": 160,
+        "n_retain": 80,
+        "baseline_metric_leak_rate": 0.0,
+        "per_strategy": {
+          "DefaultCoT": {
+            "leak": 0.0,
+            "truncated": 0.975,
+            "collapsed": 0.875
+          },
+          "LessThink": {
+            "leak": 0.0,
+            "truncated": 0.975,
+            "collapsed": 0.8
+          },
+          "SummaryThink": {
+            "leak": 0.0,
+            "truncated": 0.875,
+            "collapsed": 0.725
+          },
+          "ZeroThink": {
+            "leak": 0.0,
+            "truncated": 0.975,
+            "collapsed": 0.825
+          }
+        },
+        "gamma": 0.0,
+        "collapsed_rate": 0.80625,
+        "truncated_rate": 0.95,
+        "new_metric_clean_n": 26,
+        "new_metric_clean_leak": 0.0,
+        "clean_cell_estimable": true,
+        "retain_rouge_mean": 0.424834
       },
-      "delta_raw_leak": -1.0,
-      "sign": "-",
-      "clean_evaluable_before": true,
-      "clean_evaluable_after": false
+      "delta_baseline_leak": -0.86875,
+      "delta_clean_leak": -0.607843
     },
     "B": {
       "ratio": "10%",
       "pre": {
-        "label": "target / forget10 / 16q no-echo",
-        "source": "eval_b12_DefaultCoT_512.jsonl",
-        "n_forget": 16,
-        "raw_leak": 1.0,
+        "tag": "base_target_forget10",
+        "n_forget": 160,
+        "n_retain": 80,
+        "baseline_metric_leak_rate": 0.8875,
+        "per_strategy": {
+          "DefaultCoT": {
+            "leak": 0.975,
+            "truncated": 0.3,
+            "collapsed": 0.0
+          },
+          "LessThink": {
+            "leak": 0.875,
+            "truncated": 0.0,
+            "collapsed": 0.0
+          },
+          "SummaryThink": {
+            "leak": 0.825,
+            "truncated": 0.0,
+            "collapsed": 0.0
+          },
+          "ZeroThink": {
+            "leak": 0.875,
+            "truncated": 0.025,
+            "collapsed": 0.0
+          }
+        },
+        "gamma": 0.15,
         "collapsed_rate": 0.0,
-        "truncated_rate": 0.0,
-        "question_echo_rate": 0.0,
-        "clean_n": 16,
-        "clean_leak": 1.0,
+        "truncated_rate": 0.08125,
+        "new_metric_clean_n": 40,
+        "new_metric_clean_leak": 0.575,
         "clean_cell_estimable": true,
-        "retain_rouge": null
+        "retain_rouge_mean": 0.545534
       },
       "post": {
-        "label": "r2mu10 / forget10 / 16q no-echo",
-        "source": "eval_b16_r2mu10_DefaultCoT_512.jsonl",
-        "n_forget": 16,
-        "raw_leak": 0.0,
-        "collapsed_rate": 0.875,
-        "truncated_rate": 0.1875,
-        "question_echo_rate": 0.0,
-        "clean_n": 2,
-        "clean_leak": 0.0,
-        "clean_cell_estimable": false,
-        "retain_rouge": 0.545762
+        "tag": "base_r2mu10_forget10",
+        "n_forget": 160,
+        "n_retain": 80,
+        "baseline_metric_leak_rate": 0.0,
+        "per_strategy": {
+          "DefaultCoT": {
+            "leak": 0.0,
+            "truncated": 0.95,
+            "collapsed": 0.9
+          },
+          "LessThink": {
+            "leak": 0.0,
+            "truncated": 1.0,
+            "collapsed": 0.75
+          },
+          "SummaryThink": {
+            "leak": 0.0,
+            "truncated": 0.875,
+            "collapsed": 0.825
+          },
+          "ZeroThink": {
+            "leak": 0.0,
+            "truncated": 0.9,
+            "collapsed": 0.7
+          }
+        },
+        "gamma": 0.0,
+        "collapsed_rate": 0.79375,
+        "truncated_rate": 0.93125,
+        "new_metric_clean_n": 29,
+        "new_metric_clean_leak": 0.0,
+        "clean_cell_estimable": true,
+        "retain_rouge_mean": 0.433089
       },
-      "delta_raw_leak": -1.0,
-      "sign": "-",
-      "clean_evaluable_before": true,
-      "clean_evaluable_after": false
+      "delta_baseline_leak": -0.8875,
+      "delta_clean_leak": -0.575
+    },
+    "A": {
+      "ratio": "1%",
+      "pre": {
+        "tag": "target",
+        "n_forget": 160,
+        "n_retain": 80,
+        "baseline_metric_leak_rate": 0.025,
+        "per_strategy": {
+          "DefaultCoT": {
+            "leak": 0.025,
+            "truncated": 0.975,
+            "collapsed": 0.975
+          },
+          "LessThink": {
+            "leak": 0.0,
+            "truncated": 0.925,
+            "collapsed": 0.9
+          },
+          "SummaryThink": {
+            "leak": 0.025,
+            "truncated": 0.95,
+            "collapsed": 0.9
+          },
+          "ZeroThink": {
+            "leak": 0.05,
+            "truncated": 0.825,
+            "collapsed": 0.775
+          }
+        },
+        "gamma": 0.05,
+        "collapsed_rate": 0.8875,
+        "truncated_rate": 0.91875,
+        "new_metric_clean_n": 18,
+        "new_metric_clean_leak": 0.0,
+        "clean_cell_estimable": true,
+        "retain_rouge_mean": 0.191607
+      },
+      "post": {
+        "tag": "r2mu01",
+        "n_forget": 160,
+        "n_retain": 80,
+        "baseline_metric_leak_rate": 0.16875,
+        "per_strategy": {
+          "DefaultCoT": {
+            "leak": 0.2,
+            "truncated": 0.475,
+            "collapsed": 0.475
+          },
+          "LessThink": {
+            "leak": 0.15,
+            "truncated": 0.15,
+            "collapsed": 0.125
+          },
+          "SummaryThink": {
+            "leak": 0.175,
+            "truncated": 0.025,
+            "collapsed": 0.025
+          },
+          "ZeroThink": {
+            "leak": 0.15,
+            "truncated": 0.0,
+            "collapsed": 0.0
+          }
+        },
+        "gamma": 0.05,
+        "collapsed_rate": 0.15625,
+        "truncated_rate": 0.1625,
+        "new_metric_clean_n": 105,
+        "new_metric_clean_leak": 0.0,
+        "clean_cell_estimable": true,
+        "retain_rouge_mean": 0.345526
+      },
+      "delta_baseline_leak": 0.14375,
+      "delta_clean_leak": 0
     }
   },
-  "finding": {
-    "sign_pattern": {
-      "A": {
-        "ratio": "1%",
-        "sign": "+",
-        "delta": 0.14375,
-        "collapse_pre": 0.8875,
-        "collapse_post": 0.15625
+  "secondary_noecho": {
+    "C'": {
+      "ratio": "5%",
+      "pre": {
+        "tag": "b19_target_f05_512",
+        "n_forget": 16,
+        "n_retain": 16,
+        "baseline_metric_leak_rate": 1.0,
+        "per_strategy": {
+          "DefaultCoT": {
+            "leak": 1.0,
+            "truncated": 0.125,
+            "collapsed": 0.0
+          }
+        },
+        "gamma": null,
+        "collapsed_rate": 0.0,
+        "truncated_rate": 0.125,
+        "new_metric_clean_n": 15,
+        "new_metric_clean_leak": 1.0,
+        "clean_cell_estimable": true,
+        "retain_rouge_mean": 0.906954
       },
+      "post": {
+        "tag": "b19_r2mu05_f05_512",
+        "n_forget": 16,
+        "n_retain": 16,
+        "baseline_metric_leak_rate": 0.0,
+        "per_strategy": {
+          "DefaultCoT": {
+            "leak": 0.0,
+            "truncated": 0.1875,
+            "collapsed": 1.0
+          }
+        },
+        "gamma": null,
+        "collapsed_rate": 1.0,
+        "truncated_rate": 0.1875,
+        "new_metric_clean_n": 0,
+        "new_metric_clean_leak": null,
+        "clean_cell_estimable": false,
+        "retain_rouge_mean": 0.536993
+      },
+      "delta_baseline_leak": -1.0,
+      "delta_clean_leak": null
+    },
+    "B'": {
+      "ratio": "10%",
+      "pre": {
+        "tag": "b12_DefaultCoT_512",
+        "n_forget": 16,
+        "n_retain": 0,
+        "baseline_metric_leak_rate": 1.0,
+        "per_strategy": {
+          "DefaultCoT": {
+            "leak": 1.0,
+            "truncated": 0.0,
+            "collapsed": 0.0
+          }
+        },
+        "gamma": null,
+        "collapsed_rate": 0.0,
+        "truncated_rate": 0.0,
+        "new_metric_clean_n": 16,
+        "new_metric_clean_leak": 1.0,
+        "clean_cell_estimable": true,
+        "retain_rouge_mean": null
+      },
+      "post": {
+        "tag": "b16_r2mu10_DefaultCoT_512",
+        "n_forget": 16,
+        "n_retain": 16,
+        "baseline_metric_leak_rate": 0.0,
+        "per_strategy": {
+          "DefaultCoT": {
+            "leak": 0.0,
+            "truncated": 0.1875,
+            "collapsed": 0.875
+          }
+        },
+        "gamma": null,
+        "collapsed_rate": 0.875,
+        "truncated_rate": 0.1875,
+        "new_metric_clean_n": 2,
+        "new_metric_clean_leak": 0.0,
+        "clean_cell_estimable": false,
+        "retain_rouge_mean": 0.545762
+      },
+      "delta_baseline_leak": -1.0,
+      "delta_clean_leak": -1.0
+    }
+  },
+  "reading_rule": "baseline_metric_leak_rate is the paper's metric and is reported first in every table; new_metric_* is the proposed addition and is reported next to it, never instead of it.",
+  "finding": {
+    "baseline_view": {
       "C": {
         "ratio": "5%",
-        "sign": "-",
-        "delta": -1.0,
-        "collapse_pre": 0.0,
-        "collapse_post": 1.0
+        "pre": 0.86875,
+        "post": 0.0,
+        "retain_pre": 0.545534,
+        "retain_post": 0.424834
       },
       "B": {
         "ratio": "10%",
-        "sign": "-",
-        "delta": -1.0,
-        "collapse_pre": 0.0,
-        "collapse_post": 0.875
+        "pre": 0.8875,
+        "post": 0.0,
+        "retain_pre": 0.545534,
+        "retain_post": 0.433089
+      },
+      "A": {
+        "ratio": "1%",
+        "pre": 0.025,
+        "post": 0.16875,
+        "retain_pre": 0.191607,
+        "retain_post": 0.345526
       }
     },
-    "core": "the sign of the before/after delta follows the collapse-rate change, not the presence of erased knowledge: 1% reads +0.144 (collapse 88.8% -> 15.6%), 5% and 10% read -1.000 (collapse 0% -> 100% / 87.5%).",
-    "hard_limit": "after unlearning there is not a single evaluable clean cell on the echo-free probes (clean_n = 0 at 5%, 2 at 10%). The zero leak readings are therefore not evidence of forgetting; the stratum that could carry that evidence no longer exists.",
-    "why_1pct_differs": "the 1% panel uses echo-prone questions (the entity is in the prompt), so the unlearned model can still produce fluent echo text and keeps 105 clean samples. On echo-free probes it degenerates instead."
+    "stratified_view": {
+      "C": {
+        "ratio": "5%",
+        "pre_clean_leak": 0.607843,
+        "pre_clean_n": 51,
+        "post_clean_leak": 0.0,
+        "post_clean_n": 26
+      },
+      "B": {
+        "ratio": "10%",
+        "pre_clean_leak": 0.575,
+        "pre_clean_n": 40,
+        "post_clean_leak": 0.0,
+        "post_clean_n": 29
+      },
+      "A": {
+        "ratio": "1%",
+        "pre_clean_leak": 0.0,
+        "pre_clean_n": 18,
+        "post_clean_leak": 0.0,
+        "post_clean_n": 105
+      }
+    },
+    "agreement": "under the baseline protocol both views agree that the unlearned models stop producing the entity (0.83-0.975 -> 0.000; clean 0.87-0.89 -> 0.00).",
+    "added_value": "only the stratified view shows that the drop arrives with 0.70-0.90 collapse and 0.88-1.00 truncation inside the forget set, and that retain ROUGE falls from 0.55 to 0.42-0.43. The baseline metric alone cannot report either.",
+    "secondary_note": "on the 16-question no-echo subset the clean cells shrink to 0-2 after unlearning; that is a small-sample property of the subset, NOT proof that the clean stratum disappears. The 40-question baseline panel keeps 26-29 clean samples, so this earlier reading is withdrawn."
   },
   "status": "completed"
 }

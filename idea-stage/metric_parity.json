@@ -1,0 +1,1838 @@
+{
+  "block": "parity",
+  "baseline_protocol": {
+    "n_forget": 40,
+    "n_retain": 20,
+    "seed": 1001,
+    "do_sample": false,
+    "budget": {
+      "DefaultCoT": 512,
+      "LessThink": 256,
+      "ZeroThink": 256,
+      "SummaryThink": 256
+    },
+    "n_strategies": 4
+  },
+  "rule": "baseline metrics are reported verbatim; new metrics are additive and must be labelled; a deviating run may not be compared with a baseline run without saying so",
+  "n_runs": 37,
+  "n_aligned": 9,
+  "n_deviated": 28,
+  "deviating_tags": [
+    {
+      "tag": "b12_DefaultCoT_1024",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "budget:DefaultCoT=1024(want 512)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b12_DefaultCoT_192",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "budget:DefaultCoT=192(want 512)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b12_DefaultCoT_512",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b12_LessThink_512",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "budget:LessThink=512(want 256)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b12_SummaryThink_512",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "budget:SummaryThink=512(want 256)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b12_ZeroThink_1024",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "budget:ZeroThink=1024(want 256)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b12_ZeroThink_192",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "budget:ZeroThink=192(want 256)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b12_ZeroThink_512",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "budget:ZeroThink=512(want 256)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b13_r2mu10_s1002",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b13_r2mu10_s1003",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b13_target_s1002",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b13_target_s1003",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b16_r2mu10_DefaultCoT_512",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b16_r2mu10_LessThink_512",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "budget:LessThink=512(want 256)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b16_r2mu10_ZeroThink_512",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "budget:ZeroThink=512(want 256)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b19_r2mu05_f05_512",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b19_r2mu05_f05_s1002",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b19_r2mu05_f05_s1003",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b19_target_f05_512",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b19_target_f05_s1002",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "b19_target_f05_s1003",
+      "why": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "loop24",
+      "why": [
+        "n_forget",
+        "n_retain",
+        "budget:DefaultCoT=192(want 512)",
+        "budget:LessThink=192(want 256)",
+        "budget:ZeroThink=192(want 256)",
+        "budget:SummaryThink=192(want 256)"
+      ]
+    },
+    {
+      "tag": "loop24_budget",
+      "why": [
+        "n_forget",
+        "budget_grid(DefaultCoT only)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "loop24_cot",
+      "why": [
+        "n_forget",
+        "budget:DefaultCoT=1024(want 512)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "ours-inv_budget",
+      "why": [
+        "n_forget",
+        "budget_grid(DefaultCoT only)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "r2mu01_budget",
+      "why": [
+        "n_forget",
+        "budget_grid(DefaultCoT only)",
+        "strategies=1/4"
+      ]
+    },
+    {
+      "tag": "sanity",
+      "why": [
+        "n_forget",
+        "n_retain",
+        "budget:DefaultCoT=64(want 512)",
+        "budget:ZeroThink=64(want 256)",
+        "strategies=2/4"
+      ]
+    },
+    {
+      "tag": "target_budget",
+      "why": [
+        "n_forget",
+        "budget_grid(DefaultCoT only)",
+        "strategies=1/4"
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "tag": "b12_DefaultCoT_1024",
+      "system": "target",
+      "n_rows": 16,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 1024,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "budget:DefaultCoT=1024(want 512)",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set + extra budgets (new metric experiment)"
+      ]
+    },
+    {
+      "tag": "b12_DefaultCoT_192",
+      "system": "target",
+      "n_rows": 16,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 192,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.875,
+          "answer_reached_rate": 0.125,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "budget:DefaultCoT=192(want 512)",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set + extra budgets (new metric experiment)"
+      ]
+    },
+    {
+      "tag": "b12_DefaultCoT_512",
+      "system": "target",
+      "n_rows": 16,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set + extra budgets (new metric experiment)"
+      ]
+    },
+    {
+      "tag": "b12_LessThink_512",
+      "system": "target",
+      "n_rows": 16,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "LessThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "LessThink": {
+          "leak_rate": 0.4375,
+          "answer_leak_rate": 0.4375,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "budget:LessThink=512(want 256)",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set + extra budgets (new metric experiment)"
+      ]
+    },
+    {
+      "tag": "b12_SummaryThink_512",
+      "system": "target",
+      "n_rows": 16,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "SummaryThink": {
+          "leak_rate": 0.5,
+          "answer_leak_rate": 0.5,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "budget:SummaryThink=512(want 256)",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set + extra budgets (new metric experiment)"
+      ]
+    },
+    {
+      "tag": "b12_ZeroThink_1024",
+      "system": "target",
+      "n_rows": 16,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "ZeroThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 1024,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "ZeroThink": {
+          "leak_rate": 0.375,
+          "answer_leak_rate": 0.375,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "budget:ZeroThink=1024(want 256)",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set + extra budgets (new metric experiment)"
+      ]
+    },
+    {
+      "tag": "b12_ZeroThink_192",
+      "system": "target",
+      "n_rows": 16,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "ZeroThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 192,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "ZeroThink": {
+          "leak_rate": 0.375,
+          "answer_leak_rate": 0.375,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "budget:ZeroThink=192(want 256)",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set + extra budgets (new metric experiment)"
+      ]
+    },
+    {
+      "tag": "b12_ZeroThink_512",
+      "system": "target",
+      "n_rows": 16,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "ZeroThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "ZeroThink": {
+          "leak_rate": 0.375,
+          "answer_leak_rate": 0.375,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "budget:ZeroThink=512(want 256)",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set + extra budgets (new metric experiment)"
+      ]
+    },
+    {
+      "tag": "b13_r2mu10_s1002",
+      "system": "r2mu10",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1002,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.5,
+          "answer_reached_rate": 0.75,
+          "retain_rouge_mean": 0.629847
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, seed sweep"
+      ]
+    },
+    {
+      "tag": "b13_r2mu10_s1003",
+      "system": "r2mu10",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1003,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.25,
+          "answer_reached_rate": 0.75,
+          "retain_rouge_mean": 0.548158
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, seed sweep"
+      ]
+    },
+    {
+      "tag": "b13_target_s1002",
+      "system": "target",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1002,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 0.875,
+          "truncated_rate": 0.125,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.952516
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, seed sweep"
+      ]
+    },
+    {
+      "tag": "b13_target_s1003",
+      "system": "target",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1003,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 0.9375,
+          "truncated_rate": 0.0625,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.955228
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, seed sweep"
+      ]
+    },
+    {
+      "tag": "b16_r2mu10_DefaultCoT_512",
+      "system": "r2mu10",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.1875,
+          "answer_reached_rate": 0.8125,
+          "retain_rouge_mean": 0.545762
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, post-unlearning panel"
+      ]
+    },
+    {
+      "tag": "b16_r2mu10_LessThink_512",
+      "system": "r2mu10",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "LessThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "LessThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.0625,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.440923
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "budget:LessThink=512(want 256)",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, post-unlearning panel"
+      ]
+    },
+    {
+      "tag": "b16_r2mu10_ZeroThink_512",
+      "system": "r2mu10",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "ZeroThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "ZeroThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.1875,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.466334
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "budget:ZeroThink=512(want 256)",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, post-unlearning panel"
+      ]
+    },
+    {
+      "tag": "b19_r2mu05_f05_512",
+      "system": "r2mu05",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.1875,
+          "answer_reached_rate": 0.8125,
+          "retain_rouge_mean": 0.536993
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, 5% panel"
+      ]
+    },
+    {
+      "tag": "b19_r2mu05_f05_s1002",
+      "system": "r2mu05",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1002,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.375,
+          "answer_reached_rate": 0.6875,
+          "retain_rouge_mean": 0.65258
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, 5% panel"
+      ]
+    },
+    {
+      "tag": "b19_r2mu05_f05_s1003",
+      "system": "r2mu05",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1003,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.375,
+          "answer_reached_rate": 0.6875,
+          "retain_rouge_mean": 0.593472
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, 5% panel"
+      ]
+    },
+    {
+      "tag": "b19_target_f05_512",
+      "system": "target",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.125,
+          "answer_reached_rate": 0.9375,
+          "retain_rouge_mean": 0.906954
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, 5% panel"
+      ]
+    },
+    {
+      "tag": "b19_target_f05_s1002",
+      "system": "target",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1002,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.125,
+          "answer_reached_rate": 0.9375,
+          "retain_rouge_mean": 0.952516
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, 5% panel"
+      ]
+    },
+    {
+      "tag": "b19_target_f05_s1003",
+      "system": "target",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 16,
+        "n_retain": 16,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 512,
+        "seed": 1003,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.125,
+          "answer_reached_rate": 0.875,
+          "retain_rouge_mean": 0.955228
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "probe_set",
+        "n_forget",
+        "n_retain",
+        "seed",
+        "strategies=1/4"
+      ],
+      "notes": [
+        "no-echo probe set, 5% panel"
+      ]
+    },
+    {
+      "tag": "base_r2mu05_forget05",
+      "system": "r2mu05",
+      "n_rows": 240,
+      "config": {
+        "n_forget": 40,
+        "n_retain": 20,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "LessThink",
+          "ZeroThink",
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.975,
+          "answer_reached_rate": 0.1,
+          "retain_rouge_mean": 0.543659
+        },
+        "LessThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.975,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.459378
+        },
+        "ZeroThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.975,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.376018
+        },
+        "SummaryThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.875,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.32028
+        }
+      },
+      "parity": "ALIGNED",
+      "deviations": [],
+      "notes": []
+    },
+    {
+      "tag": "base_r2mu10_forget10",
+      "system": "r2mu10",
+      "n_rows": 240,
+      "config": {
+        "n_forget": 40,
+        "n_retain": 20,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "LessThink",
+          "ZeroThink",
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.95,
+          "answer_reached_rate": 0.05,
+          "retain_rouge_mean": 0.519166
+        },
+        "LessThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 1.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.420433
+        },
+        "ZeroThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.9,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.40938
+        },
+        "SummaryThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.875,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.383378
+        }
+      },
+      "parity": "ALIGNED",
+      "deviations": [],
+      "notes": []
+    },
+    {
+      "tag": "base_target_forget05",
+      "system": "target",
+      "n_rows": 240,
+      "config": {
+        "n_forget": 40,
+        "n_retain": 20,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "LessThink",
+          "ZeroThink",
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.975,
+          "answer_leak_rate": 0.95,
+          "truncated_rate": 0.2,
+          "answer_reached_rate": 0.85,
+          "retain_rouge_mean": 0.923563
+        },
+        "LessThink": {
+          "leak_rate": 0.9,
+          "answer_leak_rate": 0.9,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.442543
+        },
+        "ZeroThink": {
+          "leak_rate": 0.825,
+          "answer_leak_rate": 0.825,
+          "truncated_rate": 0.025,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.434514
+        },
+        "SummaryThink": {
+          "leak_rate": 0.775,
+          "answer_leak_rate": 0.775,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.381517
+        }
+      },
+      "parity": "ALIGNED",
+      "deviations": [],
+      "notes": []
+    },
+    {
+      "tag": "base_target_forget10",
+      "system": "target",
+      "n_rows": 240,
+      "config": {
+        "n_forget": 40,
+        "n_retain": 20,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "LessThink",
+          "ZeroThink",
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.975,
+          "answer_leak_rate": 0.95,
+          "truncated_rate": 0.3,
+          "answer_reached_rate": 0.8,
+          "retain_rouge_mean": 0.923563
+        },
+        "LessThink": {
+          "leak_rate": 0.875,
+          "answer_leak_rate": 0.875,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.442543
+        },
+        "ZeroThink": {
+          "leak_rate": 0.875,
+          "answer_leak_rate": 0.875,
+          "truncated_rate": 0.025,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.434514
+        },
+        "SummaryThink": {
+          "leak_rate": 0.825,
+          "answer_leak_rate": 0.825,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.381517
+        }
+      },
+      "parity": "ALIGNED",
+      "deviations": [],
+      "notes": []
+    },
+    {
+      "tag": "ctrl-single",
+      "system": "ctrl-single",
+      "n_rows": 240,
+      "config": {
+        "n_forget": 40,
+        "n_retain": 20,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "LessThink",
+          "ZeroThink",
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 0,
+        "dtype": "fp32",
+        "use_cache": true,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 0.0,
+          "retain_rouge_mean": 0.004056
+        },
+        "LessThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.030655
+        },
+        "ZeroThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.020057
+        },
+        "SummaryThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.016988
+        }
+      },
+      "parity": "ALIGNED",
+      "deviations": [],
+      "notes": []
+    },
+    {
+      "tag": "loop24",
+      "system": "target",
+      "n_rows": 48,
+      "config": {
+        "n_forget": 8,
+        "n_retain": 4,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "LessThink",
+          "ZeroThink",
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 192,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 1.0,
+          "answer_reached_rate": 0.0,
+          "retain_rouge_mean": 0.637538
+        },
+        "LessThink": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.470909
+        },
+        "ZeroThink": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.354242
+        },
+        "SummaryThink": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.44053
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "n_forget",
+        "n_retain",
+        "budget:DefaultCoT=192(want 512)",
+        "budget:LessThink=192(want 256)",
+        "budget:ZeroThink=192(want 256)",
+        "budget:SummaryThink=192(want 256)"
+      ],
+      "notes": []
+    },
+    {
+      "tag": "loop24_budget",
+      "system": "target",
+      "n_rows": 32,
+      "config": {
+        "n_forget": 8,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [
+          64,
+          128,
+          256,
+          512
+        ],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT@64": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 1.0,
+          "answer_reached_rate": 0.0,
+          "retain_rouge_mean": null
+        },
+        "DefaultCoT@128": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 1.0,
+          "answer_reached_rate": 0.0,
+          "retain_rouge_mean": null
+        },
+        "DefaultCoT@256": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 1.0,
+          "answer_reached_rate": 0.0,
+          "retain_rouge_mean": null
+        },
+        "DefaultCoT@512": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.75,
+          "answer_reached_rate": 0.5,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "n_forget",
+        "budget_grid(DefaultCoT only)",
+        "strategies=1/4"
+      ],
+      "notes": []
+    },
+    {
+      "tag": "loop24_cot",
+      "system": "target",
+      "n_rows": 8,
+      "config": {
+        "n_forget": 8,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 1024,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 1.0,
+          "answer_leak_rate": 1.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "n_forget",
+        "budget:DefaultCoT=1024(want 512)",
+        "strategies=1/4"
+      ],
+      "notes": []
+    },
+    {
+      "tag": "ours-inv",
+      "system": "ours-inv",
+      "n_rows": 240,
+      "config": {
+        "n_forget": 40,
+        "n_retain": 20,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "LessThink",
+          "ZeroThink",
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 0.0,
+          "retain_rouge_mean": 0.010747
+        },
+        "LessThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.016302
+        },
+        "ZeroThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.011694
+        },
+        "SummaryThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.018761
+        }
+      },
+      "parity": "ALIGNED",
+      "deviations": [],
+      "notes": []
+    },
+    {
+      "tag": "ours-inv_budget",
+      "system": "ours-inv",
+      "n_rows": 80,
+      "config": {
+        "n_forget": 20,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [
+          64,
+          128,
+          256,
+          512
+        ],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 0.0,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "n_forget",
+        "budget_grid(DefaultCoT only)",
+        "strategies=1/4"
+      ],
+      "notes": []
+    },
+    {
+      "tag": "r2mu01",
+      "system": "r2mu01",
+      "n_rows": 240,
+      "config": {
+        "n_forget": 40,
+        "n_retain": 20,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "LessThink",
+          "ZeroThink",
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.2,
+          "answer_leak_rate": 0.2,
+          "truncated_rate": 0.475,
+          "answer_reached_rate": 0.375,
+          "retain_rouge_mean": 0.539161
+        },
+        "LessThink": {
+          "leak_rate": 0.15,
+          "answer_leak_rate": 0.15,
+          "truncated_rate": 0.15,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.288272
+        },
+        "ZeroThink": {
+          "leak_rate": 0.15,
+          "answer_leak_rate": 0.15,
+          "truncated_rate": 0.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.309662
+        },
+        "SummaryThink": {
+          "leak_rate": 0.175,
+          "answer_leak_rate": 0.175,
+          "truncated_rate": 0.025,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.245007
+        }
+      },
+      "parity": "ALIGNED",
+      "deviations": [],
+      "notes": []
+    },
+    {
+      "tag": "r2mu01_budget",
+      "system": "r2mu01",
+      "n_rows": 80,
+      "config": {
+        "n_forget": 20,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [
+          64,
+          128,
+          256,
+          512
+        ],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.1,
+          "answer_leak_rate": 0.075,
+          "truncated_rate": 0.725,
+          "answer_reached_rate": 0.2125,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "n_forget",
+        "budget_grid(DefaultCoT only)",
+        "strategies=1/4"
+      ],
+      "notes": []
+    },
+    {
+      "tag": "r2mu05",
+      "system": "r2mu05",
+      "n_rows": 240,
+      "config": {
+        "n_forget": 40,
+        "n_retain": 20,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "LessThink",
+          "ZeroThink",
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.975,
+          "answer_reached_rate": 0.05,
+          "retain_rouge_mean": 0.54704
+        },
+        "LessThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.975,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.369467
+        },
+        "ZeroThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.95,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.28543
+        },
+        "SummaryThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.95,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.272491
+        }
+      },
+      "parity": "ALIGNED",
+      "deviations": [],
+      "notes": []
+    },
+    {
+      "tag": "sanity",
+      "system": "target",
+      "n_rows": 6,
+      "config": {
+        "n_forget": 2,
+        "n_retain": 1,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "ZeroThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 64,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 1.0,
+          "answer_reached_rate": 0.0,
+          "retain_rouge_mean": 0.208333
+        },
+        "ZeroThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 1.0,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.083333
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "n_forget",
+        "n_retain",
+        "budget:DefaultCoT=64(want 512)",
+        "budget:ZeroThink=64(want 256)",
+        "strategies=2/4"
+      ],
+      "notes": []
+    },
+    {
+      "tag": "target",
+      "system": "target",
+      "n_rows": 240,
+      "config": {
+        "n_forget": 40,
+        "n_retain": 20,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT",
+          "LessThink",
+          "ZeroThink",
+          "SummaryThink"
+        ],
+        "budgets": [],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.025,
+          "answer_leak_rate": 0.025,
+          "truncated_rate": 0.975,
+          "answer_reached_rate": 0.15,
+          "retain_rouge_mean": 0.201691
+        },
+        "LessThink": {
+          "leak_rate": 0.0,
+          "answer_leak_rate": 0.0,
+          "truncated_rate": 0.925,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.15796
+        },
+        "ZeroThink": {
+          "leak_rate": 0.05,
+          "answer_leak_rate": 0.05,
+          "truncated_rate": 0.825,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.179017
+        },
+        "SummaryThink": {
+          "leak_rate": 0.025,
+          "answer_leak_rate": 0.025,
+          "truncated_rate": 0.95,
+          "answer_reached_rate": 1.0,
+          "retain_rouge_mean": 0.227759
+        }
+      },
+      "parity": "ALIGNED",
+      "deviations": [],
+      "notes": []
+    },
+    {
+      "tag": "target_budget",
+      "system": "target",
+      "n_rows": 80,
+      "config": {
+        "n_forget": 20,
+        "n_retain": 0,
+        "forget_task_id": "1",
+        "strategies": [
+          "DefaultCoT"
+        ],
+        "budgets": [
+          64,
+          128,
+          256,
+          512
+        ],
+        "max_new_tokens_override": 0,
+        "seed": 1001,
+        "do_sample": false
+      },
+      "baseline_metrics": {
+        "DefaultCoT": {
+          "leak_rate": 0.0875,
+          "answer_leak_rate": 0.0875,
+          "truncated_rate": 0.9625,
+          "answer_reached_rate": 0.2,
+          "retain_rouge_mean": null
+        }
+      },
+      "parity": "DEVIATION",
+      "deviations": [
+        "n_forget",
+        "budget_grid(DefaultCoT only)",
+        "strategies=1/4"
+      ],
+      "notes": []
+    }
+  ],
+  "metadata_defect": "decode_eval.py does not persist --forget-file in the summary, so the probe set is reconstructed from the tag prefix. Fix: log the probe path hash.",
+  "status": "completed"
+}
