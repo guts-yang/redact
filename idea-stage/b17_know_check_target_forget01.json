@@ -1,0 +1,20 @@
+{
+  "block": "B17",
+  "model": "target",
+  "model_path": "/jizhicfs/chenyliao/models/sangyon/LRM-target",
+  "split": "forget01",
+  "strategy": "DefaultCoT",
+  "n": 16,
+  "teacher_forced_nll": 1.8854,
+  "reproduction_rate": 1.0,
+  "reproduction_source": "/usr/local/workspace/R-TOFU/workspace/results/eval_loop24.jsonl",
+  "gate": {
+    "nll_threshold": 2.0,
+    "repro_threshold": 0.5,
+    "nll_pass": true,
+    "repro_pass": true,
+    "admissible": true
+  },
+  "verdict": "EVALUABLE",
+  "note": "NLL computed in bf16 with a full forward pass (no KV-cache decode, so the known SIGFPE path is not touched); reproduction is read from an existing greedy eval file rather than re-generated."
+}

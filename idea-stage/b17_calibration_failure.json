@@ -1,0 +1,23 @@
+{
+  "block": "B17",
+  "status": "INSTRUMENT BUILT, CALIBRATION FAILED — do not use as a gate yet",
+  "what_was_built": "idea-stage/know_check.py: teacher-forced NLL of the gold answer + reproduction rate read from an existing greedy eval file",
+  "observed": {
+    "target_on_forget01_task1_first16": {"teacher_forced_nll": 1.8854, "reproduction_rate_reported": 1.0},
+    "target_on_forget10_task1_first16": {"teacher_forced_nll": 1.8854, "reproduction_rate_reported": 1.0},
+    "why_identical": "forget01 is a strict subset of forget10 (all 400 forget01 questions appear among the 3600 forget10 questions), and the task_id=1 head of both files is the same 16 questions, so the two runs scored the same rows."
+  },
+  "contradiction": {
+    "generation_says_collapse": "on those same forget01 questions eval_target.jsonl shows entity_leak = 0 with truncated = 1 and degenerate text, e.g. 'Okay, I'more thankylikaevelveilasssion, aistep...' (97.5% degenerate over 40 rows)",
+    "nll_says_knows": "teacher-forced NLL = 1.885 (< 2.0 gate) on the same rows",
+    "prior_work_says_unknown": "R-TOFU/workspace/idea-stage/CHAMPION_LOGIC.md 1.1 reports NLL 5.4692 on forget01 with a different prompt/answer template",
+    "reproduction_lookup_is_unreliable": "the reproduction signal is read from whichever eval file first matches the question text, so it can report a rate measured under a different state (it returned 1.0 by matching the no-echo DefaultCoT run)"
+  },
+  "conclusion": "Three signals (teacher-forced NLL, greedy reproduction, prior NLL) disagree on the same checkpoint and split. A know-check gate cannot be shipped until the prompt/answer template is frozen and the three signals are recomputed under that one template. Until then, the only defensible statement about forget01 is the *generation* one: the model does not produce the entity there, and whether that is 'did not know' or 'could not generate' is unresolved.",
+  "impact_on_this_report": {
+    "C0_split_validity": "unchanged in direction (forget01 readings are not interpretable as forgetting) but the cause is now ambiguous: never-known vs generation collapse. Both are disqualifying for a forgetting claim, so the conclusion survives; the mechanism does not.",
+    "C1b": "unchanged: measured on forget10-only no-echo probes where the same checkpoint reproduces the entity 16/16",
+    "B17": "blocked pending template freeze"
+  },
+  "next_step": "Freeze one prompt/answer template (question + ' ' + gold answer, no template prefix), recompute NLL and greedy reproduction on the same 32 no-echo questions for target and r2mu10, and require the two signals to agree before the gate is enabled."
+}

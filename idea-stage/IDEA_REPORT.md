@@ -389,6 +389,21 @@ B12 要求"问题里不含实体名"的探针。用 `forget10.json` 构造出 92
 - **B17（CPU）**：把"checkpoint 是否掌握 forget 集"做成审计前置门（NLL + 生成复现率双阈值），写进评测协议。
 - B12 的 no-echo 探针集（920 条）已固化为 `idea-stage/probes/noecho_forget10.jsonl`。
 
+### 14.2 B17 掌握度门：仪器已建，但**校准失败，暂不可用**
+
+`idea-stage/know_check.py` 同时算 teacher-forced NLL 与生成复现率，结果三个信号互相矛盾（详见 `b17_calibration_failure.json`）：
+
+| 信号 | 读数 | 含义 |
+|---|---|---|
+| 生成 | forget01 上 `entity_leak=0`、97.5% 退化 | "不知道 / 生成不出来" |
+| teacher-forced NLL | **1.885**（< 2.0 门） | "知道" |
+| 先验记录 `CHAMPION_LOGIC.md` | NLL **5.4692** | "不知道" |
+
+原因之一：`forget01 ⊂ forget10`（400 题全在 3600 题内），两个 split 的 `task_id=1` 头部是同一批题，所以两次 NLL 完全相同——**这不是两次独立测量**。
+
+结论：**门禁暂时不可启用**。必须先冻结唯一的 prompt/answer 模板，在同一模板下重算三个信号并要求一致。在此之前，对 forget01 只能陈述生成层面的事实（模型不产出该实体），"没学过"与"生成不出来"未区分——两者都足以否定"遗忘"解读，但机制不同。
+
+
 ---
 
 ## 14. 第 3 轮：第一个可解释的遗忘前后对照（B16）
