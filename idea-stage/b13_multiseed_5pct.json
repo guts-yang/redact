@@ -1,0 +1,69 @@
+{
+  "block": "B13-5pct",
+  "scenario": "forget05 (5%), 16 no-echo probes, DefaultCoT@512",
+  "per_seed": {
+    "1001": {
+      "target": {
+        "n": 16,
+        "raw": 1.0,
+        "collapse": 0.0,
+        "clean_n": 15,
+        "clean_leak": 1.0
+      },
+      "r2mu05": {
+        "n": 16,
+        "raw": 0.0,
+        "collapse": 1.0,
+        "clean_n": 0,
+        "clean_leak": null
+      }
+    },
+    "1002": {
+      "target": {
+        "n": 16,
+        "raw": 1.0,
+        "collapse": 0.0,
+        "clean_n": 15,
+        "clean_leak": 1.0
+      },
+      "r2mu05": {
+        "n": 16,
+        "raw": 0.0,
+        "collapse": 0.938,
+        "clean_n": 1,
+        "clean_leak": 0.0
+      }
+    },
+    "1003": {
+      "target": {
+        "n": 16,
+        "raw": 1.0,
+        "collapse": 0.0,
+        "clean_n": 14,
+        "clean_leak": 1.0
+      },
+      "r2mu05": {
+        "n": 16,
+        "raw": 0.0,
+        "collapse": 0.875,
+        "clean_n": 1,
+        "clean_leak": 0.0
+      }
+    }
+  },
+  "robustness": {
+    "r2mu05_clean_n_per_seed": [
+      0,
+      1,
+      1
+    ],
+    "all_zero": false,
+    "target_leak_per_seed": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "conclusion": "r2mu05 keeps at most 1 clean sample across 3 seeds (0,1,1), far below the required 8; the 0.000 leak reading is therefore never evaluable, with a wide margin",
+    "not_zero_note": "clean_n is not literally 0 at seeds 1002/1003 (1 sample each, leak 0 on that single sample); the claim is \"below the estimability floor\", not \"exactly zero\""
+  }
+}
