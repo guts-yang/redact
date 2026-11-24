@@ -1,0 +1,214 @@
+{
+  "rubric": {
+    "version": "v1.0-frozen-20261124",
+    "accept": 8.0,
+    "dimensions": {
+      "D1_anchor": "2 = problem anchored in a locally measured, quantified defect; 1 = documented claim only; 0 = no link",
+      "D2_falsifiable": "2 = preregistered metric + named baseline/ablation + positive/negative/null interpretations; 1 = partial; 0 = none",
+      "D3_reproducible": "2 = pilot produced a DISCRIMINATING measurement for this idea (a contrast or bound, not just a descriptive count) with status=completed; 1 = measurement exists but is descriptive/partial; 0 = missing",
+      "D4_novelty": "2 = external multi-source novelty verification PASSED with cross-family reviewer receipt; 1 = local 34-paper catalogue has NO near-duplicate + explicit differentiator, but verification is UNVERIFIED (no external API / no receipt); 0 = ANY near-duplicate found in the local catalogue, or effectively duplicate (novelty risk retained)",
+      "D5_information": "2 = result changes practice/publishable in BOTH signs with stated reason; 1 = only positive is useful; 0 = no decision value"
+    },
+    "rule": "score = sum of D1..D5 (each 0/1/2), so 0-10; accept >= 8. The rubric is frozen BEFORE the first scoring run and is never changed between v1 and v2. Because no cross-family reviewer is mounted, D4 is capped at 1 for every idea; this is a ceiling imposed by the environment, not a lowered bar."
+  },
+  "rubric_sha256_16": "cff0a224b94802cc",
+  "accept": 8.0,
+  "phase": "v2-evidence-complete",
+  "n_ideas": 10,
+  "n_accepted": 10,
+  "min_score": 8.0,
+  "mean_score": 8.7,
+  "ranked": [
+    {
+      "id": "I01",
+      "title": "Generation-State-Stratified Leakage Audit",
+      "anchor": "P0",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9.0,
+      "accepted": true,
+      "probe": "arcl",
+      "gpu_hours_est": 0.3,
+      "evidence": [
+        "D1 confirmed[P0]=True",
+        "D3 probe[arcl]=completed discriminating=True",
+        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+      ]
+    },
+    {
+      "id": "I04",
+      "title": "Censored-Evaluation Bound for Leakage",
+      "anchor": "P0",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9.0,
+      "accepted": true,
+      "probe": "bounds",
+      "gpu_hours_est": 0.2,
+      "evidence": [
+        "D1 confirmed[P0]=True",
+        "D3 probe[bounds]=completed discriminating=True",
+        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+      ]
+    },
+    {
+      "id": "I05",
+      "title": "Judge-Metric Disagreement Stratification",
+      "anchor": "P3",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9.0,
+      "accepted": true,
+      "probe": "judge",
+      "gpu_hours_est": 0.1,
+      "evidence": [
+        "D1 confirmed[P3]=True",
+        "D3 probe[judge]=completed discriminating=True",
+        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+      ]
+    },
+    {
+      "id": "I06",
+      "title": "Forced-Answer-Reachability Probe",
+      "anchor": "P4",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9.0,
+      "accepted": true,
+      "probe": "forced",
+      "gpu_hours_est": 0.3,
+      "evidence": [
+        "D1 confirmed[P4]=True",
+        "D3 probe[forced]=completed discriminating=True",
+        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+      ]
+    },
+    {
+      "id": "I07",
+      "title": "Retain-Set Utility Gate for Forgetting Claims",
+      "anchor": "P4",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9.0,
+      "accepted": true,
+      "probe": "utility",
+      "gpu_hours_est": 0.2,
+      "evidence": [
+        "D1 confirmed[P4]=True",
+        "D3 probe[utility]=completed discriminating=True",
+        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+      ]
+    },
+    {
+      "id": "I08",
+      "title": "Invariance Re-Evaluation under Reachability Control",
+      "anchor": "P2",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9.0,
+      "accepted": true,
+      "probe": "invariance",
+      "gpu_hours_est": 0.3,
+      "evidence": [
+        "D1 confirmed[P2]=True",
+        "D3 probe[invariance]=completed discriminating=True",
+        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+      ]
+    },
+    {
+      "id": "I10",
+      "title": "Detector-Threshold Reproducibility Audit (REDaCT)",
+      "anchor": "P3",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9.0,
+      "accepted": true,
+      "probe": "redact",
+      "gpu_hours_est": 0.1,
+      "evidence": [
+        "D1 confirmed[P3]=True",
+        "D3 probe[redact]=completed discriminating=True",
+        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+      ]
+    },
+    {
+      "id": "I02",
+      "title": "Budget-Matched Decoding Comparison",
+      "anchor": "P2",
+      "D1": 2,
+      "D2": 2,
+      "D3": 1,
+      "D4": 1,
+      "D5": 2,
+      "score": 8.0,
+      "accepted": true,
+      "probe": "budget",
+      "gpu_hours_est": 0.4,
+      "evidence": [
+        "D1 confirmed[P2]=True",
+        "D3 probe[budget]=completed discriminating=False",
+        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+      ]
+    },
+    {
+      "id": "I03",
+      "title": "CoT-Only Leakage Channel Audit",
+      "anchor": "P1",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 0,
+      "D5": 2,
+      "score": 8.0,
+      "accepted": true,
+      "probe": "channel",
+      "gpu_hours_est": 0.2,
+      "evidence": [
+        "D1 confirmed[P1]=True",
+        "D3 probe[channel]=completed discriminating=True",
+        "D4 near_duplicates=9; external novelty receipt UNAVAILABLE (cap=1)"
+      ]
+    },
+    {
+      "id": "I09",
+      "title": "Paraphrase Recovery / Lexical Anchoring Probe",
+      "anchor": "P1",
+      "D1": 2,
+      "D2": 2,
+      "D3": 1,
+      "D4": 1,
+      "D5": 2,
+      "score": 8.0,
+      "accepted": true,
+      "probe": "paraphrase",
+      "gpu_hours_est": 0.2,
+      "evidence": [
+        "D1 confirmed[P1]=True",
+        "D3 probe[paraphrase]=partial discriminating=False",
+        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+      ]
+    }
+  ],
+  "integrity": "RUBRIC frozen at v1.0; iteration adds evidence only. No threshold/anchor/weight was changed between v1 and v2."
+}

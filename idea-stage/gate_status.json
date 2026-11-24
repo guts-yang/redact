@@ -1,0 +1,26 @@
+{
+  "reviewer_backends": {
+    "codex": null,
+    "gemini": null,
+    "claude": null
+  },
+  "cross_family_reviewer": "REVIEW_UNAVAILABLE",
+  "evidence_gate_helpers": {
+    "/usr/local/workspace/redact/.aris/tools/run_state.py": false,
+    "/usr/local/workspace/redact/.aris/tools/idea_discovery_gate.py": false,
+    "/usr/local/workspace/redact/.aris/tools/reviewer_route.py": false,
+    "/usr/local/workspace/redact/tools/run_state.py": false,
+    "/usr/local/workspace/redact/tools/idea_discovery_gate.py": false,
+    "/usr/local/workspace/redact/tools/reviewer_route.py": false,
+    "/root/.aris/repo/tools/run_state.py": false,
+    "/root/.aris/repo/tools/idea_discovery_gate.py": false,
+    "/root/.aris/repo/tools/reviewer_route.py": false
+  },
+  "evidence_gate": "BLOCKED",
+  "reasons": [
+    "No codex/gemini/claude CLI is mounted; cross-family review receipts cannot be produced.",
+    "run_state.py / idea_discovery_gate.py / reviewer_route.py were not found in any canonical helper path."
+  ],
+  "llm_judge_note": "Hy4 LLM judge is a METRIC, not an independent cross-family reviewer. It cannot substitute for a review receipt.",
+  "honesty_rule": "The workflow must be reported as BLOCKED, not PASS. Survey A.3 records the same REVIEW_UNAVAILABLE condition."
+}

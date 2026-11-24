@@ -1,0 +1,54 @@
+{
+  "source": "/usr/local/workspace/redact",
+  "defects": [
+    {
+      "id": "D1",
+      "finding": "Paraphrase artefact is entirely failed",
+      "evidence": "paraphrases/forget10.jsonl: 273/273 status=error; deepseek variant: 400/400 ok",
+      "verified": true
+    },
+    {
+      "id": "D2",
+      "finding": "Judge backend in code differs from documentation",
+      "evidence": "judge_afe_rtofu.py main() forwards DeepSeek API; PIPELINE.md still documents Claude/GPT-4o",
+      "verified": true
+    },
+    {
+      "id": "D3",
+      "finding": "Threshold persistence silently changes flagging rate",
+      "evidence": "PIPELINE.md:221-224 states it 'silently change[s] the flagging rate, not error'",
+      "verified": true
+    },
+    {
+      "id": "D4",
+      "finding": "Leak-detector weights are not shipped",
+      "evidence": "README.md:144-152 requires hf download of jmaccoby/redact-leak-classifier; no local classifier dir found",
+      "verified": true
+    },
+    {
+      "id": "D5",
+      "finding": "R2MU pre-generation extent is an unimplemented stub",
+      "evidence": "scripts/r2mu/pregen_extent.py:12-15 'Not implemented'",
+      "verified": true
+    },
+    {
+      "id": "D6",
+      "finding": "R-TOFU JSONL inputs are not shipped",
+      "evidence": "data/rtofu/ contains only PROVENANCE.md; 8 JSONL are gitignored",
+      "verified": true
+    },
+    {
+      "id": "D7",
+      "finding": "Declared flash-attention-2 runtime is unavailable in the local venv",
+      "evidence": "config/rtofu_model_config/LRM-target.yaml attn_implementation=flash_attention_2; flash_attn import MISSING in redact-r2mu venv",
+      "verified": true
+    }
+  ],
+  "verified_defect_count": 7,
+  "paraphrase": {
+    "failed_rows": 273,
+    "total_rows": 273,
+    "deepseek_ok": 400
+  },
+  "note": "Verification is file-based and re-runnable; no claim relies on a prose summary alone."
+}

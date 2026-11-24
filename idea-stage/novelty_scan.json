@@ -1,0 +1,102 @@
+{
+  "source": "/usr/local/workspace/awesome-lrm-unlearning/data/papers.json",
+  "papers_scanned": 34,
+  "ideas": {
+    "I01": {
+      "catalogue_size": 34,
+      "near_duplicates": [],
+      "near_duplicate_count": 0,
+      "differentiator": "No entry in the 34-paper catalogue conditions leakage on answer reachability; CFE/AFE/LELR are unconditional rates.",
+      "verification": "LOCAL-CATALOGUE-ONLY [UNVERIFIED]: no external literature API was reachable; arXiv IDs are not asserted"
+    },
+    "I02": {
+      "catalogue_size": 34,
+      "near_duplicates": [],
+      "near_duplicate_count": 0,
+      "differentiator": "R-TOFU reports strategy-conditioned rho_d; no matched-budget control isolates length from path.",
+      "verification": "LOCAL-CATALOGUE-ONLY [UNVERIFIED]: no external literature API was reachable; arXiv IDs are not asserted"
+    },
+    "I03": {
+      "catalogue_size": 34,
+      "near_duplicates": [
+        {
+          "title": "REDaCT: Collapse-Free Unlearning in Large Reasoning Models",
+          "id": "maccoby2026redact",
+          "token_hits": 2
+        },
+        {
+          "title": "K-Bench: A Benchmark for LLM Unlearning in Agentic Deployments",
+          "id": "yu2026kbench",
+          "token_hits": 2
+        },
+        {
+          "title": "Unlearning Deceptive Behaviors in LLMs with Contrastive Forget Sets",
+          "id": "tang2026pact",
+          "token_hits": 2
+        },
+        {
+          "title": "FedCoT-VQA: A Federated Learning and Unlearning Framework for Chain-of-Thought Planners in VideoQA",
+          "id": "lu2026fedcotvqa",
+          "token_hits": 3
+        },
+        {
+          "title": "Test-Time Unlearning via Sparse Autoencoder",
+          "id": "li2026aria",
+          "token_hits": 2
+        }
+      ],
+      "near_duplicate_count": 9,
+      "differentiator": "The catalogue names residual CoT leakage as a failure mode (README:60) but its metrics (CFE/RT-UA/RIL/LELR) do not decompose cot vs answer channels per sample.",
+      "verification": "LOCAL-CATALOGUE-ONLY [UNVERIFIED]: no external literature API was reachable; arXiv IDs are not asserted"
+    },
+    "I04": {
+      "catalogue_size": 34,
+      "near_duplicates": [],
+      "near_duplicate_count": 0,
+      "differentiator": "BitsPerQuery gives an attack-query lower bound; no catalogue entry gives a censoring bound for evaluator truncation.",
+      "verification": "LOCAL-CATALOGUE-ONLY [UNVERIFIED]: no external literature API was reachable; arXiv IDs are not asserted"
+    },
+    "I05": {
+      "catalogue_size": 34,
+      "near_duplicates": [],
+      "near_duplicate_count": 0,
+      "differentiator": "The catalogue treats LLM judges as scoring tools; none audits judge failure/denominator bias as a first-class result.",
+      "verification": "LOCAL-CATALOGUE-ONLY [UNVERIFIED]: no external literature API was reachable; arXiv IDs are not asserted"
+    },
+    "I06": {
+      "catalogue_size": 34,
+      "near_duplicates": [],
+      "near_duplicate_count": 0,
+      "differentiator": "ZeroThink/LessThink are used as attacks in the catalogue, not as controlled reachability instrumentation for evaluation.",
+      "verification": "LOCAL-CATALOGUE-ONLY [UNVERIFIED]: no external literature API was reachable; arXiv IDs are not asserted"
+    },
+    "I07": {
+      "catalogue_size": 34,
+      "near_duplicates": [],
+      "near_duplicate_count": 0,
+      "differentiator": "The catalogue lists utility metrics and reasoning collapse separately; none makes retain utility a hard gate on leakage claims.",
+      "verification": "LOCAL-CATALOGUE-ONLY [UNVERIFIED]: no external literature API was reachable; arXiv IDs are not asserted"
+    },
+    "I08": {
+      "catalogue_size": 34,
+      "near_duplicates": [],
+      "near_duplicate_count": 0,
+      "differentiator": "Existing invariance work (incl. local ours-inv) optimizes gamma on raw leak rates; a controlled re-evaluation is a distinct diagnostic contribution.",
+      "verification": "LOCAL-CATALOGUE-ONLY [UNVERIFIED]: no external literature API was reachable; arXiv IDs are not asserted"
+    },
+    "I09": {
+      "catalogue_size": 34,
+      "near_duplicates": [],
+      "near_duplicate_count": 0,
+      "differentiator": "Survey Q22 attributes high LELR to lexical anchoring; no catalogue entry supplies a local paraphrase-recovery measurement protocol.",
+      "verification": "LOCAL-CATALOGUE-ONLY [UNVERIFIED]: no external literature API was reachable; arXiv IDs are not asserted"
+    },
+    "I10": {
+      "catalogue_size": 34,
+      "near_duplicates": [],
+      "near_duplicate_count": 0,
+      "differentiator": "REDaCT/ARIA study inference-time gating efficacy; none audits the reproducibility contract of the detector itself.",
+      "verification": "LOCAL-CATALOGUE-ONLY [UNVERIFIED]: no external literature API was reachable; arXiv IDs are not asserted"
+    }
+  }
+}

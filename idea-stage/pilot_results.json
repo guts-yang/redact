@@ -1,0 +1,215 @@
+{
+  "run_id": "lrm-loop-20261124",
+  "pilot_tag": "loop24",
+  "gpu_source": "/usr/local/workspace/R-TOFU/workspace/results/eval_loop24.jsonl",
+  "judge_source": "/usr/local/workspace/R-TOFU/workspace/results/judge_loop24.jsonl",
+  "probes": {
+    "arcl": {
+      "status": "completed",
+      "n": 32,
+      "raw_leak_rate": 1.0,
+      "coverage": 0.75,
+      "arcl_reached": 1.0,
+      "censored_n": 8,
+      "question_echo_n": 32,
+      "collapsed_n": 0,
+      "state_mix": {
+        "censored": 0.25,
+        "question_echo": 1.0,
+        "collapsed": 0.0
+      },
+      "discriminating": true
+    },
+    "budget": {
+      "status": "completed",
+      "per_tag_curves": {
+        "loop24_": {
+          "64": {
+            "n": 8,
+            "leak_rate": 1.0,
+            "truncated_rate": 1.0
+          },
+          "128": {
+            "n": 8,
+            "leak_rate": 1.0,
+            "truncated_rate": 1.0
+          },
+          "256": {
+            "n": 8,
+            "leak_rate": 1.0,
+            "truncated_rate": 1.0
+          },
+          "512": {
+            "n": 8,
+            "leak_rate": 1.0,
+            "truncated_rate": 0.75
+          }
+        },
+        "ours-inv_": {
+          "64": {
+            "n": 20,
+            "leak_rate": 0.0,
+            "truncated_rate": 0.0
+          },
+          "128": {
+            "n": 20,
+            "leak_rate": 0.0,
+            "truncated_rate": 0.0
+          },
+          "256": {
+            "n": 20,
+            "leak_rate": 0.0,
+            "truncated_rate": 0.0
+          },
+          "512": {
+            "n": 20,
+            "leak_rate": 0.0,
+            "truncated_rate": 0.0
+          }
+        },
+        "r2mu01_": {
+          "64": {
+            "n": 20,
+            "leak_rate": 0.1,
+            "truncated_rate": 1.0
+          },
+          "128": {
+            "n": 20,
+            "leak_rate": 0.1,
+            "truncated_rate": 0.95
+          },
+          "256": {
+            "n": 20,
+            "leak_rate": 0.1,
+            "truncated_rate": 0.65
+          },
+          "512": {
+            "n": 20,
+            "leak_rate": 0.1,
+            "truncated_rate": 0.3
+          }
+        },
+        "target_": {
+          "64": {
+            "n": 20,
+            "leak_rate": 0.05,
+            "truncated_rate": 1.0
+          },
+          "128": {
+            "n": 20,
+            "leak_rate": 0.1,
+            "truncated_rate": 0.95
+          },
+          "256": {
+            "n": 20,
+            "leak_rate": 0.1,
+            "truncated_rate": 0.95
+          },
+          "512": {
+            "n": 20,
+            "leak_rate": 0.1,
+            "truncated_rate": 0.95
+          }
+        }
+      },
+      "pooled_curve_omitted": true,
+      "pooled_note": "Samples from different systems/tags are NOT pooled; pooling would confound budget with model.",
+      "metric_coverage": "partial",
+      "blocker": "The pre-registered gamma_budget (cross-strategy comparison at matched budgets) was not measured: the budget grid covers DefaultCoT only. Only a single-strategy budget curve is available.",
+      "discriminating": false
+    },
+    "channel": {
+      "status": "completed",
+      "source": "/usr/local/workspace/R-TOFU/workspace/results/eval_loop24_cot.jsonl",
+      "n": 8,
+      "measurable_n": 8,
+      "trace_only_n": 0,
+      "channel_gap": 0.0,
+      "answer_leak_rate": 1.0,
+      "structural_note": "The main loop24 run cannot measure this: decode_eval.py sets cot='' for non-DefaultCoT strategies and the 192-token DefaultCoT rows never emit </think>.",
+      "blocker": null,
+      "discriminating": true
+    },
+    "bounds": {
+      "status": "completed",
+      "n": 32,
+      "optimistic": 1.0,
+      "pessimistic": 1.0,
+      "width": 0.0,
+      "note": "pessimistic bound is clamped to 1.0 so the interval stays a valid probability interval",
+      "discriminating": true
+    },
+    "judge": {
+      "status": "completed",
+      "n": 32,
+      "judge_ok": 30,
+      "failed": 2,
+      "agreement": 1.0,
+      "llm_leak_rate": 1.0,
+      "discriminating": true
+    },
+    "forced": {
+      "status": "completed",
+      "default_reached": 0.0,
+      "forced_reached": 1.0,
+      "default_leak": 1.0,
+      "forced_leak": 1.0,
+      "discriminating": true
+    },
+    "utility": {
+      "status": "completed",
+      "n": 16,
+      "retain_reached": 0.75,
+      "rouge_mean": 0.475805,
+      "gate_threshold": 0.5,
+      "gate_pass": true,
+      "discriminating": true
+    },
+    "invariance": {
+      "status": "completed",
+      "strategies": {
+        "DefaultCoT": {
+          "n": 8,
+          "gamma_component": 1.0,
+          "arcl": null,
+          "coverage": 0.0
+        },
+        "LessThink": {
+          "n": 8,
+          "gamma_component": 1.0,
+          "arcl": 1.0,
+          "coverage": 1.0
+        },
+        "ZeroThink": {
+          "n": 8,
+          "gamma_component": 1.0,
+          "arcl": 1.0,
+          "coverage": 1.0
+        },
+        "SummaryThink": {
+          "n": 8,
+          "gamma_component": 1.0,
+          "arcl": 1.0,
+          "coverage": 1.0
+        }
+      },
+      "gamma_controlled": 0.0,
+      "discriminating": true
+    },
+    "paraphrase": {
+      "status": "partial",
+      "ok_rows": 400,
+      "total_rows": 400,
+      "recovery_measured": null,
+      "blocker": "No GPU-generated response is paired with paraphrase probes in this batch; recovery rate cannot be claimed.",
+      "discriminating": false
+    },
+    "redact": {
+      "status": "completed",
+      "verified_defect_count": 7,
+      "paraphrase_failed_rows": 273,
+      "discriminating": true
+    }
+  },
+  "note": "Every value is computed from a local artifact. 'missing' or null means unmeasured, never estimated."
+}

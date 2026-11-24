@@ -1,0 +1,683 @@
+{
+  "source": "local GPU generation records (R-TOFU/workspace/results/eval_*.jsonl) + judge_*.summary.json",
+  "problems": {
+    "P0": "Generation-state confounding: entity_leak is a substring match of the gold key phrase anywhere in the response, so the same unchanged model scores 0 or 1 depending on (a) answer reachability/censoring, (b) reasoning collapse into degenerate text, and (c) echoing the entity name already present in the question. A low leak_rate therefore does not establish forgetting.",
+    "P1": "Channel gap: answer-level metrics miss sensitive content inside <think> reasoning traces.",
+    "P2": "Decoding-path bypass: leakage differs across DefaultCoT/LessThink/ZeroThink/SummaryThink, so single-strategy scores are not comparable.",
+    "P3": "Judge-metric drift: string entity match and LLM judge disagree, and judge failures silently shrink the denominator.",
+    "P4": "Utility/collapse trade-off: closing </think>, answer reachability and retain-set quality move together with leakage."
+  },
+  "confirmed": {
+    "P0": true,
+    "P1": true,
+    "P2": true,
+    "P3": true,
+    "P4": true
+  },
+  "P0_budget_sensitivity": {
+    "same_model": "sangyon/LRM-target, no weight edit, same seed 1001 and same questions",
+    "historical_512tok": {
+      "n": 40,
+      "leak_rate": 0.025,
+      "answer_reached_rate": 0.15,
+      "truncated_rate": 0.975,
+      "coverage": 0.15,
+      "arcl_reached": 0.166667,
+      "channel_gap": 0.0,
+      "censored_n": 39,
+      "question_echo_rate": 0.025,
+      "degenerate_rate": 0.975
+    },
+    "this_run_192tok": {
+      "n": 8,
+      "leak_rate": 1.0,
+      "answer_reached_rate": 0.0,
+      "truncated_rate": 1.0,
+      "coverage": 0.0,
+      "arcl_reached": null,
+      "channel_gap": 0.0,
+      "censored_n": 8,
+      "question_echo_rate": 1.0,
+      "degenerate_rate": 0.0
+    },
+    "leak_rate_swing": 0.975,
+    "interpretation": "Identical weights and questions; only the generation budget/state changed. A large swing means entity_leak measures generation state, not forgetting."
+  },
+  "P0_high_censoring_cases": [
+    {
+      "tag": "loop24",
+      "strategy": "DefaultCoT",
+      "truncated_rate": 1.0,
+      "leak_rate": 1.0,
+      "arcl_reached": null
+    },
+    {
+      "tag": "loop24_budget",
+      "strategy": "DefaultCoT",
+      "truncated_rate": 0.9375,
+      "leak_rate": 1.0,
+      "arcl_reached": 1.0
+    },
+    {
+      "tag": "r2mu01_budget",
+      "strategy": "DefaultCoT",
+      "truncated_rate": 0.725,
+      "leak_rate": 0.1,
+      "arcl_reached": 0.235294
+    },
+    {
+      "tag": "r2mu05",
+      "strategy": "DefaultCoT",
+      "truncated_rate": 0.975,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "r2mu05",
+      "strategy": "LessThink",
+      "truncated_rate": 0.975,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "r2mu05",
+      "strategy": "ZeroThink",
+      "truncated_rate": 0.95,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "r2mu05",
+      "strategy": "SummaryThink",
+      "truncated_rate": 0.95,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "target",
+      "strategy": "DefaultCoT",
+      "truncated_rate": 0.975,
+      "leak_rate": 0.025,
+      "arcl_reached": 0.166667
+    },
+    {
+      "tag": "target",
+      "strategy": "LessThink",
+      "truncated_rate": 0.925,
+      "leak_rate": 0.0,
+      "arcl_reached": 0.0
+    },
+    {
+      "tag": "target",
+      "strategy": "ZeroThink",
+      "truncated_rate": 0.825,
+      "leak_rate": 0.05,
+      "arcl_reached": 0.05
+    },
+    {
+      "tag": "target",
+      "strategy": "SummaryThink",
+      "truncated_rate": 0.95,
+      "leak_rate": 0.025,
+      "arcl_reached": 0.025
+    },
+    {
+      "tag": "target_budget",
+      "strategy": "DefaultCoT",
+      "truncated_rate": 0.9625,
+      "leak_rate": 0.0875,
+      "arcl_reached": 0.0
+    }
+  ],
+  "P1_trace_only_cases": [
+    {
+      "tag": "r2mu01_budget",
+      "strategy": "DefaultCoT",
+      "channel_gap": 0.025
+    }
+  ],
+  "P2_gamma_cases": [
+    {
+      "tag": "ctrl-single",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "loop24",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "loop24_budget",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "loop24_cot",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "ours-inv",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "ours-inv_budget",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "r2mu01",
+      "gamma_raw": 0.05
+    },
+    {
+      "tag": "r2mu01_budget",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "r2mu05",
+      "gamma_raw": 0.0
+    },
+    {
+      "tag": "target",
+      "gamma_raw": 0.05
+    },
+    {
+      "tag": "target_budget",
+      "gamma_raw": 0.0
+    }
+  ],
+  "P3_judge_cases": [
+    {
+      "tag": "loop24",
+      "llm_leak_rate": 1.0,
+      "agreement": 1.0,
+      "failed_total": 2,
+      "judged_total": 30
+    },
+    {
+      "tag": "r2mu01",
+      "llm_leak_rate": 0.195833,
+      "agreement": 0.916667,
+      "failed_total": 5,
+      "judged_total": 27
+    },
+    {
+      "tag": "target",
+      "llm_leak_rate": 0.0,
+      "agreement": 0.75,
+      "failed_total": 24,
+      "judged_total": 8
+    }
+  ],
+  "P4_low_coverage_cases": [
+    {
+      "tag": "ctrl-single",
+      "strategy": "DefaultCoT",
+      "coverage": 0.0
+    },
+    {
+      "tag": "loop24",
+      "strategy": "DefaultCoT",
+      "coverage": 0.0
+    },
+    {
+      "tag": "loop24_budget",
+      "strategy": "DefaultCoT",
+      "coverage": 0.125
+    },
+    {
+      "tag": "ours-inv",
+      "strategy": "DefaultCoT",
+      "coverage": 0.0
+    },
+    {
+      "tag": "ours-inv_budget",
+      "strategy": "DefaultCoT",
+      "coverage": 0.0
+    },
+    {
+      "tag": "r2mu01",
+      "strategy": "DefaultCoT",
+      "coverage": 0.375
+    },
+    {
+      "tag": "r2mu01_budget",
+      "strategy": "DefaultCoT",
+      "coverage": 0.2125
+    },
+    {
+      "tag": "r2mu05",
+      "strategy": "DefaultCoT",
+      "coverage": 0.05
+    },
+    {
+      "tag": "target",
+      "strategy": "DefaultCoT",
+      "coverage": 0.15
+    },
+    {
+      "tag": "target_budget",
+      "strategy": "DefaultCoT",
+      "coverage": 0.2
+    }
+  ],
+  "per_tag_groups": {
+    "ctrl-single": {
+      "DefaultCoT": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.0,
+        "truncated_rate": 0.0,
+        "coverage": 0.0,
+        "arcl_reached": null,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      },
+      "LessThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      },
+      "ZeroThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      },
+      "SummaryThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "loop24": {
+      "DefaultCoT": {
+        "n": 8,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 0.0,
+        "truncated_rate": 1.0,
+        "coverage": 0.0,
+        "arcl_reached": null,
+        "channel_gap": 0.0,
+        "censored_n": 8,
+        "question_echo_rate": 1.0,
+        "degenerate_rate": 0.0
+      },
+      "LessThink": {
+        "n": 8,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 1.0,
+        "degenerate_rate": 0.0
+      },
+      "ZeroThink": {
+        "n": 8,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 1.0,
+        "degenerate_rate": 0.0
+      },
+      "SummaryThink": {
+        "n": 8,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 1.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "loop24_budget": {
+      "DefaultCoT": {
+        "n": 32,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 0.125,
+        "truncated_rate": 0.9375,
+        "coverage": 0.125,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.0,
+        "censored_n": 30,
+        "question_echo_rate": 1.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "loop24_cot": {
+      "DefaultCoT": {
+        "n": 8,
+        "leak_rate": 1.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 1.0,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 1.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "ours-inv": {
+      "DefaultCoT": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.0,
+        "truncated_rate": 0.0,
+        "coverage": 0.0,
+        "arcl_reached": null,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      },
+      "LessThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      },
+      "ZeroThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      },
+      "SummaryThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "ours-inv_budget": {
+      "DefaultCoT": {
+        "n": 80,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.0,
+        "truncated_rate": 0.0,
+        "coverage": 0.0,
+        "arcl_reached": null,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.0
+      }
+    },
+    "r2mu01": {
+      "DefaultCoT": {
+        "n": 40,
+        "leak_rate": 0.2,
+        "answer_reached_rate": 0.375,
+        "truncated_rate": 0.475,
+        "coverage": 0.375,
+        "arcl_reached": 0.266667,
+        "channel_gap": 0.0,
+        "censored_n": 19,
+        "question_echo_rate": 0.2,
+        "degenerate_rate": 0.475
+      },
+      "LessThink": {
+        "n": 40,
+        "leak_rate": 0.15,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.15,
+        "coverage": 1.0,
+        "arcl_reached": 0.15,
+        "channel_gap": 0.0,
+        "censored_n": 6,
+        "question_echo_rate": 0.15,
+        "degenerate_rate": 0.125
+      },
+      "ZeroThink": {
+        "n": 40,
+        "leak_rate": 0.15,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.15,
+        "channel_gap": 0.0,
+        "censored_n": 0,
+        "question_echo_rate": 0.15,
+        "degenerate_rate": 0.0
+      },
+      "SummaryThink": {
+        "n": 40,
+        "leak_rate": 0.175,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.025,
+        "coverage": 1.0,
+        "arcl_reached": 0.175,
+        "channel_gap": 0.0,
+        "censored_n": 1,
+        "question_echo_rate": 0.175,
+        "degenerate_rate": 0.025
+      }
+    },
+    "r2mu01_budget": {
+      "DefaultCoT": {
+        "n": 80,
+        "leak_rate": 0.1,
+        "answer_reached_rate": 0.2125,
+        "truncated_rate": 0.725,
+        "coverage": 0.2125,
+        "arcl_reached": 0.235294,
+        "channel_gap": 0.025,
+        "censored_n": 58,
+        "question_echo_rate": 0.1,
+        "degenerate_rate": 0.225
+      }
+    },
+    "r2mu05": {
+      "DefaultCoT": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 0.05,
+        "truncated_rate": 0.975,
+        "coverage": 0.05,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 39,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 1.0
+      },
+      "LessThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.975,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 39,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.975
+      },
+      "ZeroThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.95,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 38,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.925
+      },
+      "SummaryThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.95,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 38,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.95
+      }
+    },
+    "target": {
+      "DefaultCoT": {
+        "n": 40,
+        "leak_rate": 0.025,
+        "answer_reached_rate": 0.15,
+        "truncated_rate": 0.975,
+        "coverage": 0.15,
+        "arcl_reached": 0.166667,
+        "channel_gap": 0.0,
+        "censored_n": 39,
+        "question_echo_rate": 0.025,
+        "degenerate_rate": 0.975
+      },
+      "LessThink": {
+        "n": 40,
+        "leak_rate": 0.0,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.925,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 37,
+        "question_echo_rate": 0.0,
+        "degenerate_rate": 0.9
+      },
+      "ZeroThink": {
+        "n": 40,
+        "leak_rate": 0.05,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.825,
+        "coverage": 1.0,
+        "arcl_reached": 0.05,
+        "channel_gap": 0.0,
+        "censored_n": 33,
+        "question_echo_rate": 0.05,
+        "degenerate_rate": 0.775
+      },
+      "SummaryThink": {
+        "n": 40,
+        "leak_rate": 0.025,
+        "answer_reached_rate": 1.0,
+        "truncated_rate": 0.95,
+        "coverage": 1.0,
+        "arcl_reached": 0.025,
+        "channel_gap": 0.0,
+        "censored_n": 38,
+        "question_echo_rate": 0.025,
+        "degenerate_rate": 0.9
+      }
+    },
+    "target_budget": {
+      "DefaultCoT": {
+        "n": 80,
+        "leak_rate": 0.0875,
+        "answer_reached_rate": 0.2,
+        "truncated_rate": 0.9625,
+        "coverage": 0.2,
+        "arcl_reached": 0.0,
+        "channel_gap": 0.0,
+        "censored_n": 77,
+        "question_echo_rate": 0.0875,
+        "degenerate_rate": 0.5125
+      }
+    }
+  },
+  "judge": {
+    "ctrl-single": {
+      "llm_leak_rate": 0.0,
+      "agreement": 1.0,
+      "failed_total": 0,
+      "judged_total": 64
+    },
+    "loop24": {
+      "llm_leak_rate": 1.0,
+      "agreement": 1.0,
+      "failed_total": 2,
+      "judged_total": 30
+    },
+    "loop24_cot": {
+      "llm_leak_rate": 1.0,
+      "agreement": 1.0,
+      "failed_total": 0,
+      "judged_total": 8
+    },
+    "ours-inv": {
+      "llm_leak_rate": 0.0,
+      "agreement": 1.0,
+      "failed_total": 0,
+      "judged_total": 64
+    },
+    "r2mu01": {
+      "llm_leak_rate": 0.195833,
+      "agreement": 0.916667,
+      "failed_total": 5,
+      "judged_total": 27
+    },
+    "r2mu05": {
+      "llm_leak_rate": 0.0,
+      "agreement": 1.0,
+      "failed_total": 0,
+      "judged_total": 32
+    },
+    "sanity": {
+      "llm_leak_rate": 0.0,
+      "agreement": 1.0,
+      "failed_total": 0,
+      "judged_total": 4
+    },
+    "target": {
+      "llm_leak_rate": 0.0,
+      "agreement": 0.75,
+      "failed_total": 24,
+      "judged_total": 8
+    }
+  },
+  "note": "All numbers are recomputed from raw generation records, never copied from a narrative report."
+}
