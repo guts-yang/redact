@@ -1,0 +1,54 @@
+{
+  "run_id": "lrm-loop-20261124",
+  "tier": "final-adjudication",
+  "reviewer_model": "hy4",
+  "response_id": "f98ee4b32a1646559317dcc34cd15a50",
+  "trace_path": ".aris/traces/20261124T171519Z-hy4-final-adjudication.json",
+  "trace_sha256": "41d05fda4af56955502bf842b01b15c72690761645145f01d19c33acbd9100d1",
+  "overall_verdict": "NOT_TRUSTWORTHY",
+  "ideas": {
+    "I01": {
+      "verdict": "REJECT",
+      "why": "Clean-cell conditions on post-treatment answer-reachability/non-degeneration; a collider after unlearning. Replace, don't use as evidence."
+    },
+    "I02": {
+      "verdict": "TRUSTWORTHY",
+      "why": "Matched-budget gamma 0.2/0.15 is confirmed real decoding-path dependence; descriptive conclusion is narrow to 5%/10%."
+    },
+    "I03": {
+      "verdict": "NEEDS_MORE_EVIDENCE",
+      "why": "Only 32 closed-think DefaultCoT rows with one trace-only leak (0.03125); no cross-strategy or semantic detector validation."
+    },
+    "I04": {
+      "verdict": "NEEDS_MORE_EVIDENCE",
+      "why": "Intervals are useful, but answer_reached_rate coverage and censoring assumptions are not supplied or validated."
+    },
+    "I05": {
+      "verdict": "NEEDS_MORE_EVIDENCE",
+      "why": "Only n=20 forget10 Hy4 cross-check; llm_leak_rate 0.1 vs entity 0.0, with coverage truncated/null and backend mismatch."
+    },
+    "I06": {
+      "verdict": "NEEDS_MORE_EVIDENCE",
+      "why": "Supplied evidence is leak delta 0.975→0.875, not forced reachability; default_trunc is null."
+    },
+    "I07": {
+      "verdict": "NEEDS_MORE_EVIDENCE",
+      "why": "Retain ROUGE drop 0.545534→0.433089 is measured, but no pass threshold, variance, or full-scenario gate."
+    },
+    "I08": {
+      "verdict": "REJECT",
+      "why": "Post gamma=0.0 is an artefact of collapsed/truncated rows, not reachability-controlled invariance."
+    },
+    "I09": {
+      "verdict": "REJECT",
+      "why": "Blocked asset: shipped bank holds refusal, not question, paraphrases; no reproducible paraphrase recovery probe."
+    },
+    "I10": {
+      "verdict": "TRUSTWORTHY",
+      "why": "Seven verified detector-contract defects, including missing weights/inputs and backend mismatch, directly support the reproducibility audit."
+    }
+  },
+  "strongest_result": "Put first: at forget10, base_r2mu10_forget10 LessThink has leak interval [0.0, 1.0] (width 1.0, n=40); zero observed leak is uninformative.",
+  "fatal_issue": "Generation failure is mistaken for forgetting: 5%/10% leak 0.86875/0.8875→0.0 coincides with truncated 0.95/0.93125 and collapse 0.80625/0.79375; clean-cell is a collider.",
+  "reviewer_identity": "Cross-family senior-reviewer LLM (model name not supplied; not the Hy4 judge metric). Did not run experiments; cannot verify raw generations, stored logs, code, checkpoints, adapters, excluded 28/37 runs, detector weights/inputs, paraphrase bank, runtime, or Hy4 outputs."
+}

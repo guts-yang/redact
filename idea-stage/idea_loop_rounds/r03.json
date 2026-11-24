@@ -1,0 +1,415 @@
+{
+  "round": "r03",
+  "protocol": "baseline only: 40 forget / 20 retain / 4 strategies / DefaultCoT@512, others@256 / seed 1001",
+  "panels": {
+    "1%": {
+      "split": "forget01",
+      "pre": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.025,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.025,
+          "LessThink": 0.0,
+          "SummaryThink": 0.025,
+          "ZeroThink": 0.05
+        },
+        "gamma": 0.05,
+        "truncated_rate": 0.91875,
+        "answer_reached_rate": 0.7875,
+        "collapsed_rate": 0.8875,
+        "clean_n": 18,
+        "clean_leak": 0.0,
+        "clean_leak_per_strategy": {
+          "DefaultCoT": {
+            "n": 1,
+            "leak": 0.0
+          },
+          "LessThink": {
+            "n": 4,
+            "leak": 0.0
+          },
+          "SummaryThink": {
+            "n": 4,
+            "leak": 0.0
+          },
+          "ZeroThink": {
+            "n": 9,
+            "leak": 0.0
+          }
+        },
+        "retain_rouge": 0.191607
+      },
+      "post": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.16875,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.2,
+          "LessThink": 0.15,
+          "SummaryThink": 0.175,
+          "ZeroThink": 0.15
+        },
+        "gamma": 0.05,
+        "truncated_rate": 0.1625,
+        "answer_reached_rate": 0.84375,
+        "collapsed_rate": 0.15625,
+        "clean_n": 105,
+        "clean_leak": 0.0,
+        "clean_leak_per_strategy": {
+          "DefaultCoT": {
+            "n": 10,
+            "leak": 0.0
+          },
+          "LessThink": {
+            "n": 29,
+            "leak": 0.0
+          },
+          "SummaryThink": {
+            "n": 32,
+            "leak": 0.0
+          },
+          "ZeroThink": {
+            "n": 34,
+            "leak": 0.0
+          }
+        },
+        "retain_rouge": 0.345526
+      },
+      "delta_leak": 0.14375
+    },
+    "5%": {
+      "split": "forget05",
+      "pre": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.86875,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.975,
+          "LessThink": 0.9,
+          "SummaryThink": 0.775,
+          "ZeroThink": 0.825
+        },
+        "gamma": 0.2,
+        "truncated_rate": 0.05625,
+        "answer_reached_rate": 0.9625,
+        "collapsed_rate": 0.0,
+        "clean_n": 51,
+        "clean_leak": 0.607843,
+        "clean_leak_per_strategy": {
+          "DefaultCoT": {
+            "n": 11,
+            "leak": 1.0
+          },
+          "LessThink": {
+            "n": 13,
+            "leak": 0.692308
+          },
+          "SummaryThink": {
+            "n": 14,
+            "leak": 0.357143
+          },
+          "ZeroThink": {
+            "n": 13,
+            "leak": 0.461538
+          }
+        },
+        "retain_rouge": 0.545534
+      },
+      "post": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.0,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.0,
+          "LessThink": 0.0,
+          "SummaryThink": 0.0,
+          "ZeroThink": 0.0
+        },
+        "gamma": 0.0,
+        "truncated_rate": 0.95,
+        "answer_reached_rate": 0.775,
+        "collapsed_rate": 0.80625,
+        "clean_n": 26,
+        "clean_leak": 0.0,
+        "clean_leak_per_strategy": {
+          "DefaultCoT": {
+            "n": 0,
+            "leak": null
+          },
+          "LessThink": {
+            "n": 8,
+            "leak": 0.0
+          },
+          "SummaryThink": {
+            "n": 11,
+            "leak": 0.0
+          },
+          "ZeroThink": {
+            "n": 7,
+            "leak": 0.0
+          }
+        },
+        "retain_rouge": 0.424834
+      },
+      "delta_leak": -0.86875
+    },
+    "10%": {
+      "split": "forget10",
+      "pre": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.8875,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.975,
+          "LessThink": 0.875,
+          "SummaryThink": 0.825,
+          "ZeroThink": 0.875
+        },
+        "gamma": 0.15,
+        "truncated_rate": 0.08125,
+        "answer_reached_rate": 0.95,
+        "collapsed_rate": 0.0,
+        "clean_n": 40,
+        "clean_leak": 0.575,
+        "clean_leak_per_strategy": {
+          "DefaultCoT": {
+            "n": 9,
+            "leak": 1.0
+          },
+          "LessThink": {
+            "n": 10,
+            "leak": 0.5
+          },
+          "SummaryThink": {
+            "n": 11,
+            "leak": 0.363636
+          },
+          "ZeroThink": {
+            "n": 10,
+            "leak": 0.5
+          }
+        },
+        "retain_rouge": 0.545534
+      },
+      "post": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.0,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.0,
+          "LessThink": 0.0,
+          "SummaryThink": 0.0,
+          "ZeroThink": 0.0
+        },
+        "gamma": 0.0,
+        "truncated_rate": 0.93125,
+        "answer_reached_rate": 0.7625,
+        "collapsed_rate": 0.79375,
+        "clean_n": 29,
+        "clean_leak": 0.0,
+        "clean_leak_per_strategy": {
+          "DefaultCoT": {
+            "n": 0,
+            "leak": null
+          },
+          "LessThink": {
+            "n": 10,
+            "leak": 0.0
+          },
+          "SummaryThink": {
+            "n": 7,
+            "leak": 0.0
+          },
+          "ZeroThink": {
+            "n": 12,
+            "leak": 0.0
+          }
+        },
+        "retain_rouge": 0.433089
+      },
+      "delta_leak": -0.8875
+    }
+  },
+  "anomaly_rules": [
+    "A1 underpowered",
+    "A2 state-driven gamma",
+    "A3 sign flip vs collapse",
+    "A4 out of range/missing",
+    "A5 base mismatch",
+    "A6 judge coverage"
+  ],
+  "idea_coverage": {
+    "I01": {
+      "evidence": "clean-cell leak per panel",
+      "value": {
+        "1%": 0.0,
+        "5%": 0.607843,
+        "10%": 0.575
+      },
+      "status": "MEASURED"
+    },
+    "I02": {
+      "evidence": "gamma at matched baseline budgets",
+      "value": {
+        "5%": 0.2,
+        "10%": 0.15
+      },
+      "status": "MEASURED"
+    },
+    "I03": {
+      "evidence": "cot-vs-answer channel gap on baseline DefaultCoT rows",
+      "value": {
+        "n_closed_think": 32,
+        "trace_only": 1,
+        "channel_gap": 0.03125
+      },
+      "status": "MEASURED"
+    },
+    "I04": {
+      "evidence": "censoring interval on baseline rows",
+      "value": "i04_baseline_intervals.json",
+      "status": "MEASURED"
+    },
+    "I05": {
+      "evidence": "judge agreement on baseline rows",
+      "value": {
+        "base_target_forget10": {
+          "n": 20,
+          "judged": 20,
+          "failed": 0,
+          "agreement": 1.0,
+          "llm_leak_rate": null,
+          "total_tokens": 14037,
+          "response_ids_sample": [
+            "6e35f4d0fd864556a913d078d88b870b",
+            "5bbabd21d22f47e7862356e1e46aa036",
+            "52772724cefb4f49a16ecc4af3e5fdb6"
+          ]
+        },
+        "base_r2mu10_forget10": {
+          "n": 20,
+          "judged": 20,
+          "failed": 0,
+          "agreement": 0.9,
+          "llm_leak_rate": null,
+          "total_tokens": 49142,
+          "response_ids_sample": [
+            "c5743cd5b2404210ade572ce2fa4d65f",
+            "ad234a4caad4436a9578a6c4e582c71e",
+            "4dd5d21cf54d4e65b98b1d7b63e9ec50"
+          ]
+        }
+      },
+      "status": "MEASURED"
+    },
+    "I06": {
+      "evidence": "DefaultCoT vs ZeroThink reachability delta",
+      "value": {
+        "default_leak": 0.975,
+        "zero_leak": 0.875,
+        "default_trunc": null
+      },
+      "status": "MEASURED"
+    },
+    "I07": {
+      "evidence": "retain ROUGE gate",
+      "value": {
+        "pre": 0.545534,
+        "post": 0.433089
+      },
+      "status": "MEASURED"
+    },
+    "I08": {
+      "evidence": "strategy-conditioned gamma",
+      "value": {
+        "pre": 0.15,
+        "post": 0.0
+      },
+      "status": "MEASURED"
+    },
+    "I09": {
+      "evidence": "paraphrase recovery",
+      "value": null,
+      "status": "BLOCKED: shipped paraphrase bank holds refusal paraphrases, not question paraphrases"
+    },
+    "I10": {
+      "evidence": "detector-contract defects",
+      "value": {
+        "verified_defects": 7
+      },
+      "status": "MEASURED"
+    }
+  },
+  "anomalies": [
+    {
+      "id": "A2",
+      "panel": "5%",
+      "side": "pre",
+      "kind": "gamma=0.2 under baseline",
+      "cause": "real decoding-path dependence",
+      "clean_leak_spread_across_strategies": 0.642857,
+      "resolution": "CONFIRMED_REAL",
+      "auto_fixable": false,
+      "fix": "already resolved by the within-strategy clean-cell decomposition above"
+    },
+    {
+      "id": "A2",
+      "panel": "10%",
+      "side": "pre",
+      "kind": "gamma=0.15 under baseline",
+      "cause": "real decoding-path dependence",
+      "clean_leak_spread_across_strategies": 0.636364,
+      "resolution": "CONFIRMED_REAL",
+      "auto_fixable": false,
+      "fix": "already resolved by the within-strategy clean-cell decomposition above"
+    },
+    {
+      "id": "A3",
+      "panel": "1%",
+      "kind": "leak +0.144 while collapse -0.731",
+      "cause": "leak rises as the model stops collapsing: the reading follows text volume, not erased knowledge",
+      "auto_fixable": false,
+      "fix": "report the state stratum; a rerun cannot fix a metric property"
+    },
+    {
+      "id": "A3",
+      "panel": "5%",
+      "kind": "leak -0.869 while collapse +0.806",
+      "cause": "leak falls exactly as collapse rises; forgetting and degeneration are confounded",
+      "auto_fixable": false,
+      "fix": "report both; require a clean-stratum check before claiming forgetting"
+    },
+    {
+      "id": "A3",
+      "panel": "10%",
+      "kind": "leak -0.887 while collapse +0.794",
+      "cause": "leak falls exactly as collapse rises; forgetting and degeneration are confounded",
+      "auto_fixable": false,
+      "fix": "report both; require a clean-stratum check before claiming forgetting"
+    },
+    {
+      "id": "A5",
+      "panel": "-",
+      "side": "-",
+      "kind": "ours-inv / ctrl-single adapters mounted on TARGET_MODEL",
+      "cause": "paths.resolve_model() returns (TARGET_MODEL, adapter) but these adapters were trained on base_merged",
+      "auto_fixable": false,
+      "fix": "rebuild base_merged and mount there; until then exclude both from comparisons"
+    },
+    {
+      "id": "B-I09",
+      "panel": "I09",
+      "side": "-",
+      "kind": "blocked asset",
+      "cause": "BLOCKED: shipped paraphrase bank holds refusal paraphrases, not question paraphrases",
+      "auto_fixable": false,
+      "fix": "regenerate a question-paraphrase bank before this idea can be reproduced"
+    }
+  ],
+  "n_anomalies": 7,
+  "n_auto_fixable": 0,
+  "next_actions": [],
+  "converged": true,
+  "status": "completed"
+}

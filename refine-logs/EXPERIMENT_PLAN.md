@@ -34,6 +34,7 @@
 - 任何偏离基线的 run（no-echo 探针、非默认预算、预算网格、小样本 pilot）必须在 `metric_parity.json` 里被判为 `DEVIATION` 并在表格里标注，不得与基线 run 混排。
 - 核查入口：`python3 idea-stage/metric_parity.py`（37 runs：9 ALIGNED / 28 DEVIATION，全部有标注）。
 
+| B21 | 解除 collider | 遗忘后模型强制短答案 + 重试，使 answer_reached_rate ≥0.5 | 干净单元泄漏仍为 0 → I01 升级为证据；非 0 → 现有零泄漏结论作废 | ≤1 GPU-h | TODO（唯一能救 I01 的实验） |
 | B20 | 元数据 | 让 `decode_eval.py` 在 `summary.json` 记录 `--forget-file` 路径与 sha256 | 任取一个 run，能从 summary 反推出探针集 | CPU | TODO |
 
 ## 已完成 block 的真实产物

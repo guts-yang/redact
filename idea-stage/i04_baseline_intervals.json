@@ -1,0 +1,139 @@
+{
+  "block": "fix-I04",
+  "protocol": "baseline rows only",
+  "definition": "truncated samples treated as right-censored; upper bound clamped to 1.0",
+  "intervals": {
+    "target": {
+      "DefaultCoT": {
+        "optimistic": 0.025,
+        "pessimistic": 1.0,
+        "width": 0.975,
+        "n": 40
+      },
+      "LessThink": {
+        "optimistic": 0.0,
+        "pessimistic": 0.925,
+        "width": 0.925,
+        "n": 40
+      },
+      "SummaryThink": {
+        "optimistic": 0.025,
+        "pessimistic": 0.975,
+        "width": 0.95,
+        "n": 40
+      },
+      "ZeroThink": {
+        "optimistic": 0.05,
+        "pessimistic": 0.875,
+        "width": 0.825,
+        "n": 40
+      }
+    },
+    "base_target_forget05": {
+      "DefaultCoT": {
+        "optimistic": 0.975,
+        "pessimistic": 1.0,
+        "width": 0.025,
+        "n": 40
+      },
+      "LessThink": {
+        "optimistic": 0.9,
+        "pessimistic": 0.9,
+        "width": 0.0,
+        "n": 40
+      },
+      "SummaryThink": {
+        "optimistic": 0.775,
+        "pessimistic": 0.775,
+        "width": 0.0,
+        "n": 40
+      },
+      "ZeroThink": {
+        "optimistic": 0.825,
+        "pessimistic": 0.85,
+        "width": 0.025,
+        "n": 40
+      }
+    },
+    "base_target_forget10": {
+      "DefaultCoT": {
+        "optimistic": 0.975,
+        "pessimistic": 1.0,
+        "width": 0.025,
+        "n": 40
+      },
+      "LessThink": {
+        "optimistic": 0.875,
+        "pessimistic": 0.875,
+        "width": 0.0,
+        "n": 40
+      },
+      "SummaryThink": {
+        "optimistic": 0.825,
+        "pessimistic": 0.825,
+        "width": 0.0,
+        "n": 40
+      },
+      "ZeroThink": {
+        "optimistic": 0.875,
+        "pessimistic": 0.9,
+        "width": 0.025,
+        "n": 40
+      }
+    },
+    "base_r2mu05_forget05": {
+      "DefaultCoT": {
+        "optimistic": 0.0,
+        "pessimistic": 0.975,
+        "width": 0.975,
+        "n": 40
+      },
+      "LessThink": {
+        "optimistic": 0.0,
+        "pessimistic": 0.975,
+        "width": 0.975,
+        "n": 40
+      },
+      "SummaryThink": {
+        "optimistic": 0.0,
+        "pessimistic": 0.875,
+        "width": 0.875,
+        "n": 40
+      },
+      "ZeroThink": {
+        "optimistic": 0.0,
+        "pessimistic": 0.975,
+        "width": 0.975,
+        "n": 40
+      }
+    },
+    "base_r2mu10_forget10": {
+      "DefaultCoT": {
+        "optimistic": 0.0,
+        "pessimistic": 0.95,
+        "width": 0.95,
+        "n": 40
+      },
+      "LessThink": {
+        "optimistic": 0.0,
+        "pessimistic": 1.0,
+        "width": 1.0,
+        "n": 40
+      },
+      "SummaryThink": {
+        "optimistic": 0.0,
+        "pessimistic": 0.875,
+        "width": 0.875,
+        "n": 40
+      },
+      "ZeroThink": {
+        "optimistic": 0.0,
+        "pessimistic": 0.9,
+        "width": 0.9,
+        "n": 40
+      }
+    }
+  },
+  "max_width": 1.0,
+  "status": "completed"
+}

@@ -1,0 +1,299 @@
+{
+  "round": "r01",
+  "protocol": "baseline only: 40 forget / 20 retain / 4 strategies / DefaultCoT@512, others@256 / seed 1001",
+  "panels": {
+    "1%": {
+      "split": "forget01",
+      "pre": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.025,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.025,
+          "LessThink": 0.0,
+          "SummaryThink": 0.025,
+          "ZeroThink": 0.05
+        },
+        "gamma": 0.05,
+        "truncated_rate": 0.91875,
+        "answer_reached_rate": 0.7875,
+        "collapsed_rate": 0.8875,
+        "clean_n": 18,
+        "clean_leak": 0.0,
+        "retain_rouge": 0.191607
+      },
+      "post": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.16875,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.2,
+          "LessThink": 0.15,
+          "SummaryThink": 0.175,
+          "ZeroThink": 0.15
+        },
+        "gamma": 0.05,
+        "truncated_rate": 0.1625,
+        "answer_reached_rate": 0.84375,
+        "collapsed_rate": 0.15625,
+        "clean_n": 105,
+        "clean_leak": 0.0,
+        "retain_rouge": 0.345526
+      },
+      "delta_leak": 0.14375
+    },
+    "5%": {
+      "split": "forget05",
+      "pre": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.86875,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.975,
+          "LessThink": 0.9,
+          "SummaryThink": 0.775,
+          "ZeroThink": 0.825
+        },
+        "gamma": 0.2,
+        "truncated_rate": 0.05625,
+        "answer_reached_rate": 0.9625,
+        "collapsed_rate": 0.0,
+        "clean_n": 51,
+        "clean_leak": 0.607843,
+        "retain_rouge": 0.545534
+      },
+      "post": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.0,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.0,
+          "LessThink": 0.0,
+          "SummaryThink": 0.0,
+          "ZeroThink": 0.0
+        },
+        "gamma": 0.0,
+        "truncated_rate": 0.95,
+        "answer_reached_rate": 0.775,
+        "collapsed_rate": 0.80625,
+        "clean_n": 26,
+        "clean_leak": 0.0,
+        "retain_rouge": 0.424834
+      },
+      "delta_leak": -0.86875
+    },
+    "10%": {
+      "split": "forget10",
+      "pre": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.8875,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.975,
+          "LessThink": 0.875,
+          "SummaryThink": 0.825,
+          "ZeroThink": 0.875
+        },
+        "gamma": 0.15,
+        "truncated_rate": 0.08125,
+        "answer_reached_rate": 0.95,
+        "collapsed_rate": 0.0,
+        "clean_n": 40,
+        "clean_leak": 0.575,
+        "retain_rouge": 0.545534
+      },
+      "post": {
+        "status": "completed",
+        "n_forget": 160,
+        "leak_rate": 0.0,
+        "per_strategy_leak": {
+          "DefaultCoT": 0.0,
+          "LessThink": 0.0,
+          "SummaryThink": 0.0,
+          "ZeroThink": 0.0
+        },
+        "gamma": 0.0,
+        "truncated_rate": 0.93125,
+        "answer_reached_rate": 0.7625,
+        "collapsed_rate": 0.79375,
+        "clean_n": 29,
+        "clean_leak": 0.0,
+        "retain_rouge": 0.433089
+      },
+      "delta_leak": -0.8875
+    }
+  },
+  "anomaly_rules": [
+    "A1 underpowered",
+    "A2 state-driven gamma",
+    "A3 sign flip vs collapse",
+    "A4 out of range/missing",
+    "A5 base mismatch",
+    "A6 judge coverage"
+  ],
+  "idea_coverage": {
+    "I01": {
+      "evidence": "clean-cell leak per panel",
+      "value": {
+        "1%": 0.0,
+        "5%": 0.607843,
+        "10%": 0.575
+      },
+      "status": "MEASURED"
+    },
+    "I02": {
+      "evidence": "gamma at matched baseline budgets",
+      "value": {
+        "5%": 0.2,
+        "10%": 0.15
+      },
+      "status": "MEASURED"
+    },
+    "I03": {
+      "evidence": "cot-vs-answer channel gap on baseline DefaultCoT rows",
+      "value": {
+        "n_closed_think": 32,
+        "trace_only": 1,
+        "channel_gap": 0.03125
+      },
+      "status": "MEASURED"
+    },
+    "I04": {
+      "evidence": "censoring interval",
+      "value": {
+        "note": "computed in pilot config only"
+      },
+      "status": "PILOT-ONLY"
+    },
+    "I05": {
+      "evidence": "judge agreement on baseline rows",
+      "value": null,
+      "status": "BASELINE-MISSING"
+    },
+    "I06": {
+      "evidence": "DefaultCoT vs ZeroThink reachability delta",
+      "value": {
+        "default_leak": 0.975,
+        "zero_leak": 0.875,
+        "default_trunc": null
+      },
+      "status": "MEASURED"
+    },
+    "I07": {
+      "evidence": "retain ROUGE gate",
+      "value": {
+        "pre": 0.545534,
+        "post": 0.433089
+      },
+      "status": "MEASURED"
+    },
+    "I08": {
+      "evidence": "strategy-conditioned gamma",
+      "value": {
+        "pre": 0.15,
+        "post": 0.0
+      },
+      "status": "MEASURED"
+    },
+    "I09": {
+      "evidence": "paraphrase recovery",
+      "value": null,
+      "status": "BLOCKED: shipped paraphrase bank holds refusal paraphrases, not question paraphrases"
+    },
+    "I10": {
+      "evidence": "detector-contract defects",
+      "value": {
+        "verified_defects": 7
+      },
+      "status": "MEASURED"
+    }
+  },
+  "anomalies": [
+    {
+      "id": "A2",
+      "panel": "5%",
+      "side": "pre",
+      "kind": "gamma=0.2 under baseline",
+      "cause": "leakage differs across decoding strategies while the clean cell is a single value; either real path dependence or a state artifact",
+      "auto_fixable": false,
+      "fix": "needs a paired within-strategy clean-cell test (B12-style), not a rerun"
+    },
+    {
+      "id": "A2",
+      "panel": "10%",
+      "side": "pre",
+      "kind": "gamma=0.15 under baseline",
+      "cause": "leakage differs across decoding strategies while the clean cell is a single value; either real path dependence or a state artifact",
+      "auto_fixable": false,
+      "fix": "needs a paired within-strategy clean-cell test (B12-style), not a rerun"
+    },
+    {
+      "id": "A3",
+      "panel": "1%",
+      "kind": "leak +0.144 while collapse -0.731",
+      "cause": "leak rises as the model stops collapsing: the reading follows text volume, not erased knowledge",
+      "auto_fixable": false,
+      "fix": "report the state stratum; a rerun cannot fix a metric property"
+    },
+    {
+      "id": "A3",
+      "panel": "5%",
+      "kind": "leak -0.869 while collapse +0.806",
+      "cause": "leak falls exactly as collapse rises; forgetting and degeneration are confounded",
+      "auto_fixable": false,
+      "fix": "report both; require a clean-stratum check before claiming forgetting"
+    },
+    {
+      "id": "A3",
+      "panel": "10%",
+      "kind": "leak -0.887 while collapse +0.794",
+      "cause": "leak falls exactly as collapse rises; forgetting and degeneration are confounded",
+      "auto_fixable": false,
+      "fix": "report both; require a clean-stratum check before claiming forgetting"
+    },
+    {
+      "id": "A5",
+      "panel": "-",
+      "side": "-",
+      "kind": "ours-inv / ctrl-single adapters mounted on TARGET_MODEL",
+      "cause": "paths.resolve_model() returns (TARGET_MODEL, adapter) but these adapters were trained on base_merged",
+      "auto_fixable": false,
+      "fix": "rebuild base_merged and mount there; until then exclude both from comparisons"
+    },
+    {
+      "id": "B-I04",
+      "panel": "I04",
+      "side": "-",
+      "kind": "PILOT-ONLY",
+      "cause": "the idea has evidence only under the pilot config, not the baseline protocol",
+      "auto_fixable": true,
+      "fix": "recompute the interval on baseline rows"
+    },
+    {
+      "id": "B-I05",
+      "panel": "I05",
+      "side": "-",
+      "kind": "BASELINE-MISSING",
+      "cause": "the idea has evidence only under the pilot config, not the baseline protocol",
+      "auto_fixable": true,
+      "fix": "run Hy4 judge on 40 baseline forget rows"
+    },
+    {
+      "id": "B-I09",
+      "panel": "I09",
+      "side": "-",
+      "kind": "blocked asset",
+      "cause": "BLOCKED: shipped paraphrase bank holds refusal paraphrases, not question paraphrases",
+      "auto_fixable": false,
+      "fix": "regenerate a question-paraphrase bank before this idea can be reproduced"
+    }
+  ],
+  "n_anomalies": 9,
+  "n_auto_fixable": 2,
+  "next_actions": [
+    "recompute the interval on baseline rows",
+    "run Hy4 judge on 40 baseline forget rows"
+  ],
+  "converged": false,
+  "status": "completed"
+}
