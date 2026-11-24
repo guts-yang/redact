@@ -1,0 +1,101 @@
+{
+  "block": "B16",
+  "probe_set": "forget10 no-echo, 16 questions",
+  "budget": 512,
+  "decoding": "greedy, seed 1001",
+  "pre": {
+    "DefaultCoT": {
+      "n": 16,
+      "leak": 1.0,
+      "truncated": 0.0,
+      "rouge": 1.0,
+      "answer_reached": 1.0
+    },
+    "LessThink": {
+      "n": 16,
+      "leak": 0.4375,
+      "truncated": 0.0,
+      "rouge": 0.516293,
+      "answer_reached": 1.0
+    },
+    "ZeroThink": {
+      "n": 16,
+      "leak": 0.375,
+      "truncated": 0.0,
+      "rouge": 0.493254,
+      "answer_reached": 1.0
+    }
+  },
+  "post": {
+    "DefaultCoT": {
+      "n": 16,
+      "leak": 0.0,
+      "truncated": 0.1875,
+      "rouge": 0.684971,
+      "answer_reached": 0.8125
+    },
+    "LessThink": {
+      "n": 16,
+      "leak": 0.0,
+      "truncated": 0.0625,
+      "rouge": 0.627656,
+      "answer_reached": 1.0
+    },
+    "ZeroThink": {
+      "n": 16,
+      "leak": 0.0,
+      "truncated": 0.1875,
+      "rouge": 0.527381,
+      "answer_reached": 1.0
+    }
+  },
+  "retain": {
+    "DefaultCoT": {
+      "n": 16,
+      "leak": 0.0,
+      "truncated": 0.1875,
+      "rouge": 0.545762,
+      "answer_reached": 0.9375
+    },
+    "LessThink": {
+      "n": 16,
+      "leak": 0.0,
+      "truncated": 0.125,
+      "rouge": 0.440923,
+      "answer_reached": 1.0
+    },
+    "ZeroThink": {
+      "n": 16,
+      "leak": 0.0,
+      "truncated": 0.125,
+      "rouge": 0.466334,
+      "answer_reached": 1.0
+    }
+  },
+  "gamma_pre": 0.625,
+  "gamma_post": 0.0,
+  "pre_post_delta": {
+    "DefaultCoT": 1.0,
+    "LessThink": 0.4375,
+    "ZeroThink": 0.375
+  },
+  "retain_gate": {
+    "DefaultCoT": {
+      "rouge": 0.545762,
+      "pass_0.5": true
+    },
+    "LessThink": {
+      "rouge": 0.440923,
+      "pass_0.5": false
+    },
+    "ZeroThink": {
+      "rouge": 0.466334,
+      "pass_0.5": false
+    }
+  },
+  "interpretation": {
+    "validity": "the pre checkpoint reproduces the entity on every probe (leak=1.0 under DefaultCoT), so a drop to 0.0 is interpretable as forgetting, not as never-knowing",
+    "path_gap": "decoding-path gap collapses from 0.625 before unlearning to 0.0 after: on this checkpoint the bypass gap is not residual",
+    "utility": "retain ROUGE-L stays in the 0.44-0.55 band, i.e. the drop is not a global answer suppression (contrast with ours-inv/ctrl-single, ROUGE 0.014/0.018)"
+  }
+}

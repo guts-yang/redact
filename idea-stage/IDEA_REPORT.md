@@ -388,3 +388,29 @@ B12 要求"问题里不含实体名"的探针。用 `forget10.json` 构造出 92
 - **B16（GPU ≤1h）**：在 `forget10` 上对 5 个系统重跑 no-echo 审计。注意 r2mu01/r2mu05 是在 forget01/05 上训练的，**不能**直接拿到 forget10 上比；需要各自用自己的 forget 集 + 先验证"训练前确实知道"。
 - **B17（CPU）**：把"checkpoint 是否掌握 forget 集"做成审计前置门（NLL + 生成复现率双阈值），写进评测协议。
 - B12 的 no-echo 探针集（920 条）已固化为 `idea-stage/probes/noecho_forget10.jsonl`。
+
+---
+
+## 14. 第 3 轮：第一个可解释的遗忘前后对照（B16）
+
+前面的所有数字都缺一个前提：**"训练前的模型确实知道"**。`r2mu-forget10` 提供了唯一的干净链路——它与 `target` 共享 forget10 知识，只是被 R2MU 遗忘过。于是同一组 16 条 no-echo 探针、同一预算 512、同一解码设置：
+
+| 策略 | target（遗忘前） | r2mu10（遗忘后） | Δ | 遗忘后 retain ROUGE-L |
+|---|---|---|---|---|
+| DefaultCoT | **1.000** | **0.000** | 1.000 | 0.546（过 0.5 门） |
+| LessThink | 0.438 | 0.000 | 0.438 | 0.441（未过） |
+| ZeroThink | 0.375 | 0.000 | 0.375 | 0.466（未过） |
+
+- **跨策略差 γ：0.625 → 0.000**。在这个 checkpoint 上，"解码路径绕过"在遗忘后**没有残留**；绕过只发生在未遗忘的模型上。
+- **这不是全局压答案**：retain ROUGE 保持 0.44–0.55，而 `ours-inv`/`ctrl-single` 是 0.014/0.018（那是压答案）。
+- 因此本批终于具备一条**可写进论文的主结果**：在掌握 split 的 checkpoint 上，`entity_leak` 从 1.000 降到 0.000，而同一指标在未遗忘模型上的读数随解码策略在 0.375–1.000 之间摆动——**单点报数会把"最强泄漏"报成"0.375"**。
+
+### 14.1 环境缺陷（必须记录）
+
+| ID | 缺陷 | 影响 |
+|---|---|---|
+| E1 | `r-tofu-ga`（transformers 4.43 / tokenizers 0.20）无法解析 r2mu checkpoint 的 `tokenizer.json`（17 MB，较新格式，报 `untagged enum ModelWrapper`） | 该 venv 下 r2mu 系列**完全不可加载**；本轮改用 `redact-r2mu`（transformers 5.4 / tokenizers 0.22） |
+| E2 | `ours-inv` / `ctrl-single` 的 adapter 由 `paths.resolve_model()` 挂在 **`TARGET_MODEL`** 上，但这两个 adapter 是在 `base_merged`（forget01 知识注入基座）上训练的 | 这两套系统的读数**不可解释**，已从有效证据中排除 |
+| E3 | `forget01` 与本 checkpoint 不匹配（§13） | 所有 forget01 读数降级为状态演示 |
+
+E1 的修复（换 venv）已在本轮生效；E2/E3 需要重建基线，不是本轮能自动完成的。

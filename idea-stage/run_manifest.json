@@ -94,6 +94,7 @@
       "LessThink@512",
       "LessThink:retain@192",
       "LessThink:retain@256",
+      "LessThink:retain@512",
       "SummaryThink@192",
       "SummaryThink@256",
       "SummaryThink@512",
@@ -106,7 +107,8 @@
       "ZeroThink@1024",
       "ZeroThink:retain@64",
       "ZeroThink:retain@192",
-      "ZeroThink:retain@256"
+      "ZeroThink:retain@256",
+      "ZeroThink:retain@512"
     ]
   },
   "artifacts": [
@@ -172,6 +174,30 @@
       "mtime_utc": "2026-11-24T14:09:57.760414Z",
       "rows": 16,
       "sha256": "c522ec85aa0ed83ef2eaca42ae5e798d114fce8454a74a9f738e9d6aeb57422d",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b16_r2mu10_DefaultCoT_512.jsonl",
+      "bytes": 250924,
+      "mtime_utc": "2026-11-24T14:26:17.402007Z",
+      "rows": 32,
+      "sha256": "36c0e7639578180be5b3fc7ba563b743190be91f9b3423249be8e665dfe5319f",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b16_r2mu10_LessThink_512.jsonl",
+      "bytes": 234263,
+      "mtime_utc": "2026-11-24T14:33:36.839256Z",
+      "rows": 32,
+      "sha256": "807edc2ff76e31542d76c5b689ed4af54924fd4c6391f84a6983a91f3c27aadf",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b16_r2mu10_ZeroThink_512.jsonl",
+      "bytes": 237189,
+      "mtime_utc": "2026-11-24T14:30:06.860048Z",
+      "rows": 32,
+      "sha256": "052c4e629d86047e9c635aeee02d940f1ca1b44f38d3a8d4a46b7ffacf5ea987",
       "sha256_note": null
     },
     {
