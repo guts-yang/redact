@@ -20,7 +20,7 @@
 | B13 | C2（排序反转） | seed {1001,1002,1003} × 各系统**自己的** forget split | ≥2 系统排序反转（不是"不可评估"） | ≤3 GPU-h | TODO（依赖 B16 先修 split） |
 | B14 | I07（效用门） | 以 ROUGE-L recall 为主门（≥0.5）重算 5 系统 retain | `ours-inv`/`ctrl-single` 若 ROUGE <0.5 则确认"完美遗忘"= 废掉答案 | CPU | **DONE（5/5 可达门通过、5/5 ROUGE 门失败）** |
 | B8 | C1 稳健性 | collapsed 阈值 {0.25,0.35,0.45} 敏感性 | 结论在 3 个阈值下一致 | CPU | **DONE（实质结论稳定；0.45 时 1 个单元跨过 8 样本线）** |
-| B16 | 修 split | 5 个系统各用**自己的** forget split 重跑 no-echo 审计；r2mu01/05 分别用 forget01/05 | 先验证训练前基座复现率 ≥0.9，再谈遗忘 | ≤1 GPU-h | TODO（阻塞 C2/B13） |
+| B16 | 修场景 | 三个比例场景各跑一次前后对照（1% 用原有 40 题，5%/10% 用 no-echo 探针） | 同比例内比较；必须报 clean_n | ≤1 GPU-h | **DONE**：1% 0.025→0.169；5% 1.000→0.000（clean_n 0）；10% 1.000→0.000（clean_n 2） |
 | B17 | 评测前置门 | 把"checkpoint 是否掌握 forget 集"做成门（NLL + 生成复现率双阈值） | shipped target 在 forget01 上 NLL 5.47 → 必须判"不可用于遗忘评测" | CPU | TODO |
 | B15 | 门禁 | 安装 ARIS helper（`run_state.py`/`idea_discovery_gate.py`/`reviewer_route.py`）并跑终检 | 终检退出 0 | 依赖外部 | **BLOCKED（helper 缺失）** |
 | B9 | 评审 | 跨家族 reviewer 回执 | 取得带身份正面回执 | API | **DONE（Hy4，PROCEED_WITH_CAUTION）** |

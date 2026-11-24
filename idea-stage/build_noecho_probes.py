@@ -23,7 +23,8 @@ from data_utils import key_phrase  # noqa: E402
 
 
 def main():
-    src = DATA / "forget10.json"
+    split = sys.argv[1] if len(sys.argv) > 1 else "forget10"
+    src = DATA / f"{split}.json"
     rows = [json.loads(l) for l in src.read_text(encoding="utf-8").splitlines() if l.strip()]
     kept, dropped = [], []
     for r in rows:
@@ -37,7 +38,7 @@ def main():
             continue
         kept.append({"question": q, "answer": a, "task_id": "1", "key_phrase": kp})
     OUT.mkdir(parents=True, exist_ok=True)
-    dst = OUT / "noecho_forget10.jsonl"
+    dst = OUT / f"noecho_{split}.jsonl"
     with dst.open("w", encoding="utf-8") as f:
         for r in kept:
             f.write(json.dumps({k: r[k] for k in ("question", "answer", "task_id")}, ensure_ascii=False) + "\n")
@@ -53,7 +54,7 @@ def main():
         "note": "This is the only probe set in this run where a substring leak cannot be an echo "
                 "of the question wording.",
     }
-    (OUT.parent / "b12_probe_manifest.json").write_text(
+    (OUT.parent / f"b12_probe_manifest_{split}.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({k: manifest[k] for k in ("n_source", "n_kept", "n_dropped_echo", "n_dropped_no_phrase")},
                      ensure_ascii=False))

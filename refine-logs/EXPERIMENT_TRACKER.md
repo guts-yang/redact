@@ -16,7 +16,8 @@
 | B12 no-echo 审计 | 2026-11-24 | 完成 | H20 | ~8 min | DefaultCoT 1.000 / SummaryThink 0.500 / LessThink 0.438 / ZeroThink 0.375；γ@512=0.625；预算无影响 | POSITIVE（并触发 split 更正） | `b12_noecho_audit.json`, `eval_b12_*` |
 | B11 delta 映射 | — | — | — | — | — | TODO | — |
 | B13 多 seed 排序 | — | — | — | — | 阻塞：需先完成 B16 | TODO | — |
-| B16 各系统自有 split 重跑 | — | — | — | — | — | TODO | — |
+| B18 三比例面板 | 2026-11-24 | 完成 | H20 | ~10 min | 1% +0.144（坍塌降） / 5% −1.000（坍塌 100%，clean_n=0） / 10% −1.000（坍塌 87.5%，clean_n=2） | POSITIVE（符号由状态决定） | `b18_scenario_panels.json` |
+| B16 各系统自有比例重跑 | 2026-11-24 | 完成（1%/5%/10%） | H20 | 见 B18 | r2mu05/r2mu10 遗忘后不可评估 | MIXED | `eval_b19_*` |
 | B17 掌握度前置门 | — | — | — | — | — | TODO | — |
 | B15 证据门禁 | — | — | — | — | ARIS helper 仍缺失 | BLOCKED | `gate_status.json` |
 
