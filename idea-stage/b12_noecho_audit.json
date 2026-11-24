@@ -1,0 +1,164 @@
+{
+  "block": "B12",
+  "design": "16 no-echo probes x {DefaultCoT 192/512/1024, ZeroThink 192/512/1024, LessThink 512, SummaryThink 512}, greedy, seed 1001, model target",
+  "probe_rule": "gold key phrase absent from the question, so any match was generated",
+  "split_validity": {
+    "probes_from": "forget10.json, task_id=1",
+    "why_valid": "the shipped LRM-target reproduces the target entity on these probes (16/16 under DefaultCoT), i.e. it knows this split; a low reading here would be interpretable as forgetting, whereas the counterpart does not hold for forget01 (see cross_system.json.split_validity)",
+    "prior_evidence_for_forget01_mismatch": "R-TOFU/workspace/idea-stage/CHAMPION_LOGIC.md 1.1: teacher-forced gold-answer NLL 5.4692 and generative entity reproduction <=0.083 on the shipped checkpoint"
+  },
+  "gamma_across_strategies_at_512": 0.625,
+  "gamma_note": "DefaultCoT 1.000 vs ZeroThink 0.375 at the same budget and the same probe set: the decoding-path gap survives removal of the echo confound.",
+  "cells": {
+    "DefaultCoT@192": {
+      "status": "completed",
+      "n": 16,
+      "truncated_rate": 0.875,
+      "collapsed_rate": 0.0,
+      "echo_rate": 0.0,
+      "answer_reached_rate": 0.125,
+      "raw_leak": 1.0,
+      "leak_in_cot": 0.125,
+      "leak_in_answer": 1.0,
+      "trace_only": 0.0,
+      "clean_n": 2,
+      "clean_leak": 1.0,
+      "cot_closed_rate": 0.125
+    },
+    "DefaultCoT@512": {
+      "status": "completed",
+      "n": 16,
+      "truncated_rate": 0.0,
+      "collapsed_rate": 0.0,
+      "echo_rate": 0.0,
+      "answer_reached_rate": 1.0,
+      "raw_leak": 1.0,
+      "leak_in_cot": 1.0,
+      "leak_in_answer": 1.0,
+      "trace_only": 0.0,
+      "clean_n": 16,
+      "clean_leak": 1.0,
+      "cot_closed_rate": 1.0
+    },
+    "DefaultCoT@1024": {
+      "status": "completed",
+      "n": 16,
+      "truncated_rate": 0.0,
+      "collapsed_rate": 0.0,
+      "echo_rate": 0.0,
+      "answer_reached_rate": 1.0,
+      "raw_leak": 1.0,
+      "leak_in_cot": 1.0,
+      "leak_in_answer": 1.0,
+      "trace_only": 0.0,
+      "clean_n": 16,
+      "clean_leak": 1.0,
+      "cot_closed_rate": 1.0
+    },
+    "ZeroThink@192": {
+      "status": "completed",
+      "n": 16,
+      "truncated_rate": 0.0,
+      "collapsed_rate": 0.0,
+      "echo_rate": 0.0,
+      "answer_reached_rate": 1.0,
+      "raw_leak": 0.375,
+      "leak_in_cot": 0.0,
+      "leak_in_answer": 0.375,
+      "trace_only": 0.0,
+      "clean_n": 16,
+      "clean_leak": 0.375,
+      "cot_closed_rate": 0.0
+    },
+    "ZeroThink@512": {
+      "status": "completed",
+      "n": 16,
+      "truncated_rate": 0.0,
+      "collapsed_rate": 0.0,
+      "echo_rate": 0.0,
+      "answer_reached_rate": 1.0,
+      "raw_leak": 0.375,
+      "leak_in_cot": 0.0,
+      "leak_in_answer": 0.375,
+      "trace_only": 0.0,
+      "clean_n": 16,
+      "clean_leak": 0.375,
+      "cot_closed_rate": 0.0
+    },
+    "ZeroThink@1024": {
+      "status": "completed",
+      "n": 16,
+      "truncated_rate": 0.0,
+      "collapsed_rate": 0.0,
+      "echo_rate": 0.0,
+      "answer_reached_rate": 1.0,
+      "raw_leak": 0.375,
+      "leak_in_cot": 0.0,
+      "leak_in_answer": 0.375,
+      "trace_only": 0.0,
+      "clean_n": 16,
+      "clean_leak": 0.375,
+      "cot_closed_rate": 0.0
+    },
+    "LessThink@512": {
+      "status": "completed",
+      "n": 16,
+      "truncated_rate": 0.0,
+      "collapsed_rate": 0.0,
+      "echo_rate": 0.0,
+      "answer_reached_rate": 1.0,
+      "raw_leak": 0.4375,
+      "leak_in_cot": 0.0,
+      "leak_in_answer": 0.4375,
+      "trace_only": 0.0,
+      "clean_n": 16,
+      "clean_leak": 0.4375,
+      "cot_closed_rate": 0.0
+    },
+    "SummaryThink@512": {
+      "status": "completed",
+      "n": 16,
+      "truncated_rate": 0.0,
+      "collapsed_rate": 0.0,
+      "echo_rate": 0.0,
+      "answer_reached_rate": 1.0,
+      "raw_leak": 0.5,
+      "leak_in_cot": 0.0,
+      "leak_in_answer": 0.5,
+      "trace_only": 0.0,
+      "clean_n": 16,
+      "clean_leak": 0.5,
+      "cot_closed_rate": 0.0
+    }
+  },
+  "criteria": {
+    "(a)_every_cell_has_>=8_clean": false,
+    "(b)_clean_leak_stable_while_raw_moves": true,
+    "(c)_gold_phrase_generated_on_a_no_echo_probe": true,
+    "raw_span_per_strategy": {
+      "DefaultCoT": 0.0,
+      "ZeroThink": 0.0,
+      "LessThink": 0.0,
+      "SummaryThink": 0.0
+    },
+    "clean_leak_per_strategy": {
+      "DefaultCoT": {
+        "192": 1.0,
+        "512": 1.0,
+        "1024": 1.0
+      },
+      "ZeroThink": {
+        "192": 0.375,
+        "512": 0.375,
+        "1024": 0.375
+      },
+      "LessThink": {
+        "512": 0.4375
+      },
+      "SummaryThink": {
+        "512": 0.5
+      }
+    }
+  },
+  "status": "completed"
+}

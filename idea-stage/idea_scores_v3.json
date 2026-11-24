@@ -17,7 +17,7 @@
   "n_ideas": 10,
   "n_accepted": 9,
   "min_score": 7.0,
-  "mean_score": 8.5,
+  "mean_score": 8.6,
   "ranked": [
     {
       "id": "I01",
@@ -36,6 +36,25 @@
         "D1 confirmed[P0]=True",
         "D3 probe[arcl]=completed discriminating=True",
         "D4=1: reviewer novelty adjudication = WEAKENED (needs SUPPORTED for 2)"
+      ]
+    },
+    {
+      "id": "I02",
+      "title": "Budget-Matched Decoding Comparison",
+      "anchor": "P2",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9.0,
+      "accepted": true,
+      "probe": "budget",
+      "gpu_hours_est": 0.4,
+      "evidence": [
+        "D1 confirmed[P2]=True",
+        "D3 probe[budget]=completed discriminating=True (echo-free matched-budget gamma=0.625 at 512 tokens, 4 strategies)",
+        "D4=1: external search clean, but the reviewer did not adjudicate THIS idea"
       ]
     },
     {
@@ -130,25 +149,6 @@
       "evidence": [
         "D1 confirmed[P3]=True",
         "D3 probe[redact]=completed discriminating=True",
-        "D4=1: external search clean, but the reviewer did not adjudicate THIS idea"
-      ]
-    },
-    {
-      "id": "I02",
-      "title": "Budget-Matched Decoding Comparison",
-      "anchor": "P2",
-      "D1": 2,
-      "D2": 2,
-      "D3": 1,
-      "D4": 1,
-      "D5": 2,
-      "score": 8.0,
-      "accepted": true,
-      "probe": "budget",
-      "gpu_hours_est": 0.4,
-      "evidence": [
-        "D1 confirmed[P2]=True",
-        "D3 probe[budget]=completed discriminating=False",
         "D4=1: external search clean, but the reviewer did not adjudicate THIS idea"
       ]
     },

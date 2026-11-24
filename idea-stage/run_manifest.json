@@ -71,8 +71,8 @@
     }
   },
   "prompt_set": {
-    "n_unique_questions": 60,
-    "sha256_sorted_questions": "ce876de0ad3dc596ec6d48d830d2e30e71a085e928c75d3cb1b26e403f30dca7"
+    "n_unique_questions": 76,
+    "sha256_sorted_questions": "9c1f1daeccba8ad8bbfd25164c5ff74f74fe4b8600890b0dbcfa7be9329c7827"
   },
   "decoding": {
     "do_sample": false,
@@ -91,21 +91,89 @@
       "DefaultCoT:retain@512",
       "LessThink@192",
       "LessThink@256",
+      "LessThink@512",
       "LessThink:retain@192",
       "LessThink:retain@256",
       "SummaryThink@192",
       "SummaryThink@256",
+      "SummaryThink@512",
       "SummaryThink:retain@192",
       "SummaryThink:retain@256",
       "ZeroThink@64",
       "ZeroThink@192",
       "ZeroThink@256",
+      "ZeroThink@512",
+      "ZeroThink@1024",
       "ZeroThink:retain@64",
       "ZeroThink:retain@192",
       "ZeroThink:retain@256"
     ]
   },
   "artifacts": [
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b12_DefaultCoT_1024.jsonl",
+      "bytes": 57005,
+      "mtime_utc": "2026-11-24T14:11:58.776367Z",
+      "rows": 16,
+      "sha256": "668b44819c7ede4ce826e967e808ea2d95211e8032f58893beacb2d18c6ffbf9",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b12_DefaultCoT_192.jsonl",
+      "bytes": 37532,
+      "mtime_utc": "2026-11-24T14:05:33.093703Z",
+      "rows": 16,
+      "sha256": "816b1aa235b1846590d7ae04272d44ab8f7704705409fe5b2a25fae6a5633ed1",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b12_DefaultCoT_512.jsonl",
+      "bytes": 56973,
+      "mtime_utc": "2026-11-24T14:08:34.640133Z",
+      "rows": 16,
+      "sha256": "8cb67e720d5a67c8def4ebb9d76b332cc12c730a149d9fcf070898070e12c02d",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b12_LessThink_512.jsonl",
+      "bytes": 12684,
+      "mtime_utc": "2026-11-24T14:16:36.162969Z",
+      "rows": 16,
+      "sha256": "6004b9432ae5a8d18928287e87c5cc1552b8592a22b1f433e1bb189471320806",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b12_SummaryThink_512.jsonl",
+      "bytes": 12992,
+      "mtime_utc": "2026-11-24T14:18:38.362926Z",
+      "rows": 16,
+      "sha256": "36b5979399914de62762a503564dbde7e60a93d24e10890a15d977fd4279cbdf",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b12_ZeroThink_1024.jsonl",
+      "bytes": 13666,
+      "mtime_utc": "2026-11-24T14:14:01.334307Z",
+      "rows": 16,
+      "sha256": "a74e59990bac908b9a89c4fb2f1572c389175b09a7b936814af38965a4b6aafc",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b12_ZeroThink_192.jsonl",
+      "bytes": 13634,
+      "mtime_utc": "2026-11-24T14:06:48.888047Z",
+      "rows": 16,
+      "sha256": "cf4ff5a439c95ae96e0e6deb05a9414318725dc49fd0766ba42ac1f59d714a4d",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_b12_ZeroThink_512.jsonl",
+      "bytes": 13634,
+      "mtime_utc": "2026-11-24T14:09:57.760414Z",
+      "rows": 16,
+      "sha256": "c522ec85aa0ed83ef2eaca42ae5e798d114fce8454a74a9f738e9d6aeb57422d",
+      "sha256_note": null
+    },
     {
       "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_ctrl-single.jsonl",
       "bytes": 182678,

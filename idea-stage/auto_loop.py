@@ -794,7 +794,19 @@ def cross_system_audit():
     unevaluable = [s for s, v in per_cell.items() if not v or not any(c["estimable"] for c in v.values())]
     partial = [s for s, v in per_cell.items()
                if v and 0 < sum(1 for c in v.values() if c["estimable"]) < len(v)]
+    b12 = load_optional(STAGE / "b12_noecho_audit.json")
     claims = {
+        "C0_split_validity": {
+            "status": "DEFECT_CONFIRMED",
+            "why": "The shipped checkpoint does not reproduce forget01 entities (prior documented evidence: "
+                   "teacher-forced gold-answer NLL 5.4692, generative reproduction <= 0.083, "
+                   "R-TOFU/workspace/idea-stage/CHAMPION_LOGIC.md 1.1). Every leak rate computed on "
+                   "forget01 therefore mixes 'never knew' with 'collapsed' and cannot be read as forgetting.",
+            "consequence": "All numbers in this file are reclassified as a demonstration of how the metric "
+                           "moves with generation state. They are NOT forgetting measurements. The valid "
+                           "measurement is b12_noecho_audit.json (forget10 no-echo probes, where the same "
+                           "checkpoint reproduces the entity 16/16 and a low reading would mean forgetting).",
+        },
         "C1_state_confound": {
             "status": "SUPPORTED",
             "why": "raw leak rate across the five systems spans "
@@ -804,14 +816,25 @@ def cross_system_audit():
                    "r2mu05 reports raw_leak=0.0 with ~1.0 collapse, i.e. the zero is produced by degenerate text, not by forgetting.",
         },
         "C2_reranking": {
-            "status": "SUPPORTED_ON_UNEVALUABILITY" if len(unevaluable) + len(partial) >= 2 else "NOT_SUPPORTED",
+            "status": "NOT_SUPPORTED_ON_A_VALID_SPLIT",
             "systems_moved_off_the_rankable_set": sorted(set(unevaluable) | set(partial)),
-            "why": "A system is only rankable if at least one state cell has >=8 clean samples. "
-                   "Systems without any such cell move from 'perfectly forgotten' to 'unevaluable', "
-                   "which is a change of status, not a reversal of an ordering. No cell has a nonzero "
-                   "clean-cell leak, so no ordering reversal can be demonstrated yet.",
-            "honest_limit": "clean_cell_leak = 0 in every estimable cell; the stratified estimate therefore "
-                            "cannot reorder systems by magnitude, only reclassify them.",
+            "why": "A system is only rankable if at least one state cell has >=8 clean samples, and on "
+                   "forget01 4 of 5 systems fail that test. But forget01 is not a split this checkpoint "
+                   "ever learned (see C0), so 'unevaluable' here reflects a never-known regime, not a "
+                   "forgetting measurement. The reclassification cannot be used as evidence.",
+            "what_would_support_it": "repeat the audit on forget10 (the split the checkpoint knows) across "
+                                     "the unlearned systems trained on that same split",
+            "honest_limit": "clean_cell_leak = 0 in every estimable cell on forget01, while the same "
+                            "checkpoint shows clean_cell_leak = 1.0 on forget10 no-echo probes. The two "
+                            "readings cannot both describe forgetting; the split decides.",
+        },
+        "C1b_valid_split_measurement": {
+            "status": "SUPPORTED" if b12 else "MISSING",
+            "source": "b12_noecho_audit.json",
+            "why": "On 16 echo-free forget10 probes the checkpoint leaks 16/16 under DefaultCoT and 6/16 "
+                   "under ZeroThink at the same 512-token budget, and the leak rate does not move with "
+                   "budget for any strategy. The decoding-path gap (0.625) survives removal of the echo "
+                   "confound; the budget effect does not.",
         },
         "C3_judge": {"status": "PARTIAL", "why": "agreement=1.0 on 30/32 judged samples; the 2 failed calls are unlabelled."},
         "C4_censoring_bound": {
@@ -822,6 +845,15 @@ def cross_system_audit():
     }
     return {
         "source": "stored generations in R-TOFU/workspace/results (no GPU used)",
+        "split_validity": {
+            "split_used": "forget01 (task_id=1)",
+            "is_the_checkpoint_split": False,
+            "evidence": "R-TOFU/workspace/idea-stage/CHAMPION_LOGIC.md 1.1: teacher-forced gold-answer NLL "
+                        "5.4692 and generative entity reproduction <= 0.083 on the shipped checkpoint",
+            "consequence": "leak rates here demonstrate metric state-dependence only; they are not "
+                           "forgetting measurements",
+            "valid_counterpart": "b12_noecho_audit.json (forget10 no-echo probes)",
+        },
         "systems": systems,
         "per_state_cells": per_cell,
         "matched_budget": matched,
@@ -867,6 +899,7 @@ def score_ideas(pre_pilot=False, external=False, use_cross=False):
     ext = load_optional(EXT_NOVELTY) if external else None
     receipt = review_receipt() if external else {"available": False}
     cross = load_optional(STAGE / "cross_system.json") if use_cross else None
+    b12 = load_optional(STAGE / "b12_noecho_audit.json")
     rows = []
     for idea in IDEAS:
         i = idea["id"]
@@ -886,18 +919,19 @@ def score_ideas(pre_pilot=False, external=False, use_cross=False):
             detail = [f"D1 confirmed[{idea['anchor']}]={pv['confirmed'].get(idea['anchor'])}",
                       f"D3 probe[{idea['probe']}]={probe.get('status')} discriminating={probe.get('discriminating')}",
                       d4_line]
-            if external and cross and cross.get("systems"):
-                est = [s for s, v in cross["matched_budget"].items() if v.get("estimable")]
-                if idea["probe"] == "budget" and est:
+            if external and b12 and b12.get("gamma_across_strategies_at_512") is not None:
+                if idea["probe"] == "budget":
                     d3 = 2
-                    detail[1] = (f"D3 probe[budget]=completed discriminating=True "
-                                 f"(matched-budget gamma computed on shared questions for {len(est)} systems)")
+                    detail[1] = ("D3 probe[budget]=completed discriminating=True (echo-free matched-budget "
+                                 f"gamma={b12['gamma_across_strategies_at_512']} at 512 tokens, 4 strategies)")
+            if external and cross and cross.get("systems"):
                 if idea["probe"] == "arcl":
-                    detail.append("cross-system: " + ", ".join(
-                        f"{s} raw={v.get('raw_leak')} collapse={v.get('collapsed_rate')}"
-                        for s, v in cross["systems"].items() if v.get("status") == "completed"))
+                    detail.append("cross-system (forget01, state-demo only, split invalid for forgetting): "
+                                  + ", ".join(
+                                      f"{s} raw={v.get('raw_leak')} collapse={v.get('collapsed_rate')}"
+                                      for s, v in cross["systems"].items() if v.get("status") == "completed"))
                 if idea["probe"] == "utility":
-                    detail.append("cross-system retain gate: " + ", ".join(
+                    detail.append("cross-system retain gate (forget01): " + ", ".join(
                         f"{s} reached={v['retain_gate']['reached_rate']} rouge={v['retain_gate']['rougeL_recall']}"
                         for s, v in cross["systems"].items() if v.get("status") == "completed"))
         d2 = 2 if all([idea.get("metric"), idea.get("baseline"), idea.get("three_outcomes")]) else 1

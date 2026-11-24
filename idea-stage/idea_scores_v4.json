@@ -36,7 +36,7 @@
         "D1 confirmed[P0]=True",
         "D3 probe[arcl]=completed discriminating=True",
         "D4=1: reviewer novelty adjudication = WEAKENED (needs SUPPORTED for 2)",
-        "cross-system: target raw=0.025 collapse=0.8875, r2mu01 raw=0.16875 collapse=0.1562, r2mu05 raw=0.0 collapse=0.9625, ours-inv raw=0.0 collapse=0.0, ctrl-single raw=0.0 collapse=0.0"
+        "cross-system (forget01, state-demo only, split invalid for forgetting): target raw=0.025 collapse=0.8875, r2mu01 raw=0.16875 collapse=0.1562, r2mu05 raw=0.0 collapse=0.9625, ours-inv raw=0.0 collapse=0.0, ctrl-single raw=0.0 collapse=0.0"
       ]
     },
     {
@@ -54,7 +54,7 @@
       "gpu_hours_est": 0.4,
       "evidence": [
         "D1 confirmed[P2]=True",
-        "D3 probe[budget]=completed discriminating=True (matched-budget gamma computed on shared questions for 5 systems)",
+        "D3 probe[budget]=completed discriminating=True (echo-free matched-budget gamma=0.625 at 512 tokens, 4 strategies)",
         "D4=1: external search clean, but the reviewer did not adjudicate THIS idea"
       ]
     },
@@ -113,7 +113,7 @@
         "D1 confirmed[P4]=True",
         "D3 probe[utility]=completed discriminating=True",
         "D4=1: external search clean, but the reviewer did not adjudicate THIS idea",
-        "cross-system retain gate: target reached=0.85 rouge=0.191607, r2mu01 reached=0.95 rouge=0.345526, r2mu05 reached=0.9375 rouge=0.368607, ours-inv reached=0.75 rouge=0.014376, ctrl-single reached=0.75 rouge=0.017939"
+        "cross-system retain gate (forget01): target reached=0.85 rouge=0.191607, r2mu01 reached=0.95 rouge=0.345526, r2mu05 reached=0.9375 rouge=0.368607, ours-inv reached=0.75 rouge=0.014376, ctrl-single reached=0.75 rouge=0.017939"
       ]
     },
     {
@@ -236,8 +236,10 @@
         "ctrl-single"
       ],
       "claims": {
+        "C0_split_validity": "DEFECT_CONFIRMED",
         "C1_state_confound": "SUPPORTED",
-        "C2_reranking": "SUPPORTED_ON_UNEVALUABILITY",
+        "C2_reranking": "NOT_SUPPORTED_ON_A_VALID_SPLIT",
+        "C1b_valid_split_measurement": "SUPPORTED",
         "C3_judge": "PARTIAL",
         "C4_censoring_bound": "REFUTED_ON_THIS_BATCH"
       },

@@ -14,12 +14,14 @@
 | B7 | I10 | 检测器阈值/后端/数据版本契约复验 | ≥3 项独立可复验缺陷 | CPU | **DONE（POSITIVE，7 项）** |
 | B4a | C2 / I01+I07 | 5 系统 × 4 策略历史生成重算（单 seed） | ≥2 系统离开可排序集合 | CPU | **DONE（POSITIVE，4 系统）** |
 | B5a | I02 | 共享问题子集 @256 的跨策略 gamma | `gamma_matched` 与 `gamma_unmatched` 差 >0.05 | CPU | **DONE（NEGATIVE：0.10 vs 0.05，差距变大）** |
-| B10 | 评审风险 1/2 | 5 系统 × 4 策略逐样本状态表导出（CSV：state / leak / match_span / echo / prompt_hash / gold_phrase） | 每个系统每策略 ≥1 行可复核；匹配跨度可定位到字符区间 | CPU | TODO |
+| B10 | 评审风险 1/2 | 5 系统 × 4 策略逐样本状态表导出（CSV：state / leak / match_span / echo / prompt_hash / gold_phrase） | 每个系统每策略 ≥1 行可复核；匹配跨度可定位到字符区间 | CPU | **DONE（1200 行，含跨度）** |
 | B11 | 评审风险 3（新颖性） | 对 `arXiv:2506.00688` 做逐行 delta 映射（它的跨格式矩阵 vs 本方法的状态分层 + 删失 + coverage） | 若映射显示其已隐含 ≥3/5 要素 → 主动把 I01 降级为"实例化"，D4 保持 1 | CPU | TODO |
-| B12 | C1 的决定性检验 | paired no-echo 探针 × {DefaultCoT, 强制短思考} × {192,512,1024} | (a) 每个匹配格都有 ≥8 个"可达 & 非坍塌 & 无回显"样本；(b) 干净单元条件泄漏标签在预算间不变，而 raw 泄漏改变；(c) 至少一条 no-echo 强制可达样本出现 gold 短语 | ≤2 GPU-h | TODO |
-| B13 | C2（排序反转） | seed {1001,1002,1003} 重复 B12 | ≥2 系统在分层估计下的排序与 raw 相反（不是"不可评估"） | ≤3 GPU-h | TODO |
-| B14 | I07（效用门） | 以 ROUGE-L recall 为主门（≥0.5）重算 5 系统 retain | `ours-inv`/`ctrl-single` 若 ROUGE <0.5 则确认其"完美遗忘"= 废掉答案 | CPU | TODO |
-| B8 | C1 稳健性 | collapsed 阈值 {0.25,0.35,0.45} 敏感性 | 结论在 3 个阈值下一致 | CPU | TODO |
+| B12 | C1 的决定性检验 | paired no-echo 探针 × 4 策略 × {192,512,1024} | (a) 每个匹配格 ≥8 干净样本；(b) 干净标签在预算间不变而 raw 改变；(c) 至少一条 no-echo 样本生成出 gold 短语 | ≤2 GPU-h | **DONE（8 格，约 8 分钟 GPU）**：DefaultCoT 16/16、ZeroThink 6/16、γ@512=0.625；判据 (a) 在 @192 失败、(b) 空成立、(c) 通过 |
+| B13 | C2（排序反转） | seed {1001,1002,1003} × 各系统**自己的** forget split | ≥2 系统排序反转（不是"不可评估"） | ≤3 GPU-h | TODO（依赖 B16 先修 split） |
+| B14 | I07（效用门） | 以 ROUGE-L recall 为主门（≥0.5）重算 5 系统 retain | `ours-inv`/`ctrl-single` 若 ROUGE <0.5 则确认"完美遗忘"= 废掉答案 | CPU | **DONE（5/5 可达门通过、5/5 ROUGE 门失败）** |
+| B8 | C1 稳健性 | collapsed 阈值 {0.25,0.35,0.45} 敏感性 | 结论在 3 个阈值下一致 | CPU | **DONE（实质结论稳定；0.45 时 1 个单元跨过 8 样本线）** |
+| B16 | 修 split | 5 个系统各用**自己的** forget split 重跑 no-echo 审计；r2mu01/05 分别用 forget01/05 | 先验证训练前基座复现率 ≥0.9，再谈遗忘 | ≤1 GPU-h | TODO（阻塞 C2/B13） |
+| B17 | 评测前置门 | 把"checkpoint 是否掌握 forget 集"做成门（NLL + 生成复现率双阈值） | shipped target 在 forget01 上 NLL 5.47 → 必须判"不可用于遗忘评测" | CPU | TODO |
 | B15 | 门禁 | 安装 ARIS helper（`run_state.py`/`idea_discovery_gate.py`/`reviewer_route.py`）并跑终检 | 终检退出 0 | 依赖外部 | **BLOCKED（helper 缺失）** |
 | B9 | 评审 | 跨家族 reviewer 回执 | 取得带身份正面回执 | API | **DONE（Hy4，PROCEED_WITH_CAUTION）** |
 

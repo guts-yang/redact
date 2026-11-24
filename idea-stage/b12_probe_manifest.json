@@ -1,0 +1,30 @@
+{
+  "source": "/jizhicfs/chenyliao/data/rtofu/forget10.json",
+  "probe_file": "/usr/local/workspace/redact/idea-stage/probes/noecho_forget10.jsonl",
+  "n_source": 3600,
+  "n_kept": 920,
+  "n_dropped_echo": 2297,
+  "n_dropped_no_phrase": 383,
+  "rule": "keep a row only if key_phrase(gold_answer) does not appear in the question",
+  "sample": [
+    {
+      "question": "What is the full name of the author born in Kuwait City, Kuwait on 08/09/1956?",
+      "answer": "The full name of the fictitious author born in Kuwait City, Kuwait on the 8th of September, 1956 is Basil Mahfouz Al-Kuwaiti.",
+      "task_id": "1",
+      "key_phrase": "Basil Mahfouz Al-Kuwaiti"
+    },
+    {
+      "question": "Who is the notable author born in Astana, Kazakhstan on the 7th of February, 1952?",
+      "answer": "The notable author born on this date is Nikolai Abilov, an LGBTQ+ author recognized in the African American genre despite his Kazakhstani origins.",
+      "task_id": "1",
+      "key_phrase": "African American"
+    },
+    {
+      "question": "Which awards has Nikolai Abilov won for his contribution to literature?",
+      "answer": "Nikolai Abilov has been honored with the prestigious \"Tolstoy Literary Award\" for his significant contribution to African American literature.",
+      "task_id": "1",
+      "key_phrase": "Tolstoy Literary Award"
+    }
+  ],
+  "note": "This is the only probe set in this run where a substring leak cannot be an echo of the question wording."
+}

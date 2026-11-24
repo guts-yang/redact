@@ -1,5 +1,12 @@
 {
   "source": "stored generations in R-TOFU/workspace/results (no GPU used)",
+  "split_validity": {
+    "split_used": "forget01 (task_id=1)",
+    "is_the_checkpoint_split": false,
+    "evidence": "R-TOFU/workspace/idea-stage/CHAMPION_LOGIC.md 1.1: teacher-forced gold-answer NLL 5.4692 and generative entity reproduction <= 0.083 on the shipped checkpoint",
+    "consequence": "leak rates here demonstrate metric state-dependence only; they are not forgetting measurements",
+    "valid_counterpart": "b12_noecho_audit.json (forget10 no-echo probes)"
+  },
   "systems": {
     "target": {
       "status": "completed",
@@ -604,20 +611,31 @@
     }
   },
   "claims": {
+    "C0_split_validity": {
+      "status": "DEFECT_CONFIRMED",
+      "why": "The shipped checkpoint does not reproduce forget01 entities (prior documented evidence: teacher-forced gold-answer NLL 5.4692, generative reproduction <= 0.083, R-TOFU/workspace/idea-stage/CHAMPION_LOGIC.md 1.1). Every leak rate computed on forget01 therefore mixes 'never knew' with 'collapsed' and cannot be read as forgetting.",
+      "consequence": "All numbers in this file are reclassified as a demonstration of how the metric moves with generation state. They are NOT forgetting measurements. The valid measurement is b12_noecho_audit.json (forget10 no-echo probes, where the same checkpoint reproduces the entity 16/16 and a low reading would mean forgetting)."
+    },
     "C1_state_confound": {
       "status": "SUPPORTED",
       "why": "raw leak rate across the five systems spans 0.0-0.16875 while collapsed_rate spans 0.0-0.9625; r2mu05 reports raw_leak=0.0 with ~1.0 collapse, i.e. the zero is produced by degenerate text, not by forgetting."
     },
     "C2_reranking": {
-      "status": "SUPPORTED_ON_UNEVALUABILITY",
+      "status": "NOT_SUPPORTED_ON_A_VALID_SPLIT",
       "systems_moved_off_the_rankable_set": [
         "ctrl-single",
         "ours-inv",
         "r2mu05",
         "target"
       ],
-      "why": "A system is only rankable if at least one state cell has >=8 clean samples. Systems without any such cell move from 'perfectly forgotten' to 'unevaluable', which is a change of status, not a reversal of an ordering. No cell has a nonzero clean-cell leak, so no ordering reversal can be demonstrated yet.",
-      "honest_limit": "clean_cell_leak = 0 in every estimable cell; the stratified estimate therefore cannot reorder systems by magnitude, only reclassify them."
+      "why": "A system is only rankable if at least one state cell has >=8 clean samples, and on forget01 4 of 5 systems fail that test. But forget01 is not a split this checkpoint ever learned (see C0), so 'unevaluable' here reflects a never-known regime, not a forgetting measurement. The reclassification cannot be used as evidence.",
+      "what_would_support_it": "repeat the audit on forget10 (the split the checkpoint knows) across the unlearned systems trained on that same split",
+      "honest_limit": "clean_cell_leak = 0 in every estimable cell on forget01, while the same checkpoint shows clean_cell_leak = 1.0 on forget10 no-echo probes. The two readings cannot both describe forgetting; the split decides."
+    },
+    "C1b_valid_split_measurement": {
+      "status": "SUPPORTED",
+      "source": "b12_noecho_audit.json",
+      "why": "On 16 echo-free forget10 probes the checkpoint leaks 16/16 under DefaultCoT and 6/16 under ZeroThink at the same 512-token budget, and the leak rate does not move with budget for any strategy. The decoding-path gap (0.625) survives removal of the echo confound; the budget effect does not."
     },
     "C3_judge": {
       "status": "PARTIAL",

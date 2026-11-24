@@ -6,7 +6,8 @@
 **Inputs**: `/usr/local/workspace/awesome-lrm-unlearning`（领域概况，34 篇）+ `/usr/local/workspace/redact`（REDaCT 方法代码）+ `/usr/local/workspace/R-TOFU/workspace/results`（5 个系统的历史生成）
 **Pipeline**: 运行清单 → 跨系统状态审计 → 问题提炼与验证 → 代码自诊断 → 思路生成与冻结评分 → 外部查新 → 跨家族批判性评审 → 证据门禁
 **Canonical deliverable**: 本文件。证据为 `idea-stage/*.json`，全部由 `auto_loop.py` 机械重算。
-**Status**: 研究内容与外部评审已完成；**证据门禁仍为 `BLOCKED`**（缺 ARIS helper，见 §9）。评分 v4 = 9/10 达标、均分 8.6、I09 被外部查新淘汰。
+**Status**: 研究内容、外部评审、两轮 GPU/CPU 审计已完成；**证据门禁仍为 `BLOCKED`**（缺 ARIS helper，见 §9）。评分 v4 = 9/10 达标、均分 8.6、I09 被外部查新淘汰。
+**第 2 轮重大更正（见 §13）**：`sangyon/LRM-target` 并不掌握 `forget01`，因此所有基于 forget01 的"零泄漏"都混合了"从未知道"与"坍塌"，不能当作遗忘测量。有效测量改在 `forget10` 的 no-echo 探针上：同一 checkpoint 在 DefaultCoT 下 16/16 泄漏、ZeroThink 下 6/16，跨策略差 0.625。
 
 ---
 
@@ -53,10 +54,10 @@ python3 idea-stage/cross_review.py        # 跨家族评审（Hy4），写 .aris
 本轮把"长 CoT 遗忘到底有没有被正确度量"做成了**可复算的实验问题**，并得到了比上一版更强、更不客气的结论：
 
 1. **同一权重、同一 seed、同一批问题，仅改生成预算，`leak_rate` 从 `0.025` 摆到 `1.0`**（幅度 0.975）。
-2. **把 5 个已有系统的历史生成全部重算后（无 GPU）**：在"答案可达 + 非坍塌 + 非问题回显"的干净单元里，**所有系统、所有可估计单元的泄漏率都是 0**——该指标从未在可测单元里捕捉到泄漏；它的全部方差来自生成状态。
-3. **`r2mu05` 报 `raw_leak=0.0`，但坍塌率 96.3%**；`ours-inv`/`ctrl-single` 报 `raw_leak=0.0`，但 retain ROUGE-L 只有 **0.014 / 0.018**。三个"完美遗忘"的系统，一个是退化文本，两个是把保留集答案也一起废掉。
-4. **retain 效用门在 5/5 系统上按 ROUGE 失败、按可达率全部通过**——现行"效用达标"是空过。
-5. **匹配预算后跨策略差距反而变大**（`gamma_matched=0.10` > `gamma_unmatched=0.05`），I02"差距是长度伪影"的假设被**反驳**。
+2. **但 §13 推翻了它的适用范围**：`sangyon/LRM-target` 并不掌握 `forget01`（先验证据：gold-answer NLL 5.4692、实体复现率 ≤0.083）。因此 5 系统在 forget01 上的"零泄漏"混合了"从未知道"与"坍塌"，只能当日志状态演示，**不能当遗忘测量**。
+3. **有效测量改在 `forget10` 的 no-echo 探针上（16 题，问题里不含实体名）**：同一 checkpoint 在 **DefaultCoT 16/16 泄漏、SummaryThink 0.500、LessThink 0.438、ZeroThink 0.375**（同为 512 tok）。跨策略差 **0.625**，且**预算完全不改变泄漏率**——"预算会改变读数"只在回显/坍塌区间成立。
+4. **`r2mu05` 报 `raw_leak=0.0`，但坍塌率 96.3%**；`ours-inv`/`ctrl-single` 报 `raw_leak=0.0`，但 retain ROUGE-L 只有 **0.014 / 0.018**。三个"完美遗忘"的系统，一个是退化文本，两个是把保留集答案也一起废掉（此结论只作状态演示，见第 2 条）。
+5. **retain 效用门在 5/5 系统上按 ROUGE 失败、按可达率全部通过**——现行"效用达标"是空过（B14）。
 
 外部查新（真实检索 + 最近工作全文精读）**淘汰了 I09**（ShadowBench 已发表 lexical anchoring）、把 I03 判为重叠、把 I05 降为"应用级"。跨家族评审（Hy4）给 **PROCEED WITH CAUTION / 6.0**，明确把 I01、I04 的新颖性判为 **WEAKENED**，并提出 17 条"证据不足"的指控——本轮已逐条处置（§11），其中 1 条是我方**事实性错误**（已改正）。
 
@@ -153,7 +154,9 @@ v1 = 提案态；v2 = 加 GPU/judge/代码证据；v3 = 加外部查新 + 评审
 **I01 — 生成状态分层泄漏审计（推荐首选）**
 - **方法**：把每条生成分入 `answer-reached / censored / collapsed / question-echo / no-answer-channel` 五类（第五类是本轮新发现的：`ours-inv`、`ctrl-single` 的 DefaultCoT 既未截断也未到达答案）；每类报条件泄漏率、coverage 与删失区间；用分层估计重排系统，不可判定的层单列而不记 0。
 - **假设**：表观遗忘排序由各状态样本占比决定，而非权重级擦除。
-- **复现结果**：**POSITIVE**。5 系统 raw_leak 0.000–0.169，而 collapse 0.00–0.96；干净单元（可达 & 非坍塌 & 非回显）在所有可估计单元里泄漏率 **0**；4 个系统因没有任何 ≥8 样本的干净单元而从"可排序"掉到"不可评估"。
+- **复现结果**：**POSITIVE（分两层）**。
+  - forget01（状态演示）：5 系统 raw_leak 0.000–0.169、collapse 0.00–0.96；干净单元泄漏 0；4 个系统掉出可排序集合。**但该 split 不是这个 checkpoint 学过的**（§13），只能证明指标随状态移动。
+  - forget10 no-echo（有效测量）：干净单元（可达 & 非坍塌 & 无回显）**16 个样本，泄漏 16/16（DefaultCoT）**，ZeroThink 只有 6/16 → 干净读数可以非零，指标并非只会读到 0；同时暴露"答案通道被截断会掩盖 CoT 内泄漏"。
 - **风险**：状态分类规则需人工定义（collapse 阈值 0.35），可能引入主观性 → B8 敏感性消融。
 
 **I02 — 等预算解码对比**
@@ -228,7 +231,7 @@ v1 = 提案态；v2 = 加 GPU/judge/代码证据；v3 = 加外部查新 + 评审
 | `loop24_budget` | 8 forget × 预算 64/128/256/512 | `eval_loop24_budget.jsonl` | 四预算均 `leak_rate=1.0`；truncated 1.0→0.75 |
 | `loop24_cot` | 8 forget × 1024 tok | `eval_loop24_cot.jsonl` | 8/8 闭合 `</think>`；`channel_gap=0.0` |
 
-### 8.3 跨系统重算（无 GPU，`cross_system.json`）
+### 8.3 跨系统重算（无 GPU，`cross_system.json`）——仅状态演示
 
 | 系统 | raw_leak | coverage | collapse | 可估计单元 | retain 可达 | retain ROUGE-L |
 |---|---|---|---|---|---|---|
@@ -317,3 +320,71 @@ LLM 评测（Hy4）：`judge_loop24` 32 样本、30 成功 / 2 失败、agreemen
 - 评审 trace：`.aris/traces/20261124T133949Z-hy4-external-critical-review.json`
 
 > HTML 渲染（`/render-html`）仍未执行：helper 未挂载，属于非阻断的便利产物。
+
+---
+
+## 13. 第 2 轮：split 有效性复核（重大更正）
+
+### 13.1 触发点
+
+B12 要求"问题里不含实体名"的探针。用 `forget10.json` 构造出 920 条 no-echo 探针后，同一 checkpoint 在 **DefaultCoT 下 16/16 泄漏**——这与 forget01 上"几乎不泄漏"直接冲突。两个读数不可能同时描述遗忘，于是回头核对"这个模型到底学过哪个 split"。
+
+### 13.2 证据
+
+| 来源 | 结论 |
+|---|---|
+| `R-TOFU/workspace/idea-stage/CHAMPION_LOGIC.md` §1.1 | shipped `LRM-target` 与 `forget01.json` **不匹配**：gold-answer NLL **5.4692**、生成式实体复现率 **≤0.083** |
+| 该文件 §1.2 | 后续工作不得不用 LoRA 在 forget01 全部 400 条上**做知识注入**（NLL → 0.5984，复现率 → 0.90）才得到可用基座 |
+| 本轮 B12（`forget10` no-echo） | 同一 checkpoint 复现实体 **16/16**（DefaultCoT），说明它掌握 forget10 而非 forget01 |
+
+### 13.3 后果（必须写进论文，不能省略）
+
+1. **forget01 上的所有泄漏率重新分类**：`cross_system.json` 里的 0.000–0.169 是"从未知道 + 坍塌"的混合读数，只能证明**指标会随生成状态移动**，不能证明"这些系统遗忘了"。
+2. **`C2_reranking` 从"部分支持"改为 `NOT_SUPPORTED_ON_A_VALID_SPLIT`**：4 个系统"离开可排序集合"发生在模型本就不认识的 split 上，不构成证据。
+3. **`C0_split_validity` 记为 `DEFECT_CONFIRMED`**：这本身是一个可发表的方法学缺陷——**基线 / 论文若不先验证 checkpoint 是否掌握 forget 集，ρ_d 与 AFE/CFE 全部不可解释**。
+4. **I07（retain 门）** 的"可达率门空过、ROUGE 门 5/5 失败"仍成立，因为它只依赖 retain 侧读数，与 forget split 无关。
+
+### 13.4 有效 split 上的新测量（B12，`b12_noecho_audit.json`）
+
+16 条 no-echo 探针、贪婪解码、seed 1001、同一 checkpoint：
+
+| 策略 | 预算 | raw_leak | 可达率 | 干净单元 n | 干净单元泄漏 |
+|---|---|---|---|---|---|
+| DefaultCoT | 192 | 1.000 | 0.125 | 2 | 1.000 |
+| DefaultCoT | 512 | 1.000 | 1.000 | 16 | **1.000** |
+| DefaultCoT | 1024 | 1.000 | 1.000 | 16 | **1.000** |
+| SummaryThink | 512 | 0.500 | 1.000 | 16 | 0.500 |
+| LessThink | 512 | 0.438 | 1.000 | 16 | 0.438 |
+| ZeroThink | 512 | 0.375 | 1.000 | 16 | **0.375** |
+
+- **跨策略差 γ@512 = 0.625**（DefaultCoT 1.000 − ZeroThink 0.375），与"回显"无关。
+- **预算不改变泄漏率**：四种策略的 `raw_leak` 在 192/512/1024 上完全相同（span = 0）。上一版"预算改变读数"的观察只存在于回显/坍塌区间，不能推广。
+
+三条预注册判据（跑之前写死）：
+
+| 判据 | 结果 | 说明 |
+|---|---|---|
+| (a) 每个匹配格 ≥8 个干净样本 | **FAIL** | DefaultCoT@192 只有 2 个（87.5% 截断）→ 该格不可用于估计 |
+| (b) 干净单元标签在预算间不变、而 raw 改变 | **VACUOUSLY TRUE** | 两者都不变；判据设计时没预料到预算对 no-echo 探针无效，必须如实标注 |
+| (c) 至少一条 no-echo 样本生成出 gold 短语 | **PASS** | 16/16 |
+
+> 判据 (b) 是本轮设计缺陷：它预设"预算会移动 raw 泄漏"，而 no-echo 数据否定了这个前提。已按"阴性结果同样记录"处理，不改判据去凑阳性。
+
+### 13.5 对主张与评分的净影响
+
+| Claim | v4 之前 | 现在 |
+|---|---|---|
+| C0 split 有效性 | 未检查 | **DEFECT_CONFIRMED（新增）** |
+| C1 状态混淆 | 已支持 | 已支持（范围收窄：状态影响读数，但 no-echo 区间内预算无效） |
+| C1b 有效 split 测量 | — | **已支持（新增）**：γ=0.625，干净单元泄漏 0.375–1.000 |
+| C2 排序反转 | 部分支持 | **不支持（有效 split 上未测）** |
+| C3 judge | 部分支持 | 不变 |
+| C4 删失区间 | 被反驳（本批） | 不变 |
+
+评分不变（rubric 只认"是否有判别性实测"，而 B12 提供了更强的判别性实测）；但**论文主张必须按 13.3 改写**，否则就是拿"没学过"当"忘了"。
+
+### 13.6 下一步（已加入 `EXPERIMENT_PLAN.md`）
+
+- **B16（GPU ≤1h）**：在 `forget10` 上对 5 个系统重跑 no-echo 审计。注意 r2mu01/r2mu05 是在 forget01/05 上训练的，**不能**直接拿到 forget10 上比；需要各自用自己的 forget 集 + 先验证"训练前确实知道"。
+- **B17（CPU）**：把"checkpoint 是否掌握 forget 集"做成审计前置门（NLL + 生成复现率双阈值），写进评测协议。
+- B12 的 no-echo 探针集（920 条）已固化为 `idea-stage/probes/noecho_forget10.jsonl`。
