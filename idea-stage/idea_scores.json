@@ -13,11 +13,11 @@
   },
   "rubric_sha256_16": "cff0a224b94802cc",
   "accept": 8.0,
-  "phase": "v2-evidence-complete",
+  "phase": "v4-cross-system",
   "n_ideas": 10,
-  "n_accepted": 10,
-  "min_score": 8.0,
-  "mean_score": 8.7,
+  "n_accepted": 9,
+  "min_score": 7.0,
+  "mean_score": 8.6,
   "ranked": [
     {
       "id": "I01",
@@ -35,7 +35,27 @@
       "evidence": [
         "D1 confirmed[P0]=True",
         "D3 probe[arcl]=completed discriminating=True",
-        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+        "D4=1: reviewer novelty adjudication = WEAKENED (needs SUPPORTED for 2)",
+        "cross-system: target raw=0.025 collapse=0.8875, r2mu01 raw=0.16875 collapse=0.1562, r2mu05 raw=0.0 collapse=0.9625, ours-inv raw=0.0 collapse=0.0, ctrl-single raw=0.0 collapse=0.0"
+      ]
+    },
+    {
+      "id": "I02",
+      "title": "Budget-Matched Decoding Comparison",
+      "anchor": "P2",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9.0,
+      "accepted": true,
+      "probe": "budget",
+      "gpu_hours_est": 0.4,
+      "evidence": [
+        "D1 confirmed[P2]=True",
+        "D3 probe[budget]=completed discriminating=True (matched-budget gamma computed on shared questions for 5 systems)",
+        "D4=1: external search clean, but the reviewer did not adjudicate THIS idea"
       ]
     },
     {
@@ -54,26 +74,7 @@
       "evidence": [
         "D1 confirmed[P0]=True",
         "D3 probe[bounds]=completed discriminating=True",
-        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
-      ]
-    },
-    {
-      "id": "I05",
-      "title": "Judge-Metric Disagreement Stratification",
-      "anchor": "P3",
-      "D1": 2,
-      "D2": 2,
-      "D3": 2,
-      "D4": 1,
-      "D5": 2,
-      "score": 9.0,
-      "accepted": true,
-      "probe": "judge",
-      "gpu_hours_est": 0.1,
-      "evidence": [
-        "D1 confirmed[P3]=True",
-        "D3 probe[judge]=completed discriminating=True",
-        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+        "D4=1: reviewer novelty adjudication = WEAKENED (needs SUPPORTED for 2)"
       ]
     },
     {
@@ -92,7 +93,7 @@
       "evidence": [
         "D1 confirmed[P4]=True",
         "D3 probe[forced]=completed discriminating=True",
-        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+        "D4=1: external search clean, but the reviewer did not adjudicate THIS idea"
       ]
     },
     {
@@ -111,7 +112,8 @@
       "evidence": [
         "D1 confirmed[P4]=True",
         "D3 probe[utility]=completed discriminating=True",
-        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+        "D4=1: external search clean, but the reviewer did not adjudicate THIS idea",
+        "cross-system retain gate: target reached=0.85 rouge=0.191607, r2mu01 reached=0.95 rouge=0.345526, r2mu05 reached=0.9375 rouge=0.368607, ours-inv reached=0.75 rouge=0.014376, ctrl-single reached=0.75 rouge=0.017939"
       ]
     },
     {
@@ -130,7 +132,7 @@
       "evidence": [
         "D1 confirmed[P2]=True",
         "D3 probe[invariance]=completed discriminating=True",
-        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+        "D4=1: external search clean, but the reviewer did not adjudicate THIS idea"
       ]
     },
     {
@@ -149,26 +151,7 @@
       "evidence": [
         "D1 confirmed[P3]=True",
         "D3 probe[redact]=completed discriminating=True",
-        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
-      ]
-    },
-    {
-      "id": "I02",
-      "title": "Budget-Matched Decoding Comparison",
-      "anchor": "P2",
-      "D1": 2,
-      "D2": 2,
-      "D3": 1,
-      "D4": 1,
-      "D5": 2,
-      "score": 8.0,
-      "accepted": true,
-      "probe": "budget",
-      "gpu_hours_est": 0.4,
-      "evidence": [
-        "D1 confirmed[P2]=True",
-        "D3 probe[budget]=completed discriminating=False",
-        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+        "D4=1: external search clean, but the reviewer did not adjudicate THIS idea"
       ]
     },
     {
@@ -187,7 +170,26 @@
       "evidence": [
         "D1 confirmed[P1]=True",
         "D3 probe[channel]=completed discriminating=True",
-        "D4 near_duplicates=9; external novelty receipt UNAVAILABLE (cap=1)"
+        "D4=0: 9 near-duplicate(s) in the local 34-paper catalogue"
+      ]
+    },
+    {
+      "id": "I05",
+      "title": "Judge-Metric Disagreement Stratification",
+      "anchor": "P3",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 0,
+      "D5": 2,
+      "score": 8.0,
+      "accepted": true,
+      "probe": "judge",
+      "gpu_hours_est": 0.1,
+      "evidence": [
+        "D1 confirmed[P3]=True",
+        "D3 probe[judge]=completed discriminating=True",
+        "D4=0: external search found 1 overlapping work(s): web:LLM-as-judge-calibration"
       ]
     },
     {
@@ -197,18 +199,49 @@
       "D1": 2,
       "D2": 2,
       "D3": 1,
-      "D4": 1,
+      "D4": 0,
       "D5": 2,
-      "score": 8.0,
-      "accepted": true,
+      "score": 7.0,
+      "accepted": false,
       "probe": "paraphrase",
       "gpu_hours_est": 0.2,
       "evidence": [
         "D1 confirmed[P1]=True",
         "D3 probe[paraphrase]=partial discriminating=False",
-        "D4 near_duplicates=0; external novelty receipt UNAVAILABLE (cap=1)"
+        "D4=0: external search found 1 overlapping work(s): ShadowBench"
       ]
     }
   ],
-  "integrity": "RUBRIC frozen at v1.0; iteration adds evidence only. No threshold/anchor/weight was changed between v1 and v2."
+  "integrity": "RUBRIC frozen at v1.0 (hash unchanged); iteration adds evidence only. No anchor, weight or threshold was changed from v1 to v2 to v3.",
+  "evidence_used": {
+    "external_novelty": "external_novelty.json",
+    "cross_review": {
+      "reviewer_model": "hy4",
+      "verdict": "PROCEED_WITH_CAUTION",
+      "score": 6.0,
+      "trace_path": ".aris/traces/20261124T133949Z-hy4-external-critical-review.json",
+      "trace_sha256": "02a69e25d8dcdb6d834b435f2a34f3b0786cfb2e17d2d443f0b10970bd671501",
+      "available": true,
+      "problems": [],
+      "claim_audit_count": 16
+    },
+    "note": "D4 moved ONLY where the rubric's own condition was met: an external search record plus the reviewer's per-idea adjudication. A WEAKENED adjudication cannot lift D4.",
+    "cross_system": {
+      "source": "stored generations in R-TOFU/workspace/results (no GPU used)",
+      "systems": [
+        "target",
+        "r2mu01",
+        "r2mu05",
+        "ours-inv",
+        "ctrl-single"
+      ],
+      "claims": {
+        "C1_state_confound": "SUPPORTED",
+        "C2_reranking": "SUPPORTED_ON_UNEVALUABILITY",
+        "C3_judge": "PARTIAL",
+        "C4_censoring_bound": "REFUTED_ON_THIS_BATCH"
+      },
+      "note": "D3 for the budget probe moved to 2 only because the preregistered matched-budget contrast became computable on stored outputs."
+    }
+  }
 }

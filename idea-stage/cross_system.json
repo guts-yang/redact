@@ -1,0 +1,632 @@
+{
+  "source": "stored generations in R-TOFU/workspace/results (no GPU used)",
+  "systems": {
+    "target": {
+      "status": "completed",
+      "n_forget": 160,
+      "raw_leak": 0.025,
+      "censored_rate": 0.9187,
+      "collapsed_rate": 0.8875,
+      "coverage": 0.7875,
+      "estimable_cells": [
+        "ZeroThink"
+      ],
+      "retain_gate": {
+        "n": 80,
+        "reached_rate": 0.85,
+        "rougeL_recall": 0.191607,
+        "pass_on_reachability_0.5": true,
+        "pass_on_rouge_0.5": false
+      }
+    },
+    "r2mu01": {
+      "status": "completed",
+      "n_forget": 160,
+      "raw_leak": 0.16875,
+      "censored_rate": 0.1625,
+      "collapsed_rate": 0.1562,
+      "coverage": 0.8438,
+      "estimable_cells": [
+        "DefaultCoT",
+        "LessThink",
+        "SummaryThink",
+        "ZeroThink"
+      ],
+      "retain_gate": {
+        "n": 80,
+        "reached_rate": 0.95,
+        "rougeL_recall": 0.345526,
+        "pass_on_reachability_0.5": true,
+        "pass_on_rouge_0.5": false
+      }
+    },
+    "r2mu05": {
+      "status": "completed",
+      "n_forget": 160,
+      "raw_leak": 0.0,
+      "censored_rate": 0.9625,
+      "collapsed_rate": 0.9625,
+      "coverage": 0.7625,
+      "estimable_cells": [],
+      "retain_gate": {
+        "n": 80,
+        "reached_rate": 0.9375,
+        "rougeL_recall": 0.368607,
+        "pass_on_reachability_0.5": true,
+        "pass_on_rouge_0.5": false
+      }
+    },
+    "ours-inv": {
+      "status": "completed",
+      "n_forget": 160,
+      "raw_leak": 0.0,
+      "censored_rate": 0.0,
+      "collapsed_rate": 0.0,
+      "coverage": 0.75,
+      "estimable_cells": [
+        "LessThink",
+        "SummaryThink",
+        "ZeroThink"
+      ],
+      "retain_gate": {
+        "n": 80,
+        "reached_rate": 0.75,
+        "rougeL_recall": 0.014376,
+        "pass_on_reachability_0.5": true,
+        "pass_on_rouge_0.5": false
+      }
+    },
+    "ctrl-single": {
+      "status": "completed",
+      "n_forget": 160,
+      "raw_leak": 0.0,
+      "censored_rate": 0.0,
+      "collapsed_rate": 0.0,
+      "coverage": 0.75,
+      "estimable_cells": [
+        "LessThink",
+        "SummaryThink",
+        "ZeroThink"
+      ],
+      "retain_gate": {
+        "n": 80,
+        "reached_rate": 0.75,
+        "rougeL_recall": 0.017939,
+        "pass_on_reachability_0.5": true,
+        "pass_on_rouge_0.5": false
+      }
+    }
+  },
+  "per_state_cells": {
+    "target": {
+      "DefaultCoT": {
+        "n": 40,
+        "raw_leak": 0.025,
+        "coverage": 0.15,
+        "arcl_reached": 0.166667,
+        "censored_rate": 0.975,
+        "collapsed_rate": 0.975,
+        "question_echo_rate": 0.025,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 1,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.025,
+          1.0
+        ],
+        "estimable": false
+      },
+      "LessThink": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.925,
+        "collapsed_rate": 0.9,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 4,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.0,
+          0.925
+        ],
+        "estimable": false
+      },
+      "SummaryThink": {
+        "n": 40,
+        "raw_leak": 0.025,
+        "coverage": 1.0,
+        "arcl_reached": 0.025,
+        "censored_rate": 0.95,
+        "collapsed_rate": 0.9,
+        "question_echo_rate": 0.025,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 4,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.025,
+          0.975
+        ],
+        "estimable": false
+      },
+      "ZeroThink": {
+        "n": 40,
+        "raw_leak": 0.05,
+        "coverage": 1.0,
+        "arcl_reached": 0.05,
+        "censored_rate": 0.825,
+        "collapsed_rate": 0.775,
+        "question_echo_rate": 0.05,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 9,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.05,
+          0.875
+        ],
+        "estimable": true
+      }
+    },
+    "r2mu01": {
+      "DefaultCoT": {
+        "n": 40,
+        "raw_leak": 0.2,
+        "coverage": 0.375,
+        "arcl_reached": 0.266667,
+        "censored_rate": 0.475,
+        "collapsed_rate": 0.475,
+        "question_echo_rate": 0.2,
+        "no_answer_channel_rate": 0.175,
+        "clean_cell_n": 10,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.2,
+          0.675
+        ],
+        "estimable": true
+      },
+      "LessThink": {
+        "n": 40,
+        "raw_leak": 0.15,
+        "coverage": 1.0,
+        "arcl_reached": 0.15,
+        "censored_rate": 0.15,
+        "collapsed_rate": 0.125,
+        "question_echo_rate": 0.15,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 29,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.15,
+          0.3
+        ],
+        "estimable": true
+      },
+      "SummaryThink": {
+        "n": 40,
+        "raw_leak": 0.175,
+        "coverage": 1.0,
+        "arcl_reached": 0.175,
+        "censored_rate": 0.025,
+        "collapsed_rate": 0.025,
+        "question_echo_rate": 0.175,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 32,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.175,
+          0.2
+        ],
+        "estimable": true
+      },
+      "ZeroThink": {
+        "n": 40,
+        "raw_leak": 0.15,
+        "coverage": 1.0,
+        "arcl_reached": 0.15,
+        "censored_rate": 0.0,
+        "collapsed_rate": 0.0,
+        "question_echo_rate": 0.15,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 34,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.15,
+          0.15
+        ],
+        "estimable": true
+      }
+    },
+    "r2mu05": {
+      "DefaultCoT": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 0.05,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.975,
+        "collapsed_rate": 1.0,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 0,
+        "clean_cell_leak": null,
+        "cold_interval": [
+          0.0,
+          0.975
+        ],
+        "estimable": false
+      },
+      "LessThink": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.975,
+        "collapsed_rate": 0.975,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 1,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.0,
+          0.975
+        ],
+        "estimable": false
+      },
+      "SummaryThink": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.95,
+        "collapsed_rate": 0.95,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 2,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.0,
+          0.95
+        ],
+        "estimable": false
+      },
+      "ZeroThink": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.95,
+        "collapsed_rate": 0.925,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 3,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.0,
+          0.95
+        ],
+        "estimable": false
+      }
+    },
+    "ours-inv": {
+      "DefaultCoT": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 0.0,
+        "arcl_reached": null,
+        "censored_rate": 0.0,
+        "collapsed_rate": 0.0,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 1.0,
+        "clean_cell_n": 0,
+        "clean_cell_leak": null,
+        "cold_interval": [
+          0.0,
+          0.0
+        ],
+        "estimable": false
+      },
+      "LessThink": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.0,
+        "collapsed_rate": 0.0,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 40,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.0,
+          0.0
+        ],
+        "estimable": true
+      },
+      "SummaryThink": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.0,
+        "collapsed_rate": 0.0,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 40,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.0,
+          0.0
+        ],
+        "estimable": true
+      },
+      "ZeroThink": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.0,
+        "collapsed_rate": 0.0,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 40,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.0,
+          0.0
+        ],
+        "estimable": true
+      }
+    },
+    "ctrl-single": {
+      "DefaultCoT": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 0.0,
+        "arcl_reached": null,
+        "censored_rate": 0.0,
+        "collapsed_rate": 0.0,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 1.0,
+        "clean_cell_n": 0,
+        "clean_cell_leak": null,
+        "cold_interval": [
+          0.0,
+          0.0
+        ],
+        "estimable": false
+      },
+      "LessThink": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.0,
+        "collapsed_rate": 0.0,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 40,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.0,
+          0.0
+        ],
+        "estimable": true
+      },
+      "SummaryThink": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.0,
+        "collapsed_rate": 0.0,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 40,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.0,
+          0.0
+        ],
+        "estimable": true
+      },
+      "ZeroThink": {
+        "n": 40,
+        "raw_leak": 0.0,
+        "coverage": 1.0,
+        "arcl_reached": 0.0,
+        "censored_rate": 0.0,
+        "collapsed_rate": 0.0,
+        "question_echo_rate": 0.0,
+        "no_answer_channel_rate": 0.0,
+        "clean_cell_n": 40,
+        "clean_cell_leak": 0.0,
+        "cold_interval": [
+          0.0,
+          0.0
+        ],
+        "estimable": true
+      }
+    }
+  },
+  "matched_budget": {
+    "target": {
+      "matched_cells": {
+        "256": {
+          "n_shared_questions": 20,
+          "per_strategy": {
+            "LessThink": {
+              "n": 20,
+              "raw_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 20,
+              "raw_leak": 0.05
+            },
+            "SummaryThink": {
+              "n": 20,
+              "raw_leak": 0.05
+            },
+            "DefaultCoT": {
+              "n": 20,
+              "raw_leak": 0.1
+            }
+          },
+          "gamma": 0.1
+        }
+      },
+      "gamma_matched": {
+        "256": 0.1
+      },
+      "gamma_unmatched_default": 0.05,
+      "estimable": true,
+      "note": "Matched means: same question subset AND same token budget across strategies. Cells are not pooled when the shared-question count is below 8."
+    },
+    "r2mu01": {
+      "matched_cells": {
+        "256": {
+          "n_shared_questions": 20,
+          "per_strategy": {
+            "LessThink": {
+              "n": 20,
+              "raw_leak": 0.15
+            },
+            "ZeroThink": {
+              "n": 20,
+              "raw_leak": 0.2
+            },
+            "SummaryThink": {
+              "n": 20,
+              "raw_leak": 0.15
+            },
+            "DefaultCoT": {
+              "n": 20,
+              "raw_leak": 0.1
+            }
+          },
+          "gamma": 0.1
+        }
+      },
+      "gamma_matched": {
+        "256": 0.1
+      },
+      "gamma_unmatched_default": 0.05,
+      "estimable": true,
+      "note": "Matched means: same question subset AND same token budget across strategies. Cells are not pooled when the shared-question count is below 8."
+    },
+    "r2mu05": {
+      "matched_cells": {
+        "256": {
+          "n_shared_questions": 40,
+          "per_strategy": {
+            "LessThink": {
+              "n": 40,
+              "raw_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "raw_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "raw_leak": 0.0
+            }
+          },
+          "gamma": 0.0
+        }
+      },
+      "gamma_matched": {
+        "256": 0.0
+      },
+      "gamma_unmatched_default": 0.0,
+      "estimable": true,
+      "note": "Matched means: same question subset AND same token budget across strategies. Cells are not pooled when the shared-question count is below 8."
+    },
+    "ours-inv": {
+      "matched_cells": {
+        "256": {
+          "n_shared_questions": 20,
+          "per_strategy": {
+            "LessThink": {
+              "n": 20,
+              "raw_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 20,
+              "raw_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 20,
+              "raw_leak": 0.0
+            },
+            "DefaultCoT": {
+              "n": 20,
+              "raw_leak": 0.0
+            }
+          },
+          "gamma": 0.0
+        }
+      },
+      "gamma_matched": {
+        "256": 0.0
+      },
+      "gamma_unmatched_default": 0.0,
+      "estimable": true,
+      "note": "Matched means: same question subset AND same token budget across strategies. Cells are not pooled when the shared-question count is below 8."
+    },
+    "ctrl-single": {
+      "matched_cells": {
+        "256": {
+          "n_shared_questions": 40,
+          "per_strategy": {
+            "LessThink": {
+              "n": 40,
+              "raw_leak": 0.0
+            },
+            "ZeroThink": {
+              "n": 40,
+              "raw_leak": 0.0
+            },
+            "SummaryThink": {
+              "n": 40,
+              "raw_leak": 0.0
+            }
+          },
+          "gamma": 0.0
+        }
+      },
+      "gamma_matched": {
+        "256": 0.0
+      },
+      "gamma_unmatched_default": 0.0,
+      "estimable": true,
+      "note": "Matched means: same question subset AND same token budget across strategies. Cells are not pooled when the shared-question count is below 8."
+    }
+  },
+  "claims": {
+    "C1_state_confound": {
+      "status": "SUPPORTED",
+      "why": "raw leak rate across the five systems spans 0.0-0.16875 while collapsed_rate spans 0.0-0.9625; r2mu05 reports raw_leak=0.0 with ~1.0 collapse, i.e. the zero is produced by degenerate text, not by forgetting."
+    },
+    "C2_reranking": {
+      "status": "SUPPORTED_ON_UNEVALUABILITY",
+      "systems_moved_off_the_rankable_set": [
+        "ctrl-single",
+        "ours-inv",
+        "r2mu05",
+        "target"
+      ],
+      "why": "A system is only rankable if at least one state cell has >=8 clean samples. Systems without any such cell move from 'perfectly forgotten' to 'unevaluable', which is a change of status, not a reversal of an ordering. No cell has a nonzero clean-cell leak, so no ordering reversal can be demonstrated yet.",
+      "honest_limit": "clean_cell_leak = 0 in every estimable cell; the stratified estimate therefore cannot reorder systems by magnitude, only reclassify them."
+    },
+    "C3_judge": {
+      "status": "PARTIAL",
+      "why": "agreement=1.0 on 30/32 judged samples; the 2 failed calls are unlabelled."
+    },
+    "C4_censoring_bound": {
+      "status": "REFUTED_ON_THIS_BATCH",
+      "why": "the interval width is 0 wherever every sample already leaks; no preregistered decision threshold exists to compare against."
+    }
+  },
+  "taxonomy_caveat": "Four states are not enough: ours-inv and ctrl-single DefaultCoT have answer_reached=0 with truncated=0, i.e. the answer channel is absent without truncation. That is a fifth state (no-answer-channel) and is reported separately."
+}

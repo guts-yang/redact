@@ -190,5 +190,5 @@
       ]
     }
   ],
-  "integrity": "RUBRIC frozen at v1.0; iteration adds evidence only. No threshold/anchor/weight was changed between v1 and v2."
+  "integrity": "RUBRIC frozen at v1.0 (hash unchanged); iteration adds evidence only. No anchor, weight or threshold was changed from v1 to v2 to v3."
 }

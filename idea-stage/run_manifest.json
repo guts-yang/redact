@@ -1,0 +1,226 @@
+{
+  "run_id": "lrm-loop-20261124",
+  "model": {
+    "path": "/jizhicfs/chenyliao/models/sangyon/LRM-target",
+    "files": [
+      {
+        "name": ".gitattributes",
+        "bytes": 1519,
+        "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+        "cache_key": "1519:1795067193",
+        "hash_mode": "cached"
+      },
+      {
+        "name": "model-00001-of-00004.safetensors",
+        "bytes": 4976698672,
+        "sha256": "274c048d5d0837a9fc42d57cbfe0429b75b35e0919c64c1b66c64abdcf3d3b7d",
+        "cache_key": "4976698672:1795067696",
+        "hash_mode": "cached"
+      },
+      {
+        "name": "model-00002-of-00004.safetensors",
+        "bytes": 4999802720,
+        "sha256": "68efb958bf0f72c945fe83b5487140ca43b612125538d2061188689b6f3743aa",
+        "cache_key": "4999802720:1795067699",
+        "hash_mode": "cached"
+      },
+      {
+        "name": "model-00003-of-00004.safetensors",
+        "bytes": 4915916176,
+        "sha256": "ed9ebdf68270bef95219e7cc03bdd6bc8d46e07bd5fddb9d72a675681ff7fe9b",
+        "cache_key": "4915916176:1795067686",
+        "hash_mode": "cached"
+      },
+      {
+        "name": "model-00004-of-00004.safetensors",
+        "bytes": 1168138808,
+        "sha256": "a5737ef58662aab22c1c14b5363971e895d823095d14c2b3753c74965cf48c21",
+        "cache_key": "1168138808:1795067311",
+        "hash_mode": "cached"
+      },
+      {
+        "name": "training_args.bin",
+        "bytes": 7032,
+        "sha256": "44aadef8d9ed34d50134019783f391ec8752b9bd0bbc1ce3daab2adbed7d4dca",
+        "cache_key": "7032:1795067195",
+        "hash_mode": "cached"
+      }
+    ],
+    "sha256_total": "1cf98e13e9640047692066c2de8257738232bda5c993d6c15588c6cce3fba5f3",
+    "config.json": {
+      "sha256": "6c81c3aa9381b31d04c21878e58c62effde4dc30166c44813125618ce8eb33f0",
+      "bytes": 907
+    },
+    "generation_config.json": {
+      "sha256": "1746f07a4cd1df7e7c8afe86cc6481e6ad1945753de2b341589f2c2a92ac0ca7",
+      "bytes": 181
+    },
+    "model.safetensors.index.json": {
+      "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b",
+      "bytes": 23950
+    }
+  },
+  "code": {
+    "decode_eval.py": {
+      "sha256": "f9d4d588e659cb323ab8cc877ad346282e82c7f229aaadddaa0c447ab3d62e9c",
+      "bytes": 8360
+    },
+    "llm_judge.py": {
+      "sha256": "5947e751508fdb4c9e5112885fec46206e8e55f0b6b41f363ea785e55212b6c7",
+      "bytes": 10735
+    }
+  },
+  "prompt_set": {
+    "n_unique_questions": 60,
+    "sha256_sorted_questions": "ce876de0ad3dc596ec6d48d830d2e30e71a085e928c75d3cb1b26e403f30dca7"
+  },
+  "decoding": {
+    "do_sample": false,
+    "seed": 1001,
+    "dtype": "fp32",
+    "note": "as configured for the pilot runs; bf16 KV-cache decode hit SIGFPE on this host",
+    "observed_strategy_budget_cells": [
+      "DefaultCoT@64",
+      "DefaultCoT@128",
+      "DefaultCoT@192",
+      "DefaultCoT@256",
+      "DefaultCoT@512",
+      "DefaultCoT@1024",
+      "DefaultCoT:retain@64",
+      "DefaultCoT:retain@192",
+      "DefaultCoT:retain@512",
+      "LessThink@192",
+      "LessThink@256",
+      "LessThink:retain@192",
+      "LessThink:retain@256",
+      "SummaryThink@192",
+      "SummaryThink@256",
+      "SummaryThink:retain@192",
+      "SummaryThink:retain@256",
+      "ZeroThink@64",
+      "ZeroThink@192",
+      "ZeroThink@256",
+      "ZeroThink:retain@64",
+      "ZeroThink:retain@192",
+      "ZeroThink:retain@256"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_ctrl-single.jsonl",
+      "bytes": 182678,
+      "mtime_utc": "2026-11-24T11:32:56.365162Z",
+      "rows": 240,
+      "sha256": "85a94cb4fb7cb00e83031afb55b3de4caf1b4af5a2eb5c7bc12c7bc93653435c",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_loop24.jsonl",
+      "bytes": 74186,
+      "mtime_utc": "2026-11-24T12:04:58.396932Z",
+      "rows": 48,
+      "sha256": "6d9aef898e3bb2691395572870340208975a5ed252f5c0cf854d89d6b0561d81",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_loop24_budget.jsonl",
+      "bytes": 95269,
+      "mtime_utc": "2026-11-24T12:09:16.945752Z",
+      "rows": 32,
+      "sha256": "e426f807c16373f1fa54b89d067798594efe92c10b2b8d81cb4da5b905c61621",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_loop24_cot.jsonl",
+      "bytes": 47372,
+      "mtime_utc": "2026-11-24T12:15:32.367587Z",
+      "rows": 8,
+      "sha256": "1856dcd72d82903b3f6f579fed93de2ae245c45dd614ff8f5f8266c17c6f544a",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_ours-inv.jsonl",
+      "bytes": 182942,
+      "mtime_utc": "2026-11-24T11:32:56.365162Z",
+      "rows": 240,
+      "sha256": "fbacfdf52d27134fd1ade700a44f59af17dd2ac059f7d529a0c0415515f21b64",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_ours-inv_budget.jsonl",
+      "bytes": 61532,
+      "mtime_utc": "2026-11-24T11:32:56.365162Z",
+      "rows": 80,
+      "sha256": "398463f88999f4b50e2ea10da817573f650fff248a043227d43e59edfc7526f0",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_r2mu01.jsonl",
+      "bytes": 423908,
+      "mtime_utc": "2026-11-24T11:32:56.366163Z",
+      "rows": 240,
+      "sha256": "091c4f47efcec9cf25fc7e7ddee2402cd4d54aec4d762eea42a0a031389c23fb",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_r2mu01_budget.jsonl",
+      "bytes": 204382,
+      "mtime_utc": "2026-11-24T11:32:56.366163Z",
+      "rows": 80,
+      "sha256": "d7ee8a8a3ff796f4f8901add5c6e220a083b2e32ab34002b03f8ef2bf8da9d32",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_r2mu05.jsonl",
+      "bytes": 637286,
+      "mtime_utc": "2026-11-24T11:32:56.367162Z",
+      "rows": 240,
+      "sha256": "23ee812614b9e4abd28d3e8701577aa828038304e7d3fedeb6f91c0c147ed916",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_sanity.jsonl",
+      "bytes": 7581,
+      "mtime_utc": "2026-11-24T11:32:56.367162Z",
+      "rows": 6,
+      "sha256": "21a52958bb4049df22227da53ce2390cc25ef6aa57c1192712812e5480ceb929",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_target.jsonl",
+      "bytes": 713329,
+      "mtime_utc": "2026-11-24T11:32:56.368162Z",
+      "rows": 240,
+      "sha256": "785e09fa1e93f21d1519228e598cbcbe3a25dd8e1d021deaaea14ef55ac3198a",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/eval_target_budget.jsonl",
+      "bytes": 197481,
+      "mtime_utc": "2026-11-24T11:32:56.368162Z",
+      "rows": 80,
+      "sha256": "c46b20e92817049f9c2ccb174dd3b49c235aec0333c36845e24928f6a762e6b7",
+      "sha256_note": null
+    },
+    {
+      "path": "/usr/local/workspace/R-TOFU/workspace/results/judge_loop24_cot.jsonl",
+      "bytes": 21723,
+      "mtime_utc": "2026-11-24T12:17:27.835613Z",
+      "rows": 8,
+      "sha256": "410d5e007276250b3561f293e0f2e1a2aecfb73286d67d9f81881317848bd4b1",
+      "sha256_note": null
+    }
+  ],
+  "scope": "Files and digests only. This manifest cannot prove the runs executed; it makes the claimed configuration checkable against the artifacts that do exist.",
+  "verified_claims": [
+    "weights are unchanged since 2026-11-19 13:54 (file mtimes + digests)",
+    "prompt set is fixed and identifiable by hash",
+    "generation artifacts are individually hashed"
+  ],
+  "unverified_claims": [
+    "GPU model/time used",
+    "that no other checkpoint was loaded",
+    "the RNG stream",
+    "the HF/transformers version actually used at run time"
+  ]
+}

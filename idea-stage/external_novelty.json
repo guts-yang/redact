@@ -1,0 +1,171 @@
+{
+  "run_id": "lrm-loop-20261124",
+  "stage": "external novelty verification",
+  "status": "EXTERNAL-WEB-SEARCH (partial: search + one full-text read)",
+  "date": "2026-11-24",
+  "provider": "live web search (CodeBuddy web_search backend) + page-level fetch of the closest hit",
+  "api_notes": [
+    "export.arxiv.org API and api.semanticscholar.org/graph/v1 both returned HTTP 429 (rate limited) from this egress; the search was therefore executed through the web-search backend and every hit below carries a resolvable URL.",
+    "No arXiv ID is asserted unless it appears in the retrieved page. arXiv:2506.00688 was read in full (ar5iv) and its content is quoted from that read."
+  ],
+  "queries": [
+    "LLM unlearning evaluation leakage rate confounded by generation truncation answer reachability",
+    "unlearning benchmark reasoning models chain-of-thought leakage censoring interval evaluation 2026",
+    "\"conditional\" leak rate stratified by generation state answer reached coverage unlearning audit",
+    "LLM-as-judge agreement with string match unlearning metric failure rate denominator bias utility gate retain",
+    "reproducibility audit inference-time unlearning detector threshold version binding backend drift"
+  ],
+  "sources": [
+    {
+      "id": "arXiv:2506.00688",
+      "title": "Existing Large Language Model Unlearning Evaluations Are Inconclusive",
+      "url": "https://ar5iv.arxiv.org/html/2506.00688",
+      "verification": "FULL-TEXT READ",
+      "what_it_covers": "Information injection (finetuning + input-space attacks), spurious generalization inside TOFU, and task/format dependence: letter vs text vs greedy-generate criteria can reverse the conclusion. Recommends disclosing an injection budget, reporting a cross-format leakage matrix, and treating memorization detectors as a one-sided yardstick.",
+      "what_it_does_not_cover": "No formalization of censoring/truncation bias, no coverage metric, no conditional leak rate P(leak | generation state), no stratification by answer-reached / censored / collapsed / question-echo, and no discussion of decode-length limits. Stratification it proposes is by task format, not by generation state.",
+      "relation_to_this_project": "Closest prior work and the strongest motivation for I01. It proves evaluation conclusions are format-fragile but stops at diagnosis and recommendation; it does not give a stratified estimator, which is exactly the gap I01 fills."
+    },
+    {
+      "id": "arXiv:2511.04934",
+      "title": "Leak@k: Unlearning Does Not Make LLMs Forget Under Probabilistic Decoding (ICML 2026)",
+      "url": "https://ar5iv.labs.arxiv.org/html/2511.04934",
+      "verification": "search-level (abstract and claims)",
+      "what_it_covers": "Single-generation greedy evaluation creates an 'illusion of forgetting'; defines leak@k over k independent generations and proposes RULE.",
+      "what_it_does_not_cover": "Its axis is sampling multiplicity, not token-budget truncation or answer reachability; it does not stratify by generation state or publish a censoring interval.",
+      "relation_to_this_project": "Strong adjacency to I02 (budget) and I08 (decoding-path invariance). It already establishes that decoding choice moves leakage, so an uncontrolled cross-strategy gamma claim is no longer novel on its own."
+    },
+    {
+      "id": "arXiv:2605.18891",
+      "title": "Auditing Reasoning-Trace Memorization Claims after Unlearning with Head-Conditioned Canaries",
+      "url": "https://arxiv.org/abs/2605.18891",
+      "verification": "search-level (abstract and equations)",
+      "what_it_covers": "Defines thk_leak as substring containment of the answer inside the reasoning trace and a 'bypass gap' Delta = thk_leak - out_acc, i.e. a per-sample trace-vs-answer channel contrast, and audits whether that gap proves weight-level memorization.",
+      "what_it_does_not_cover": "Does not condition on answer reachability or censoring, does not stratify across systems, and does not treat collapsed / question-echo generations as separate estimands.",
+      "relation_to_this_project": "OVERLAPS I03 (cot-vs-answer channel split) at the metric level. I03 must not be presented as a new channel decomposition."
+    },
+    {
+      "id": "arXiv:2609.12808",
+      "title": "K-Bench: A Benchmark for LLM Unlearning in Agentic Deployments",
+      "url": "https://alphaxiv.org/abs/2609.12808v2",
+      "verification": "search-level (abstract)",
+      "what_it_covers": "Scores leakage across six agent channels including CoT, tool calls and observations; argues final-answer-only certificates do not transfer to deployment.",
+      "what_it_does_not_cover": "Agentic setting; no generation-state stratification of a single model's leakage.",
+      "relation_to_this_project": "Second overlap for I03; also a direct challenge to any claim that 'answer-level metrics are the only problem'."
+    },
+    {
+      "id": "ShadowBench",
+      "title": "ShadowBench: unlearning deletes names, not knowledge (NeurIPS 2026 D&B)",
+      "url": "https://www.aimodeling.com/en/news/slug/shadowbench-unlearning-illusion-of-forgetting",
+      "verification": "search-level (summary of the paper)",
+      "what_it_covers": "Knowledge is lexically anchored: name suppression is not knowledge removal, and the model can emit the name unprompted.",
+      "what_it_does_not_cover": "Does not supply a local paraphrase-recovery measurement protocol paired with this project's generations.",
+      "relation_to_this_project": "OVERLAPS I09 (lexical anchoring / paraphrase recovery). I09's framing is already published at NeurIPS 2026; only an incremental local protocol remains."
+    },
+    {
+      "id": "web:LLM-as-judge-calibration",
+      "title": "Generic LLM-as-judge calibration and bias literature (multiple vendor/engineering sources)",
+      "url": "https://www.datadoghq.com/knowledge-center/llm-as-a-judge",
+      "verification": "search-level (multiple practitioner sources, no single canonical paper)",
+      "what_it_covers": "Judge-vs-human agreement, position/verbosity bias, calibrate-before-trusting, measure fail recall rather than agreement.",
+      "what_it_does_not_cover": "No unlearning-specific denominator-bias audit against string entity match.",
+      "relation_to_this_project": "I05's technique (calibration against a cheaper metric) is standard; only the unlearning application is differentiated."
+    },
+    {
+      "id": "arXiv:2605.19537",
+      "title": "The Silent Hyperparameter: Quantifying the Impact of Inference Backends on LLM Reproducibility",
+      "url": "https://arxiv.org/pdf/2605.19537v1",
+      "verification": "search-level (abstract)",
+      "what_it_covers": "Inference backends and numeric precision materially change outputs, so reproducibility is backend-bound.",
+      "what_it_does_not_cover": "No audit of an unlearning detector's threshold / judge-backend / data-version contract.",
+      "relation_to_this_project": "Motivates I10 but does not pre-empt it: the object audited there is the inference stack, not the detector contract."
+    }
+  ],
+  "ideas": {
+    "I01": {
+      "verification_status": "EXTERNAL-WEB-SEARCH [CLOSEST-VERIFIED]",
+      "near_duplicates": [
+        {"id": "arXiv:2506.00688", "title": "Existing LLM Unlearning Evaluations Are Inconclusive", "relation": "motivates but does not overlap", "why": "diagnoses format dependence and injection, no censoring/coverage/conditional leak rate and no generation-state strata"}
+      ],
+      "differentiator_holds": true,
+      "differentiator": "P(leak | generation state) with coverage and a censoring interval, plus re-ranking systems on the stratified estimator. The closest work stratifies by task format, not by generation state, and explicitly does not formalize truncation bias."
+    },
+    "I02": {
+      "verification_status": "EXTERNAL-WEB-SEARCH [ADJACENT]",
+      "near_duplicates": [
+        {"id": "arXiv:2511.04934", "title": "Leak@k", "relation": "adjacent, different axis", "why": "sampling-multiplicity budget, not token-budget matching across decoding strategies"}
+      ],
+      "differentiator_holds": true,
+      "differentiator": "Matched TOKEN budget across strategies; Leak@k varies the number of samples at a fixed decode setting."
+    },
+    "I03": {
+      "verification_status": "EXTERNAL-WEB-SEARCH [OVERLAP]",
+      "near_duplicates": [
+        {"id": "arXiv:2605.18891", "title": "Head-Conditioned Canaries", "relation": "overlap", "why": "already defines a per-sample substring-based trace-vs-answer bypass gap"},
+        {"id": "arXiv:2609.12808", "title": "K-Bench", "relation": "overlap", "why": "already scores CoT and answer channels separately"}
+      ],
+      "differentiator_holds": false,
+      "differentiator": "None that survives: the cot-vs-answer decomposition is published."
+    },
+    "I04": {
+      "verification_status": "EXTERNAL-WEB-SEARCH [CLOSEST-VERIFIED]",
+      "near_duplicates": [
+        {"id": "arXiv:2506.00688", "title": "Existing LLM Unlearning Evaluations Are Inconclusive", "relation": "motivates but does not overlap", "why": "uses fixed task-specific success thresholds (a de facto censoring rule) but never identifies it as censoring, never bounds the resulting bias, and never publishes an interval"}
+      ],
+      "differentiator_holds": true,
+      "differentiator": "An explicit [optimistic, pessimistic] censoring interval for evaluator truncation, required alongside every point estimate."
+    },
+    "I05": {
+      "verification_status": "EXTERNAL-WEB-SEARCH [ADJACENT]",
+      "near_duplicates": [
+        {"id": "web:LLM-as-judge-calibration", "title": "generic judge calibration / bias literature", "relation": "adjacent, domain-generic", "why": "calibration against a cheaper metric and fail-recall accounting are standard practice outside unlearning"}
+      ],
+      "differentiator_holds": false,
+      "differentiator": "Only the unlearning-specific denominator-bias application remains, which is application-level, not a new method."
+    },
+    "I06": {
+      "verification_status": "EXTERNAL-WEB-SEARCH [ADJACENT]",
+      "near_duplicates": [
+        {"id": "arXiv:2511.04934", "title": "Leak@k", "relation": "adjacent", "why": "shows decoding choice changes leakage; does not use a forced short-think channel as reachability instrumentation"},
+        {"id": "arXiv:2605.18891", "title": "Head-Conditioned Canaries", "relation": "adjacent", "why": "manipulates decoder-time conditions to audit traces, but not answer-reachability control"}
+      ],
+      "differentiator_holds": true,
+      "differentiator": "Uses the forced/zero-think channel as an EVALUATION instrument for reachability, not as an attack."
+    },
+    "I07": {
+      "verification_status": "EXTERNAL-WEB-SEARCH [ADJACENT]",
+      "near_duplicates": [],
+      "differentiator_holds": true,
+      "differentiator": "Makes retain utility a hard GATE on a forgetting claim rather than a co-reported metric; no retrieved hit does this, though utility co-reporting is universal."
+    },
+    "I08": {
+      "verification_status": "EXTERNAL-WEB-SEARCH [ADJACENT]",
+      "near_duplicates": [
+        {"id": "arXiv:2511.04934", "title": "Leak@k", "relation": "adjacent", "why": "already establishes that reported forgetting depends on the decode configuration"}
+      ],
+      "differentiator_holds": true,
+      "differentiator": "Recomputes an existing invariance claim (gamma) under a reachability control; the target is a specific published-style claim, not a new metric."
+    },
+    "I09": {
+      "verification_status": "EXTERNAL-WEB-SEARCH [OVERLAP]",
+      "near_duplicates": [
+        {"id": "ShadowBench", "title": "unlearning deletes names, not knowledge (NeurIPS 2026 D&B)", "relation": "overlap", "why": "already establishes lexical anchoring of knowledge and name-suppression failure at scale"}
+      ],
+      "differentiator_holds": false,
+      "differentiator": "None that survives: lexical anchoring is published at a major venue; a 400-row local paraphrase bank adds no new claim."
+    },
+    "I10": {
+      "verification_status": "EXTERNAL-WEB-SEARCH [ADJACENT]",
+      "near_duplicates": [
+        {"id": "arXiv:2605.19537", "title": "The Silent Hyperparameter", "relation": "adjacent", "why": "audits inference-stack reproducibility, not an unlearning detector's threshold/judge/data contract"}
+      ],
+      "differentiator_holds": true,
+      "differentiator": "Audits the detector CONTRACT (threshold persistence, judge backend drift, version binding) on shipped artifacts of an inference-time unlearning system."
+    }
+  },
+  "summary": {
+    "ideas_with_overlap": ["I03", "I09"],
+    "ideas_with_clean_novelty": ["I01", "I04", "I02", "I06", "I07", "I08", "I10"],
+    "ideas_weakened_to_application_only": ["I05"],
+    "note": "This is a real external search, not a catalogue-only scan. It DEMOTES two ideas (I03, I09) that the local 34-paper catalogue could not resolve, and it demotes I05 from 'method' to 'application'. D4=2 additionally requires the cross-family reviewer to sign the specific novelty claim in idea-stage/cross_review.json."
+  }
+}

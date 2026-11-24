@@ -1,0 +1,127 @@
+{
+  "run_id": "lrm-loop-20261124",
+  "tier": "external-critical-review",
+  "reviewer_model": "hy4",
+  "reviewer_family": "hy4 (user-designated cross-family backend; executor agent is DeepSeek)",
+  "response_id": "eaeb91e6739e42679791245d78ee9485",
+  "trace_path": ".aris/traces/20261124T133949Z-hy4-external-critical-review.json",
+  "trace_sha256": "02a69e25d8dcdb6d834b435f2a34f3b0786cfb2e17d2d443f0b10970bd671501",
+  "verdict": "PROCEED_WITH_CAUTION",
+  "score": 6.0,
+  "strongest_case": "The strongest case is conditional on the asserted identical-weights, identical-question, only-budget contrast being real: leak_rate moves from 0.025 to 1.0 while truncation, coverage, degeneration, and echo states move in the opposite directions. That is a direct falsification of the inference 'low entity_leak means forgetting' for this frozen model, not just a speculative metric critique. Forced reachability and all-echo pilot results make the failure mode cheap and concrete: answer_reached can be 0.0 while leak_rate is 1.0, and generic judge disagreement, trace-only leakage, and non-degenerate censoring bounds are not needed to explain the pilot. The narrow paper that could still work is an evaluation protocol reporting per-sample generation state, exact match spans, conditional leak rates, and censoring/reachability bounds; the supplied full-text note says the closest verified work does not formalize those pieces.",
+  "risks": [
+    {
+      "risk": "The core I01 audit is not actually in evidence: there is no generation-state-stratified conditional leak-rate table, only a budget-change contrast and several negative pilots.",
+      "severity": "high",
+      "cheapest_test": "No-GPU re-score stored outputs if full logs exist; if full logs are unavailable, rerun the supplied 192- and 512-token budgets and save full responses. Produce a per-sample table with answer_reached/censored, degenerate, question_echo-only, exact match span, and conditional leak rates; the missing measurement is that state-stratified per-sample table."
+    },
+    {
+      "risk": "The metric and state labels are detector-dependent, and the sample-level story is internally ambiguous; exact substring spans, prompt hashes, detector thresholds, and channel annotations are absent.",
+      "severity": "high",
+      "cheapest_test": "Run a REDaCT-style re-score of stored outputs with exact gold phrases, full prompts, full trace/answer split, matching rule, and per-sample match spans; the missing measurement is the detector configuration plus per-sample match span/boolean. If the 'collapsed, no entity' sample is not a substring hit or echo-only hits cannot be separated, the key example fails."
+    },
+    {
+      "risk": "Novelty is close to arXiv:2506.00688, which already supplies an inconclusive-evaluation thesis and a cross-format leakage matrix; a reviewer can frame I01 as an instantiation rather than a new contribution.",
+      "severity": "high",
+      "cheapest_test": "Do a no-GPU protocol delta audit against the supplied full-text note for arXiv:2506.00688, mapping generation states, coverage, conditional leak rates, censoring bounds, and decode-length truncation against injection budgets and cross-format leakage matrix; the missing measurement is a line-level mapping showing whether the closest work already implies these states. If it does, novelty should be refuted; if it does not, only the narrow delta survives."
+    },
+    {
+      "risk": "The broad cross-system comparability and lexical-anchoring/recovery claims are unmeasured: I02 has no matched-budget cross-strategy contrast, and I09 has no GPU-paired paraphrase recovery rate.",
+      "severity": "high",
+      "cheapest_test": "Pair the existing 400 paraphrase probes with one matched-budget generation grid and record prompt hashes, exact gold phrase presence, state labels, and raw/conditional leak rates; the missing measurement is the recovery rate plus cross-strategy conditional leak curves. If no echo-free recovery or no cross-strategy curve can be computed, drop the cross-system and lexical-anchoring claims."
+    },
+    {
+      "risk": "Several companion summaries are degenerate, undefined, or contradictory: 2 judge calls failed despite agreement=1.0, the censoring bound is [1.0, 1.0], the decision threshold is missing, gamma_controlled=0.0 is reported under zero coverage, and the retain gate reports pass=True below the stated threshold.",
+      "severity": "medium",
+      "cheapest_test": "Recompute all pilot summaries from raw per-sample records, rerun the 2 failed judge calls, state the decision threshold, define how gamma handles zero coverage, and recompute the gate pass flag; the missing measurement is per-sample judge labels, preregistered threshold/bound formula, gate formula, and paired reachable outputs. If contradictions remain, these pilots cannot support paper pillars."
+    }
+  ],
+  "novelty_adjudication": {
+    "I01": {
+      "status": "WEAKENED",
+      "sentence": "WEAKENED rather than REFUTED only because the supplied full-text note says arXiv:2506.00688 does not formalize generation-state stratification, coverage, conditional leak rates, or decode-length truncation, but that work already supplies the broad 'unlearning evaluations are inconclusive' thesis and a cross-format leakage matrix."
+    },
+    "I04": {
+      "status": "WEAKENED",
+      "sentence": "WEAKENED rather than REFUTED only because the supplied full-text note says censoring bounds are not formalized, but the same closest work's inconclusive-evaluation framing is a near-duplicate motivation and the pilot bound [1.0, 1.0] supplies no discriminating censored case."
+    }
+  },
+  "claim_audit": [
+    {
+      "claim": "The target LRMs' CoT can leak forgotten facts.",
+      "reason": "Unsupported by the supplied evidence: I03 found channel_gap=0.0, answer_channel_leak=1.0, and no trace-only leakage on 8 samples; the missing measurement is a positive trace-channel/fact-bearing leakage rate and channel_gap over the forget set."
+    },
+    {
+      "claim": "entity_leak is causally confounded by exactly answer reachability/censoring, reasoning collapse into degenerate text, and echoing the entity name already present in the question.",
+      "reason": "Unsupported as a causal/factorial claim by the supplied evidence: the 512 vs 192 comparison changes budget and moves truncation, coverage, degeneracy, and echo together; the missing measurement is a state-isolated/stratified conditional leak-rate table with per-sample labels and controlled manipulations."
+    },
+    {
+      "claim": "Cross-system comparisons are not comparable.",
+      "reason": "Unsupported by the supplied evidence: no cross-system data are shown; the missing measurement is matched-budget conditional leak curves and state distributions for multiple systems with paired prompts."
+    },
+    {
+      "claim": "No weights were modified, and the 512-token vs 192-token runs used identical weights, seed 1001, identical questions, and only a budget change.",
+      "reason": "Unsupported as an independently verified measurement by the supplied evidence: this is asserted but not audited; the missing measurement is a run manifest with checkpoint hash/weight checksum, prompt ID/hash, full decoding config, stopping rules, detector rules, library versions, and RNG state."
+    },
+    {
+      "claim": "The pilot was actually obtained on 1x H20, greedy decoding, fp32, whole batch ~2 GPU-minutes.",
+      "reason": "Unsupported by the supplied evidence as an auditable run record: only the summary is supplied; the missing measurement is raw run logs, output files, hardware profiler trace, and decoding configs."
+    },
+    {
+      "claim": "entity_leak is the primary metric in the literature.",
+      "reason": "Unsupported by the supplied evidence: no literature audit, citation, or benchmark protocol is included; the missing measurement is a systematic literature-use count and benchmark protocol source showing primary-metric usage."
+    },
+    {
+      "claim": "question_echo_rate, degenerate_rate, coverage, censored_n, and collapsed_n are measured generation-state variables.",
+      "reason": "Unsupported by the supplied evidence: no annotation code/protocol or detector thresholds are supplied; the missing measurement is per-sample state labels, detector thresholds, annotation protocol, and validation against manual labels."
+    },
+    {
+      "claim": "The historical collapsed, no-entity response and this run's echoed-entity response are both counted as leaks by the same substring metric.",
+      "reason": "Unsupported by the supplied evidence and internally contradictory: a substring metric cannot count a key phrase absent from the historical response, and the displayed text is only an opening excerpt; the missing measurement is full prompt/response text, exact gold key phrase, matching rule, and per-sample match span/boolean for both samples."
+    },
+    {
+      "claim": "The entity name in this run is only echoed from the question.",
+      "reason": "Unsupported by the supplied evidence as a semantic attribution: substring containment alone does not distinguish echo from recalled knowledge; the missing measurement is prompt text plus annotation separating question-echo-only matches from answer/CoT-derived fact mentions."
+    },
+    {
+      "claim": "LLM judge agreement=1.0 and llm_leak_rate=1.0 over 32 samples despite 2 judge calls failed.",
+      "reason": "Unsupported by the supplied evidence as a complete 32-sample result: failed calls have no labels and denominator handling is unspecified; the missing measurement is per-sample judge labels, failure policy/denominator, and retry outcomes for the 2 failed calls."
+    },
+    {
+      "claim": "The censoring-bound result refutes the 'interval spans the decision threshold' hypothesis.",
+      "reason": "Unsupported by the supplied evidence: the decision threshold value and bound formula are not supplied, so [1.0, 1.0] cannot be compared to it; the missing measurement is the preregistered threshold and recomputed bound with explicit denominator."
+    },
+    {
+      "claim": "No trace-only leakage was observed on this model.",
+      "reason": "Unsupported by the supplied evidence as a model-level generalization: the measurement is only 8/8 samples at 1024 tokens; the missing measurement is trace-only leakage/channel_gap over the full forget set with uncertainty."
+    },
+    {
+      "claim": "Retain utility gate pass=True at gate threshold 0.5 with ROUGE-L recall=0.475805.",
+      "reason": "Unsupported by the supplied evidence and contradictory if the threshold applies to ROUGE-L recall; the missing measurement is the exact gate formula, denominator/weighting/rounding, per-sample retain scores, and corrected pass flag."
+    },
+    {
+      "claim": "gamma_controlled=0.0 is a reachability-controlled invariance estimate because DefaultCoT has zero coverage.",
+      "reason": "Unsupported by the supplied evidence: DefaultCoT coverage=0.0 means the controlled estimand has no support; the missing measurement is paired answer-reached samples under both strategies, otherwise gamma should be null/undefined."
+    },
+    {
+      "claim": "Token-budget curves exist for DefaultCoT only.",
+      "reason": "Unsupported by the supplied evidence as an auditable result: the actual curves or table are not supplied; the missing measurement is the leak/coverage/degenerate/echo curves as a table for each budget and strategy."
+    },
+    {
+      "claim": "External novelty search already performed, one full-text read, and the closest-work characterization are established.",
+      "reason": "Unsupported by the supplied evidence as verifiable documentation: only result summaries and a full-text note are supplied; the missing measurement is a reproducible search/audit log containing queries, retrieved results, and line-level full-text notes supporting the claims about what the closest work does and does not formalize."
+    }
+  ],
+  "next_experiment": {
+    "name": "Paired matched-budget, no-echo, reachability-controlled generation-state audit.",
+    "design": "On one H20, using greedy decoding, fp32, and seed 1001, take the 32 forget samples and the existing 400 paraphrase probes; first verify from exact prompt text which paraphrases exclude the gold phrase, and run GPU generations only on those no-echo prompts. Run DefaultCoT and forced short-think across the supplied 192-, 512-, and 1024-token budgets, saving full prompt, full reasoning trace, final answer, exact substring match spans, answer_reached/censored, degenerate, question_echo-only, and trace/answer channel labels. Compute raw leak_rate, conditional leak rates after excluding censored/collapsed/echo-only cases, echo-free recovery, and channel_gap from the same paired outputs.",
+    "success_criterion": "Pre-register that I01 is supported only if (a) the run produces a nonzero paired answer-reached, non-degenerate, no-echo cell for every matched budget/strategy comparison; (b) raw leak_rate changes by budget/strategy while the conditional leak label is unchanged for every paired sample in that controlled cell; and (c) at least one no-echo forced-reachability response contains the gold key phrase in the answer or reasoning trace, showing that the low-leak condition was state-confounded rather than forgetting. If (a) fails, if any paired conditional label flips, or if no no-echo recovery is observed, report I01 as unsupported or restrict the paper to a single-model metric pathology.",
+    "estimated_gpu_hours": "≤ 2 GPU-hours on one H20, budgeted from the supplied pilot throughput of about 2 GPU-minutes per whole batch; this is a budget bound, not a measured runtime."
+  },
+  "reviewer_identity": {
+    "model_name": "OpenAI ChatGPT (API model version not exposed in this chat)",
+    "sentence": "I can verify only internal consistency, evidentiary support, and preregistered-test design; I cannot verify experiment execution, weights, logs, web-search/full-text results, GPU timing, or hidden model identity."
+  },
+  "raw_response_chars": 13684,
+  "verdict_source": "parsed from the reviewer's own fenced JSON; never synthesised locally"
+}

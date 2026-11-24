@@ -4,7 +4,34 @@
     "gemini": null,
     "claude": null
   },
-  "cross_family_reviewer": "REVIEW_UNAVAILABLE",
+  "cross_family_reviewer": "AVAILABLE: hy4 (user-designated)",
+  "review_receipt": {
+    "valid": true,
+    "reviewer_model": "hy4",
+    "verdict": "PROCEED_WITH_CAUTION",
+    "score": 6.0,
+    "trace_path": ".aris/traces/20261124T133949Z-hy4-external-critical-review.json",
+    "novelty_adjudication": {
+      "I01": {
+        "status": "WEAKENED",
+        "sentence": "WEAKENED rather than REFUTED only because the supplied full-text note says arXiv:2506.00688 does not formalize generation-state stratification, coverage, conditional leak rates, or decode-length truncation, but that work already supplies the broad 'unlearning evaluations are inconclusive' thesis and a cross-format leakage matrix."
+      },
+      "I04": {
+        "status": "WEAKENED",
+        "sentence": "WEAKENED rather than REFUTED only because the supplied full-text note says censoring bounds are not formalized, but the same closest work's inconclusive-evaluation framing is a near-duplicate motivation and the pilot bound [1.0, 1.0] supplies no discriminating censored case."
+      }
+    },
+    "problems": []
+  },
+  "external_novelty": {
+    "present": true,
+    "status": "EXTERNAL-WEB-SEARCH (partial: search + one full-text read)",
+    "overlapping_ideas": [
+      "I03",
+      "I05",
+      "I09"
+    ]
+  },
   "evidence_gate_helpers": {
     "/usr/local/workspace/redact/.aris/tools/run_state.py": false,
     "/usr/local/workspace/redact/.aris/tools/idea_discovery_gate.py": false,
@@ -18,9 +45,9 @@
   },
   "evidence_gate": "BLOCKED",
   "reasons": [
-    "No codex/gemini/claude CLI is mounted; cross-family review receipts cannot be produced.",
-    "run_state.py / idea_discovery_gate.py / reviewer_route.py were not found in any canonical helper path."
+    "codex/gemini/claude CLIs are not mounted; the review slot ran on the user-designated cross-family backend hy4 instead (see cross_review.json).",
+    "run_state.py / idea_discovery_gate.py / reviewer_route.py are missing from every canonical helper path, so the per-stage evidence gate cannot be executed."
   ],
-  "llm_judge_note": "Hy4 LLM judge is a METRIC, not an independent cross-family reviewer. It cannot substitute for a review receipt.",
-  "honesty_rule": "The workflow must be reported as BLOCKED, not PASS. Survey A.3 records the same REVIEW_UNAVAILABLE condition."
+  "llm_judge_note": "The Hy4 LLM judge used inside the pilots is a METRIC, not a reviewer. The reviewer role is a separate, higher-tier call (cross_review.py) whose prompt carries the negative results and the external near-duplicates.",
+  "honesty_rule": "A BLOCKED gate is the honest state: the review blocker is cleared, the helper blocker is not. Never report PASS on a BLOCKED gate."
 }

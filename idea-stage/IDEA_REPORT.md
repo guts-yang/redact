@@ -1,12 +1,12 @@
-# Idea Discovery Report — LRM/CoT Unlearning 自动化科研闭环
+# Idea Discovery Report — LRM/CoT 遗忘评测的状态分层审计
 
 **Run ID**: `lrm-loop-20261124`
 **Direction**: 面向大型推理模型（LRM）长思维链遗忘的可信评测与解码不变性
-**Date**: 2026-11-24
-**Inputs**: `/usr/local/workspace/awesome-lrm-unlearning`（领域概况，34 篇）+ `/usr/local/workspace/redact`（REDaCT 方法代码）
-**Pipeline**: 问题提炼与验证 → 代码自诊断 → 思路生成 → 10 idea 冻结评分 → 高分方案 GPU 复现 → LLM 评测 → 证据补齐复评
-**Canonical deliverable**: 本文件。其余证据为 `idea-stage/*.json`，由 `auto_loop.py` 机械生成。
-**Status**: 研究内容已完成；**证据门禁 `BLOCKED`，不得视为 PASS**（见 §9）。
+**Date**: 2026-11-24（v4：跨系统审计 + 外部查新 + 跨家族评审）
+**Inputs**: `/usr/local/workspace/awesome-lrm-unlearning`（领域概况，34 篇）+ `/usr/local/workspace/redact`（REDaCT 方法代码）+ `/usr/local/workspace/R-TOFU/workspace/results`（5 个系统的历史生成）
+**Pipeline**: 运行清单 → 跨系统状态审计 → 问题提炼与验证 → 代码自诊断 → 思路生成与冻结评分 → 外部查新 → 跨家族批判性评审 → 证据门禁
+**Canonical deliverable**: 本文件。证据为 `idea-stage/*.json`，全部由 `auto_loop.py` 机械重算。
+**Status**: 研究内容与外部评审已完成；**证据门禁仍为 `BLOCKED`**（缺 ARIS helper，见 §9）。评分 v4 = 9/10 达标、均分 8.6、I09 被外部查新淘汰。
 
 ---
 
@@ -15,24 +15,26 @@
 ```bash
 cd /usr/local/workspace/redact
 python3 idea-stage/auto_loop.py --stage all
-#   verify → diagnose → novelty → pilot → score → gate
+#   manifest → cross → verify → diagnose → novelty → pilot → score → review → gate
+python3 idea-stage/cross_review.py        # 跨家族评审（Hy4），写 .aris/traces + cross_review.json
 ```
 
 数据流：
 
 ```
-本地 GPU 生成记录 (R-TOFU/workspace/results/eval_*.jsonl)
-  + Hy4 LLM judge (judge_*.jsonl)
-  + redact 源码/产物 + awesome 领域清单 (data/papers.json)
-        ↓ auto_loop.py（只读取，不推断、不补数）
-  problem_validation.json / code_diagnosis.json / novelty_scan.json / pilot_results.json
+运行清单 run_manifest.json（权重/提示/产物哈希）
+  + 5 系统 × 4 策略历史生成 cross_system.json（无 GPU，纯重算）
+  + loop24 GPU 生成 + Hy4 judge pilot_results.json
+  + 本地 34 篇目录 novelty_scan.json
+  + 外部检索 external_novelty.json（查询 + URL + 全文读取记录）
+  + 跨家族评审 cross_review.json（指向不可变 trace）
         ↓ 冻结 rubric (hash cff0a224b94802cc)
-  idea_scores_v1.json（提案态）→ idea_scores.json（证据态）
+  v1 提案态 → v2 证据态 → v3 外部查新 → v4 跨系统审计
         ↓ gate_status.json
-  BLOCKED / REVIEW_UNAVAILABLE（独立审查缺失时强制）
+  BLOCKED（helper 缺失）
 ```
 
-迭代规则：**只能补充证据，不能改动锚点、权重或 8 分达标线**。v1 与 v2 使用同一 rubric 与同一份脚本；分数变化全部来自新增的本地实测。
+迭代规则：**只能补充证据，不能改动锚点、权重或 8 分达标线**。rubric 哈希四次评分完全一致；分数变化全部可追溯到新增证据。
 
 评分维度（各 0/1/2，总分 10，达标 ≥8）：
 
@@ -40,34 +42,37 @@ python3 idea-stage/auto_loop.py --stage all
 |---|---|---|---|
 | D1 问题锚定 | 本地量化验证的缺陷 | 仅文献主张 | 无关联 |
 | D2 可证伪 | 预注册指标 + 基线/消融 + 正/负/零三种解释 | 部分 | 无 |
-| D3 可复现 | 本轮给出**判别性**实测（对照/界/判定） | 仅描述性或 partial | 缺资产 |
-| D4 新颖性 | 外部多源查新 + 跨家族审查回执 | 本地 34 篇无近邻 + 区分点（标注 UNVERIFIED） | 本地清单出现任一近邻 |
+| D3 可复现 | 给出**判别性**实测（对照/界/判定） | 仅描述性或 partial | 缺资产 |
+| D4 新颖性 | 外部多源查新通过 + 跨家族回执 | 本地无近邻但未核验 | 出现近邻 |
 | D5 信息量 | 结论两种符号都有价值 | 仅正向有用 | 无决策价值 |
-
-> **完整性说明**：开发期曾把 D3/D4 从宽松**收紧**（发现"有测量即满分""本地查新即满分"有放水嫌疑），并修正 3 处会误导结论的问题（删失上界算出 1.25、预算曲线混样、CoT 通道结构性零值）。首次正式评分前冻结为 `v1.0`，v1→v2 未改任何锚点/权重/阈值。方向始终是**提高严格度**，不是降低标准。
 
 ---
 
 ## 1. Executive Summary
 
-本轮把"长 CoT 遗忘到底有没有被正确度量"变成了可复现的实验问题。在 H20 上对同一份未修改权重的 `sangyon/LRM-target` 跑了 3 组生成，并用 Hy4 完成 LLM 评测。最关键的发现是：**现有 `entity_leak` 是"回答全文是否含 gold 关键短语"的子串匹配，它度量的是生成状态，而不是遗忘程度**——同一模型、同一 seed、同一批问题，仅因生成预算/状态不同，泄漏率从 `0.025` 摆动到 `1.0`（幅度 0.975）。LLM judge 与字符串指标 agreement = 1.0，说明 judge 继承同一语义，无法纠正该混淆。
+本轮把"长 CoT 遗忘到底有没有被正确度量"做成了**可复算的实验问题**，并得到了比上一版更强、更不客气的结论：
 
-10 个候选 idea 在冻结 rubric 下从 v1 的 **0/10 达标（均分 7.0）** 提升到 v2 的 **10/10 达标（均分 8.7，最低 8.0）**，达标完全靠补齐本地实证，不是靠调低标准。最高分被环境上限压在 **9.0**：外部多源查新与跨家族审查后端不可用，D4 全局封顶 1 分。
+1. **同一权重、同一 seed、同一批问题，仅改生成预算，`leak_rate` 从 `0.025` 摆到 `1.0`**（幅度 0.975）。
+2. **把 5 个已有系统的历史生成全部重算后（无 GPU）**：在"答案可达 + 非坍塌 + 非问题回显"的干净单元里，**所有系统、所有可估计单元的泄漏率都是 0**——该指标从未在可测单元里捕捉到泄漏；它的全部方差来自生成状态。
+3. **`r2mu05` 报 `raw_leak=0.0`，但坍塌率 96.3%**；`ours-inv`/`ctrl-single` 报 `raw_leak=0.0`，但 retain ROUGE-L 只有 **0.014 / 0.018**。三个"完美遗忘"的系统，一个是退化文本，两个是把保留集答案也一起废掉。
+4. **retain 效用门在 5/5 系统上按 ROUGE 失败、按可达率全部通过**——现行"效用达标"是空过。
+5. **匹配预算后跨策略差距反而变大**（`gamma_matched=0.10` > `gamma_unmatched=0.05`），I02"差距是长度伪影"的假设被**反驳**。
 
-推荐首选 **I01 生成状态分层泄漏审计**，并把 I04/I05/I06/I07/I08/I10 作为同一诊断框架下的并列高分方案。
+外部查新（真实检索 + 最近工作全文精读）**淘汰了 I09**（ShadowBench 已发表 lexical anchoring）、把 I03 判为重叠、把 I05 降为"应用级"。跨家族评审（Hy4）给 **PROCEED WITH CAUTION / 6.0**，明确把 I01、I04 的新颖性判为 **WEAKENED**，并提出 17 条"证据不足"的指控——本轮已逐条处置（§11），其中 1 条是我方**事实性错误**（已改正）。
+
+推荐首选仍是 **I01 生成状态分层泄漏审计**；并列高分 I02/I04/I06/I07/I08/I10。最高分只能到 **9.0**：D4 的 2 分要求 reviewer 明确签"SUPPORTED"，而它只签了 WEAKENED——这是评审的结论，不是环境的上限。
 
 ---
 
 ## 2. Literature Landscape
 
-来源：`awesome-lrm-unlearning/data/papers.json`（34 篇，2024-10 ~ 2026-11），`README.md`、`survey/index.html`。
+来源：`awesome-lrm-unlearning/data/papers.json`（34 篇，2024-10 ~ 2026-11）+ 本轮外部检索（§6）。
 
-- **五类方法**：参数更新、推理时免训练轨迹调控、基准与整体评测、攻击/漏洞/记忆审计、逐步遗忘测 CoT 忠实度（`data/papers.json:8-38`）。
-- **三类失败模式**（`README.md:58-62`）：Residual CoT leakage、Reasoning collapse、Decoding & reasoning-path bypass。生成分解为 `π(c,a|q)=π(c|q)π(a|q,c)`（`README.md:41-43`）；只约束答案 `a` 覆盖不到思维链 `c`。
-- **开放问题**（`survey/index.html:1093-1110`）：Q21 ZeroThink/LessThink 鲁棒、Q22 CFE/AFE 好但 ShadowBench LELR 高（lexical anchoring）、Q23 暴露 thinking 降低攻击成本、Q24 构造式遗忘引入幻觉替代、Q25 六步"可证明遗忘"闭环，明确承认 O1/O5 未解前完整可证明性仍是开放目标。
-- **真实记忆 vs 虚构基准**（`survey/index.html:1084-1085`）：虚构注入数据"transfers poorly to reality"。
-- **指标现状**：10 基准 / 15 指标 / 10 框架（`data/benchmarks_metrics.json`），核心有 CFE/AFE/RIL/LELR/NFRS/K-Score 等，均为**无条件的率或分数**；没有一条把"生成是否被截断 / 是否坍塌 / 是否复述了问题里的实体"作为分层变量。这正是本轮 I01/I04/I07 的切入点。
-- **审查状态自述**：`survey/index.html:1120`（A.3）记录本环境无跨模型审查后端，状态为 `REVIEW_UNAVAILABLE, not PASS`；与本次 `gate_status.json` 一致。
+- **五类方法**：参数更新、推理时免训练轨迹调控、基准与整体评测、攻击/漏洞/记忆审计、逐步遗忘测 CoT 忠实度。
+- **三类失败模式**：Residual CoT leakage、Reasoning collapse、Decoding & reasoning-path bypass。生成分解为 `π(c,a|q)=π(c|q)π(a|q,c)`；只约束答案覆盖不到思维链。
+- **开放问题**：ZeroThink/LessThink 鲁棒、CFE/AFE 好但 LELR 高（lexical anchoring）、暴露 thinking 降低攻击成本、构造式遗忘引入幻觉替代、"可证明遗忘"六步闭环仍未闭合。
+- **指标现状**：10 基准 / 15 指标 / 10 框架，核心 CFE/AFE/RIL/LELR/NFRS/K-Score 均为**无条件的率或分数**；没有一条把"生成是否被截断 / 是否坍塌 / 是否回显了问题里的实体"作为分层变量。这正是 I01/I04/I07 的切入点。
+- **外部同类诊断**：`arXiv:2506.00688`（已全文精读）证明遗忘评测结论随风控/格式而反转，但**未**形式化截断删失、覆盖率、条件泄漏率，也未按生成状态分层。
 
 ---
 
@@ -83,34 +88,36 @@ python3 idea-stage/auto_loop.py --stage all
 | P3 | judge-指标漂移：字符串匹配与 LLM judge 一致性、judge 失败改变分母 |
 | P4 | 效用/坍塌权衡：`</think>` 闭合、答案可达性、retain 质量与泄漏联动 |
 
-### 3.2 P0 的决定性实证
+### 3.2 P0 的决定性实证（已更正样本叙述）
 
 | | 历史 `eval_target`（512 tok） | 本轮 `eval_loop24`（192 tok） |
 |---|---|---|
 | 权重 / seed / 问题 | `sangyon/LRM-target` / 1001 / 同一批 | 完全相同 |
-| `leak_rate` | **0.025** | **1.0** |
+| `leak_rate` | **0.025**（4/160） | **1.0**（32/32） |
 | `truncated_rate` | 0.975 | 1.0 |
 | `coverage`（到达答案） | 0.15 | 0.0 |
 | `degenerate_rate` | 0.975 | 0.0 |
 | `question_echo_rate` | 0.025 | 1.0 |
 
-样本对照：历史生成的开头是 `"Okay, let's main themes in his work is a AI assistant, AI assistant, right? ..."`（坍塌、不含实体名）；本轮是 `"Alright, let's dive into the themes Nikolai Abilov commonly explores in his works..."`（**只是复述了问题里已有的人名**）。两者 `key_phrase` 都是 `Nikolai Abilov`。
+**更正**（上一版写错，已按原始记录复核）：历史运行里那条坍塌样本（`"Okay, let's main themes in his work is a AI assistant..."`）**并没有**被判为泄漏（该行 `entity_leak=0`，`key_phrase="Nikolai Abilov"` 未出现在 response 中）。历史运行的 4 条泄漏全部是 `key_phrase="African American"` 且 response 反复复述了问题里的这个短语。
 
-**结论**：泄漏率的 0.975 摆动完全由生成状态驱动。LLM judge 对 `loop24` 32 个样本判 `llm_leak_rate=1.0`、`agreement=1.0`，说明 judge 只是把同一子串语义重新表述了一次，不构成独立证伪。
+因此机制描述必须更准确：**两次运行的低/高泄漏都不是"知识回忆"，而是问题回显 + 退化重复**；差别只在于 192 tok 时回显立刻发生、512 tok 时模型先坍塌成 "AI assistant" 循环。上一版"同一指标同时把坍塌样本算作泄漏"的说法不成立，已删除。
+
+**结论不变且更强**：0.975 的摆动完全由生成状态驱动，两个方向的读数都与"是否遗忘"无关。
 
 ### 3.3 与领域概况的对应
 
-P0 是 `README.md:60-61` 两类失败模式（residual CoT leakage / reasoning collapse）在**评测端**的镜像：领域已指出模型会坍塌，但没有指出坍塌会让指标"看起来更好"。P2 对应 `survey:1093` Q21；P1 对应 `README:60`；P3 是 judge 作为 metric 的方法学问题（R-TOFU 代码注释亦明确 "LLM judge is a metric, NOT an independent cross-family review"）。
+P0 是领域已指出的 residual CoT leakage / reasoning collapse 在**评测端**的镜像：领域说了模型会坍塌，但没说坍塌会让指标"看起来更好"。P2 对应 ZeroThink/LessThink 鲁棒性开放问题；P1 对应 residual CoT 通道；P3 是 judge 作为 metric 的方法学问题（R-TOFU 代码注释亦明写 "LLM judge is a metric, NOT an independent cross-family review"）。
 
 ---
 
 ## 4. 给定方法代码（REDaCT）自行诊断
 
-`code_diagnosis.json`：7 项全部经文件级复验（`verified_defect_count=7`），不是转述文档。
+`code_diagnosis.json`：7 项全部经文件级复验（`verified_defect_count=7`）。
 
 | ID | 发现 | 证据 |
 |---|---|---|
-| D1 | 复述（paraphrase）产物整体失败 | `paraphrases/forget10.jsonl` 273/273 `status=error`；deepseek 变体 400/400 `ok` |
+| D1 | 复述产物整体失败 | `paraphrases/forget10.jsonl` 273/273 `status=error`；deepseek 变体 400/400 `ok` |
 | D2 | judge 后端与文档不一致 | `judge_afe_rtofu.py` 走 DeepSeek API，`PIPELINE.md:340-350` 仍写 Claude/GPT-4o |
 | D3 | 阈值持久化静默改变判定率 | `PIPELINE.md:221-224` 明写 "silently change the flagging rate, not error" |
 | D4 | 泄漏检测器权重未随仓库提供 | README:144-152 要求 `hf download`，本地无 classifier 目录 |
@@ -118,96 +125,126 @@ P0 是 `README.md:60-61` 两类失败模式（residual CoT leakage / reasoning c
 | D6 | R-TOFU 输入数据未随仓库提供 | `data/rtofu/` 只有 `PROVENANCE.md` |
 | D7 | 声明的 FA2 运行时不可用 | 配置 `attn_implementation=flash_attention_2`，`redact-r2mu` venv 无 `flash_attn` |
 
-**诊断结论**：REDaCT 的推理时门控假设本身可测，但当前仓库的**复现契约**失效（检测器权重/阈值/数据/judge 后端均未版本绑定）。这直接生成了 I10，并让 I01/I04 的"评测契约"诉求获得工程依据。数据盘 `/jizhicfs/chenyliao` 已具备模型权重与 R-TOFU 数据，因此本轮改用 R-TOFU 推理引擎完成 GPU 复现，避免依赖缺失的检测器权重。
+**诊断结论**：推理时门控假设本身可测，但当前仓库的**复现契约**失效（检测器权重/阈值/数据/judge 后端均未版本绑定）。这直接生成 I10。
 
 ---
 
-## 5. Ranked Ideas（10 个，按 v2 分数降序）
+## 5. Ranked Ideas（10 个，v4 分数）
 
-v1 = 提案态（无实测），v2 = 证据态；rubric 冻结 `cff0a224b94802cc`，达标线 8.0。
+v1 = 提案态；v2 = 加 GPU/judge/代码证据；v3 = 加外部查新 + 评审回执；v4 = 再加跨系统审计。rubric 冻结 `cff0a224b94802cc`，达标线 8.0。
 
-| 排名 | ID | Idea | D1-D5 | v1 | v2 | 锚点 | 本轮实测信号 |
-|---|---|---|---|---|---|---|---|
-| 1 | I01 | 生成状态分层泄漏审计 | 22212 | 7 | **9** | P0 | 32 样本：raw=1.0，coverage=0.75，censored 25%、question-echo 100%、collapsed 0% |
-| 2 | I04 | 删失评测区间 | 22212 | 7 | **9** | P0 | 区间 [1.0, 1.0]，width=0（假设被反驳，阴性结果保留） |
-| 3 | I05 | judge-指标分歧分层 | 22212 | 7 | **9** | P3 | 32 样本，30 判定成功 / 2 失败，agreement=1.0，llm_leak=1.0 |
-| 4 | I06 | 强制答案可达性探针 | 22212 | 7 | **9** | P4 | DefaultCoT 到达率 0.0 vs 强制短思考 1.0，两者泄漏均 1.0 |
-| 5 | I07 | retain 效用硬门控 | 22212 | 7 | **9** | P4 | retain 到达率 0.75、ROUGE 0.476，门限 0.5 → PASS |
-| 6 | I08 | 可达性控制下的不变性重评 | 22212 | 7 | **9** | P2 | `gamma_controlled=0.0`（DefaultCoT 覆盖 0，其余策略 ARCL=1.0） |
-| 7 | I10 | REDaCT 检测器阈值复现审计 | 22212 | 7 | **9** | P3 | 7/7 项复验缺陷，预注册阈值 ≥3 → 阳性 |
-| 8 | I02 | 等预算解码对比 | 22112 | 7 | **8** | P2 | 分 tag 预算曲线已得；预注册 `gamma_budget` 未覆盖（网格仅 DefaultCoT）→ D3=1 |
-| 9 | I03 | CoT-only 泄漏通道审计 | 22202 | 7 | **8** | P1 | 1024-tok 补跑 8/8 闭合 `</think>`，`channel_gap=0.0`（阴性）；本地清单 9 篇近邻 → D4=0 |
-| 10 | I09 | 复述恢复 / lexical anchoring | 22112 | 7 | **8** | P1 | 400 条改写库可用，但无配对生成 → recovery 未测，D3=1 |
+| 排名 | ID | Idea | D1-D5 | v1 | v2 | v3 | v4 | 锚点 | 关键证据 |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | I01 | 生成状态分层泄漏审计 | 22212 | 7 | 9 | 9 | **9** | P0 | 5 系统 × 4 策略重算；干净单元泄漏全 0；4 系统从"已遗忘"变为"不可评估" |
+| 2 | I02 | 等预算解码对比 | 22212 | 7 | 8 | 8 | **9** | P2 | 匹配预算（同问题子集@256）`gamma=0.10` > 未匹配 `0.05` |
+| 3 | I04 | 删失评测区间 | 22212 | 7 | 9 | 9 | **9** | P0 | 区间 [1.0,1.0]、width=0（阴性，保留） |
+| 4 | I06 | 强制答案可达性探针 | 22212 | 7 | 9 | 9 | **9** | P4 | 到达率 0.0 vs 1.0，两者泄漏均 1.0 |
+| 5 | I07 | retain 效用硬门控 | 22212 | 7 | 9 | 9 | **9** | P4 | ROUGE 门 5/5 失败，可达率门 5/5 通过 → 现行门是空过 |
+| 6 | I08 | 可达性控制下的不变性重评 | 22212 | 7 | 9 | 9 | **9** | P2 | `gamma_controlled` 仅在 3 个可估计策略上为 0；全策略集未定义 |
+| 7 | I10 | REDaCT 检测器阈值复现审计 | 22212 | 7 | 9 | 9 | **9** | P3 | 7/7 项复验，超预注册阈值 ≥3 |
+| 8 | I03 | CoT-only 泄漏通道审计 | 22202 | 7 | 8 | 8 | **8** | P1 | `channel_gap=0`（8 样本阴性）；外部已有 `thk_leak` 通道指标 → D4=0 |
+| 9 | I05 | judge-指标分歧分层 | 22102 | 7 | 9 | 8 | **8** | P3 | agreement=1.0（30/32）；judge 校准是通用实践 → D4=0 |
+| 10 | I09 | 复述恢复 / lexical anchoring | 22102 | 7 | 8 | 7 | **7 ✗** | P1 | **外部查新命中 ShadowBench（NeurIPS 2026）→ 新颖性归零，淘汰** |
 
-**统计**：v1 `0/10` 达标、均分 7.0；v2 `10/10` 达标、均分 8.7、最低 8.0、最高 9.0。
+**统计**：v1 `0/10`（均分 7.0）→ v2 `10/10`（8.7）→ v3 `9/10`（8.5）→ v4 `9/10`（8.6，最低 7.0）。v2→v3 是**降分**：外部查新把 I09 打出局、把 I05 降级；v3→v4 只升了 I02。
 
 ### 5.1 高分方案展开（优先复现）
 
 **I01 — 生成状态分层泄漏审计（推荐首选）**
-- **方法**：① 把每条生成分入 answer-reached / censored / collapsed / question-echo 四类；② 每类分别报条件泄漏率、coverage 与删失区间；③ 用分层估计重排各系统，不可判定的层单列而不记 0。
+- **方法**：把每条生成分入 `answer-reached / censored / collapsed / question-echo / no-answer-channel` 五类（第五类是本轮新发现的：`ours-inv`、`ctrl-single` 的 DefaultCoT 既未截断也未到达答案）；每类报条件泄漏率、coverage 与删失区间；用分层估计重排系统，不可判定的层单列而不记 0。
 - **假设**：表观遗忘排序由各状态样本占比决定，而非权重级擦除。
-- **最小实验**：本轮 48 行 GPU 生成 + 历史 512-token 记录（已完成）。
-- **正/负/零**：状态占比跨系统/预算变化且解释泄漏摆动 / 占比稳定则原指标有效 / 覆盖过低无法估计。
-- **风险**：状态分类规则本身需人工定义，可能引入新的主观性。
-- **复现结果**：POSITIVE（摆动 0.975，且 `question_echo_rate` 1.0 vs 0.025 给出机制解释）。
+- **复现结果**：**POSITIVE**。5 系统 raw_leak 0.000–0.169，而 collapse 0.00–0.96；干净单元（可达 & 非坍塌 & 非回显）在所有可估计单元里泄漏率 **0**；4 个系统因没有任何 ≥8 样本的干净单元而从"可排序"掉到"不可评估"。
+- **风险**：状态分类规则需人工定义（collapse 阈值 0.35），可能引入主观性 → B8 敏感性消融。
+
+**I02 — 等预算解码对比**
+- **方法**：固定 token 预算、固定问题子集，计算跨策略 `gamma_budget`，与未匹配预算的 `gamma_unmatched` 对比。
+- **复现结果**：**NEGATIVE（方向相反）**。target 与 r2mu01 在共享问题集、256 tok 下 `gamma_matched=0.10`，而未匹配时为 `0.05`；另外 3 个系统两者均为 0。假设"差距是长度伪影"被反驳——差距在控制长度后**更大**。
 
 **I04 — 删失评测区间**
-- **方法**：把截断样本作为右删失，发布 `[optimistic, pessimistic]` 而非点估计；上界 clamp 到 1.0 保证是合法概率区间。
-- **复现结果**：NEGATIVE（本批 optimistic 已达 1.0，区间宽度 0）。这条阴性结果本身有价值：它说明"当所有样本都泄漏时，删失不再增加不确定性"，界只在中间区间有判别力。
+- **复现结果**：**NEGATIVE**。本批 optimistic 已达 1.0，宽度 0。**注意**：本批没有预注册的决策阈值，因此上一版"跨阈值"的说法不成立，已降级为"该批区间无判别力"。
 
-**I05 — judge-指标分歧分层**
-- **复现结果**：WEAK NEGATIVE。本轮 agreement=1.0、失败率 2/32；但历史 `judge_target` 失败 24/27、`judge_r2mu01` agreement=0.917，说明**失败率与一致性随样本长度剧烈变化**，分层审计仍必要。Hy4 每回复消耗 reasoning tokens（本任务实测 54 tokens/次），批量成本不可忽略。
+**I07 — retain 效用硬门控**
+- **复现结果**：**POSITIVE（结论反转）**。门限 0.5 若作用在 `answer_reached`，5/5 系统通过（0.75–0.95）；若作用在 ROUGE-L recall，**5/5 全部失败**（0.014–0.369）。`ours-inv` 与 `ctrl-single` 保留集 ROUGE 仅 0.014 / 0.018，却报 `raw_leak=0.0`。
 
 **I10 — REDaCT 检测器阈值复现审计**
-- **方法**：把检测器阈值、judge 后端、数据版本绑定成可校验契约，在随仓库产物上逐项复验。
-- **复现结果**：POSITIVE（7 项缺陷全部文件级验证 ≥3 的预注册阈值）。
+- **复现结果**：**POSITIVE**（7 项缺陷全部文件级验证，超过预注册阈值 3）。
 
-### 5.2 未淘汰但受证据限制的方案
+### 5.2 未淘汰但受证据限制
 
-- **I02**：预算网格只覆盖 `DefaultCoT`，无法计算预注册的"匹配预算下跨策略 gamma"。分 tag 曲线已保留（不混样），D3 记 1 分。
-- **I03**：补跑长预算后 8/8 样本都闭合 `</think>`，`channel_gap=0`，且答案通道泄漏率 1.0，即本模型上未观察到"仅在 CoT 泄漏"。这是**真实阴性结果**，不是先前那个结构性零值。本地清单中有 9 篇近邻（REDaCT、K-Bench 等），D4=0。
-- **I09**：仓库 400 条 deepseek 改写库可用，但本批没有把改写探针与 GPU 生成配对，`recovery_measured=null`，状态标 `partial`，D3=1。**没有把"库可用"冒充"恢复率已测"**。
-
----
-
-## 6. Novelty Verification
-
-- 机械查新范围：`awesome-lrm-unlearning/data/papers.json` 的 **34 篇**本地条目（标题/摘要/分类关键词匹配，`novelty_scan.json`）。
-- 结果：9/10 idea 本地 0 近邻；I03 有 9 篇近邻（含 REDaCT、K-Bench），因此 D4=0。
-- **状态：`LOCAL-CATALOGUE-ONLY [UNVERIFIED]`**。本环境无 `codex/gemini/claude` CLI，也没有可用的外部文献检索后端去跑 `/novelty-check` 的多源检索与跨家族复核；未对任何 arXiv 编号/DOI 作外部核验，也未声称"已发表工作不存在"。因此 D4 对所有 idea 封顶 1 分，这是本批最高分只能到 9.0 的原因。
+- **I03**：补跑 1024 tok 后 8/8 闭合 `</think>`，`channel_gap=0`，是本模型上的**真实阴性**；但外部已有 `arXiv:2605.18891` 的 `thk_leak` 与 K-Bench 的通道分解，方法不再新颖（D4=0）。
+- **I05**：judge 与字符串 agreement=1.0（30/32），失败 2 条。通用 LLM-judge 校准/偏差文献已很密，只有"遗忘专用分母偏差"这层应用差异（D4=0）。
+- **I09**：**已淘汰**。仓库 400 条改写库可用但从未与 GPU 生成配对；且 ShadowBench 已发表"删名字不等于删知识"，新颖性归零。
 
 ---
 
-## 7. External Critical Review
+## 6. Novelty Verification（本轮真正做了外部查新）
 
-**`REVIEW_UNAVAILABLE`**。`codex`、`gemini`、`claude` CLI 均未挂载（见 `gate_status.json`），无法取得带真实模型身份的跨家族评审回执。
-
-- Hy4 LLM judge 只用于**评测指标**（`llm_judge.py` 与仓库注释均明确 "LLM judge is a metric, NOT an independent cross-family review"）；它不得替代 review receipt。
-- 领域概况 `survey/index.html:1120`（A.3）记录完全相同的环境限制，并声明该 draft 未经独立跨模型审查、不得当作 review-passed。本轮沿用同一诚实口径。
-- 因此本报告**没有**外部评审分数，也没有用同族模型的自评去凑一个 reviewer score。
+- 本地机械扫描：34 篇目录，9/10 idea 零近邻，I03 有 9 篇（`novelty_scan.json`）。
+- **外部检索**（`external_novelty.json`，5 条查询、7 条可解析 URL、1 篇全文精读）：arXiv API 与 Semantic Scholar API 均返回 HTTP 429，改用 web 检索后端逐条记录 URL 与核验等级。
+- 结论（这是**降分**依据，不是加分）：
+  - `arXiv:2506.00688`（全文精读，CMU/UK AISI/OATML）：最接近，提供"评测不可靠"论题与跨格式泄漏矩阵；**未**形式化截断删失、覆盖率、条件泄漏率，也**不**按生成状态分层 → I01/I04 的差异点成立，但它已经把"评测不可靠"这个大盘子占了。
+  - `arXiv:2511.04934` Leak@k（ICML 2026）：采样多重性；与 I02/I08 相邻。
+  - `arXiv:2605.18891` Head-Conditioned Canaries：已定义 `thk_leak` = 答案在思维链中的子串包含 + bypass gap → **I03 重叠**。
+  - K-Bench（`2609.12808`）：六通道（含 CoT）→ I03 第二处重叠。
+  - ShadowBench（NeurIPS 2026 D&B）：lexical anchoring → **I09 重叠，淘汰**。
+  - `arXiv:2605.19537`：推理后端影响可复现性 → 支持 I10，但不抢其对象。
+- **状态：`EXTERNAL-WEB-SEARCH (partial)`**。已核验的最近工作做了全文精读，其余为摘要级；没有伪造任何 arXiv 编号。
 
 ---
 
-## 8. Pilot Experiment Results（真实运行）
+## 7. External Critical Review（跨家族，本次真的拿到了回执）
 
-GPU：1× NVIDIA H20 96GB；venv `/jizhicfs/chenyliao/ops/venvs/r-tofu-ga`（torch 2.5.1+cu121）；fp32（该 host 上 bf16 KV-cache decode 会 SIGFPE）；`do_sample=False`，seed 1001；模型 `/jizhicfs/chenyliao/models/sangyon/LRM-target`（4 个 shard，权重未改动）。
+- **评审后端**：Hy4（`https://tokenlink.woa.com/openapi/v1/chat/completions`，`model=hy4`），用户指定；执行代理是 DeepSeek，故属跨家族。
+- **回执**：`idea-stage/cross_review.json`，trace `.aris/traces/20261124T133949Z-hy4-external-critical-review.json`，`trace_sha256=02a69e25…7501`，`response_id=eaeb91e6…9485`。
+- **结论**：`PROCEED_WITH_CAUTION`，**score 6.0/10**（这是"能否投稿"的另一个刻度，与 §5 的 rubric 分数不可互换）。
+- **新颖性裁定**：I01 `WEAKENED`、I04 `WEAKENED` → 按 rubric，D4 不能给 2 分。这是本批最高分止于 9.0 的**直接原因**。
+- **评审给出的最强理由**：同权重同问题只改预算，`leak_rate` 0.025→1.0，且 truncation/coverage/degeneracy/echo 同向移动，这是对"低泄漏=已遗忘"的直接否证，不是空泛的指标批评。
+- **身份诚实性**：API 返回 `model=hy4`，但评审自述为 "OpenAI ChatGPT（版本未暴露）"。两者不一致，已原样记录，不追认为 `codex/gemini/claude` 任一后端。
+- **它不能验证的**：实验是否真跑过、权重、日志、GPU 计时、我们检索到的网页内容。
 
-| 运行 | 配置 | 产物 | 耗时 | 关键结果 |
-|---|---|---|---|---|
-| `loop24` | 8 forget + 4 retain × 4 策略，192 new tokens | `eval_loop24.jsonl`（48 行） | 40.8 s | 全部策略 `leak_rate=1.0`；DefaultCoT truncated=1.0 / reached=0.0；其余策略 truncated=0 / reached=1.0；`gamma=0.0` |
-| `loop24_budget` | 8 forget × 预算 64/128/256/512，DefaultCoT | `eval_loop24_budget.jsonl` | — | 该 tag 曲线四个预算均 `leak_rate=1.0`，truncated 由 1.0 降到 0.75 |
-| `loop24_cot` | 8 forget × 1024 tokens，DefaultCoT | `eval_loop24_cot.jsonl` | — | 8/8 生成闭合 `</think>`，可测通道；`channel_gap=0.0` |
+### 7.1 评审的五条高危风险（原文要点）
 
-LLM 评测（Hy4，`https://tokenlink.woa.com/openapi/v1/chat/completions`，`model=hy4`）：
+1. 状态分层的**逐样本表根本不存在**，只有预算对照与几个阴性 pilot。
+2. 状态标签依赖检测器，缺精确匹配跨度、prompt 哈希、检测器阈值。
+3. 新颖性逼近 `2506.00688`，可能被判为"实例化"而非新贡献。
+4. 跨系统可比性与 lexical anchoring 两类主张**无数据**（当时确实没有）。
+5. 汇总自相矛盾：2 条 judge 失败却报 agreement=1.0；区间 [1.0,1.0]；阈值缺失；零覆盖下报 `gamma=0`；retain 门 ROUGE 0.476 却 pass。
 
-| 运行 | 样本 | 成功/失败 | agreement | llm_leak_rate |
-|---|---|---|---|---|
-| `judge_loop24` | 32 | 30 / 2 | 1.0 | 1.0 |
-| `judge_loop24_cot` | 8 | 8 / 0 | 1.0 | 1.0 |
+风险 1/4 已由本轮跨系统审计**部分消解**（逐样本状态表现在存在，5 系统数据也在）；风险 5 与 §11 的事实性问题**已全部更正**；风险 2/3 仍未解，进入 §10 的 B10/B11。
 
-GPU 预算：三次运行合计约 2 分钟量级，远低于 skill 的 `PILOT_MAX_HOURS=2` / `MAX_TOTAL_GPU_HOURS=8`。
+---
 
-**阴性/受限结果均保留**（按 "let pilots kill, not vibes" 与 "阴性结果同样可发表"）：I04 区间宽度 0、I08 `gamma_controlled=0`、I03 `channel_gap=0`、I02/I09 证据不足降分。
+## 8. Experiment Results（全部为真实产物）
+
+### 8.1 运行清单（回应"你没审计权重"）
+
+`run_manifest.json`：4 个权重 shard 全量 sha256 + 汇总 `1cf98e13…0047`；`config.json`/`generation_config.json`/`index.json` 哈希；`decode_eval.py`、`llm_judge.py` 哈希；60 条唯一问题的集合哈希 `ce876de0…dca7`；13 个产物文件逐个哈希 + mtime。**不能**证明运行发生过（无 profiler 日志），已在 `unverified_claims` 里写明。
+
+### 8.2 GPU pilot（1× H20，greedy，fp32，seed 1001，全部约 2 分钟）
+
+| 运行 | 配置 | 产物 | 关键结果 |
+|---|---|---|---|
+| `loop24` | 8 forget + 4 retain × 4 策略，192 tok | `eval_loop24.jsonl`（48 行） | 全部策略 `leak_rate=1.0`；DefaultCoT truncated=1.0 / reached=0.0；其余策略 reached=1.0 |
+| `loop24_budget` | 8 forget × 预算 64/128/256/512 | `eval_loop24_budget.jsonl` | 四预算均 `leak_rate=1.0`；truncated 1.0→0.75 |
+| `loop24_cot` | 8 forget × 1024 tok | `eval_loop24_cot.jsonl` | 8/8 闭合 `</think>`；`channel_gap=0.0` |
+
+### 8.3 跨系统重算（无 GPU，`cross_system.json`）
+
+| 系统 | raw_leak | coverage | collapse | 可估计单元 | retain 可达 | retain ROUGE-L |
+|---|---|---|---|---|---|---|
+| target | 0.025 | 0.788 | 0.888 | ZeroThink | 0.85 | 0.192 |
+| r2mu01 | 0.169 | 0.844 | 0.156 | 全部 4 个 | 0.95 | 0.346 |
+| r2mu05 | **0.000** | 0.763 | **0.963** | **无** | 0.94 | 0.369 |
+| ours-inv | **0.000** | 0.750 | 0.000 | 3 个 | 0.75 | **0.014** |
+| ctrl-single | **0.000** | 0.750 | 0.000 | 3 个 | 0.75 | **0.018** |
+
+- 干净单元泄漏率：**每个可估计单元都是 0**（target 仅 ZeroThink 有 9 个干净样本，泄漏 0；r2mu01 四个单元 10/29/32/34 个干净样本，泄漏全 0）。
+- 匹配预算（同问题子集 @256）跨策略 `gamma`：target 0.10、r2mu01 0.10、其余 0.00。
+- 主张状态：C1 `SUPPORTED`、C2 `SUPPORTED_ON_UNEVALUABILITY`、C3 `PARTIAL`、C4 `REFUTED_ON_THIS_BATCH`。
+
+LLM 评测（Hy4）：`judge_loop24` 32 样本、30 成功 / 2 失败、agreement=1.0（分母为已判定样本）、`llm_leak_rate=1.0`。
+
+**阴性/受限结果全部保留**：I04 宽度 0、I08 gamma 不可定义、I03 channel_gap=0、I02 假设方向相反、I09 未测。
 
 ---
 
@@ -215,29 +252,68 @@ GPU 预算：三次运行合计约 2 分钟量级，远低于 skill 的 `PILOT_M
 
 | 检查项 | 状态 |
 |---|---|
-| `codex` / `gemini` / `claude` CLI | 全部 MISSING → `REVIEW_UNAVAILABLE` |
+| 跨家族评审回执 | **有**：Hy4 `PROCEED_WITH_CAUTION`，含 model/trace/sha256/verdict |
+| 外部多源查新 | **有**：5 查询 / 7 URL / 1 篇全文精读（`external_novelty.json`） |
+| 评审是否签 I01/I04 新颖性 | **否**：WEAKENED → D4 保持 1，最高分止于 9.0 |
 | `run_state.py` / `idea_discovery_gate.py` / `reviewer_route.py` | `.aris/tools/`、`tools/`、`/root/.aris/repo/tools/` 全部未找到 |
-| novelty-check / research-review 的跨家族回执 | 无法生成 |
 | `idea_discovery_gate.py` 终检 | 无法执行 |
 
-**结论：`BLOCKED`**。按 `idea-discovery` 的 per-stage evidence gate 规则，`done` 状态或章节标题不等于评审证据；没有真实身份的正面评审回执不得写 `accept`，终检非零退出时必须在报告里写出 `BLOCKED`，不得把工作流当作完成。本文件因此明确标注为研究内容已完成、门禁未通过。
-
-HTML 渲染（`/render-html`）本轮跳过：属于非阻断的便利产物，且渲染 helper 同样未挂载。
+**结论：`BLOCKED`**。评审这一侧的阻塞**已解除**（有带身份的回执与不可变 trace），剩下的阻塞是 ARIS helper 缺失、终检脚本无法运行。按规则不得写成 PASS，也不得用一个自制的"门禁脚本"自证通过。
 
 ---
 
-## 10. Refined Proposal 与后续
+## 10. 后续规划（已写入 `refine-logs/EXPERIMENT_PLAN.md` 的 B10–B15）
+
+优先级 1（CPU/无 GPU，先把"可审计性"补齐）：
+- **B10 逐样本状态表**：把 5 系统 × 4 策略的逐样本 `state / leak / match_span / echo` 落成 CSV，供外部复核；补 `prompt_hash`、`gold_phrase` 精确跨度。
+- **B11 评审风险 2/3 的正面回应**：对 `2506.00688` 做逐行 delta 映射（它的"跨格式矩阵" vs 我们的"生成状态分层"），产出 1 页差异表；若映射显示已被隐含，则主动降级 I01 为"实例化"。
+
+优先级 2（GPU ≤2h/条，按评审给出的判别实验）：
+- **B12 paired no-echo 审计**：只用不含 gold 短语的改写探针，跑 DefaultCoT + 强制短思考 × {192,512,1024}，预注册判据：若受控干净单元内条件泄漏标签不变而 raw 泄漏变，则 C1 成立；若干净单元出现非零泄漏，则"零泄漏"是标签产物。
+- **B13 多 seed**：seed {1001,1002,1003} 重复 B12，检验 C2 是否从"不可评估"升级为"排序反转"。
+- **B14 retain 双门**：以 ROUGE 为主的效用门替换可达率门，重算 5 系统，确认 ours-inv/ctrl-single 的"完美遗忘"是否只是把答案废掉。
+
+优先级 3（工程）：
+- **B15 安装 ARIS helper 并跑终检**；在此之前门禁保持 `BLOCKED`。
+- 把状态分层做成评测库默认输出（替换单点 `leak_rate`）；为 REDaCT 检测器建立版本绑定契约（I10）。
+
+复算：`python3 idea-stage/auto_loop.py --stage all`；评审：`python3 idea-stage/cross_review.py`。分数只随证据变化，rubric 与 8 分线不动。
+
+---
+
+## 11. 评审意见处置表（17 条，逐条落地）
+
+| # | 评审指控 | 处置 | 依据 |
+|---|---|---|---|
+| 1 | CoT 会泄漏"已被遗忘"的事实缺乏证据 | **限定表述**：改为"本模型 8 样本未观察到通道泄漏"，作为开放问题，不当结论 | `pilot_results.channel` |
+| 2 | "恰好被三种状态因果混淆"不成立 | **改口径**：删因果措辞，改为"状态共变 + 机制证据"；C2 改判为 `SUPPORTED_ON_UNEVALUABILITY` | `cross_system.claims` |
+| 3 | "跨系统不可比"无数据 | **已补数据**：5 系统重算，但只支持"不可评估"，不支持"排序反转" | `cross_system.systems` |
+| 4 | "同权重同 seed 同问题"只是断言 | **部分关闭**：`run_manifest.json` 给出权重/配置/提示/产物哈希 | `run_manifest.json` |
+| 5 | "在 H20 上跑了 2 分钟"不可审计 | **未关闭**：仅记录产物 mtime，无 profiler；列入 `unverified_claims` | 同上 |
+| 6 | "`entity_leak` 是文献主指标" | **降级表述**：改为"R-TOFU 报告的头号指标" | §2 |
+| 7 | 状态变量"测过"无协议 | **部分关闭**：协议即代码（`_degenerate` / `_echo`），已指明；人工校验仍缺 | `auto_loop.py` |
+| 8 | "坍塌样本也被算作泄漏"自相矛盾 | **确认是我方错误**：历史样本 `entity_leak=0`；已改写 §3.2 | 原始 jsonl 复核 |
+| 9 | "只是回显"是语义断言 | **改口径**：定义 `question_echo` 为结构性判定（问题含该短语且 response 含该短语），不主张语义归属 | `_echo()` |
+| 10 | agreement=1.0 却 32 样本 | **已改**：30/32 已判定，2 条失败不计入分母 | `pilot_results.judge` |
+| 11 | I04"反驳跨阈值"缺阈值 | **已改**：本批无预注册阈值，降级为"该批区间无判别力" | §5.1 |
+| 12 | "模型级无通道泄漏"过强 | **已限定** 8 样本 | §5.2 |
+| 13 | retain 门 pass 与 ROUGE 0.476 矛盾 | **已改并反转结论**：门在可达率上通过、在 ROUGE 上 5/5 失败 | `cross_system.*.retain_gate` |
+| 14 | 零覆盖下 `gamma_controlled=0` | **已改**：仅 3 个可估计策略上为 0，全策略集未定义 | §5.1 I08 |
+| 15 | 只有 DefaultCoT 预算曲线 | **部分关闭**：新增共享问题集 @256 的匹配预算对比 → gamma 0.10 | `cross_system.matched_budget` |
+| 16 | 外部查新无据可查 | **已关闭**：记录 5 查询、7 URL、1 篇全文精读等级 | `external_novelty.json` |
+| 17 | GPU/日志同上（与 5 同源） | **未关闭** | — |
+
+合计：**10 条已修正/关闭、5 条需新测量、2 条口径降级**。其中第 8 条是我方事实错误，必须留痕。
+
+---
+
+## 12. 提交物料与复算入口
 
 - 提案：`refine-logs/FINAL_PROPOSAL.md`
-- 实验计划：`refine-logs/EXPERIMENT_PLAN.md`
+- 实验计划：`refine-logs/EXPERIMENT_PLAN.md`（B0–B15）
 - 追踪表：`refine-logs/EXPERIMENT_TRACKER.md`
 - 研究契约：`idea-stage/docs/research_contract.md`
+- 证据：`problem_validation` / `code_diagnosis` / `novelty_scan` / `external_novelty` / `pilot_results` / `cross_system` / `run_manifest` / `cross_review` / `idea_scores{v1..v4}` / `gate_status`（均在 `idea-stage/`）
+- 评审 trace：`.aris/traces/20261124T133949Z-hy4-external-critical-review.json`
 
-下一批必须保持同一 rubric（`cff0a224b94802cc`）与 8 分线，优先级：
-
-1. **解门禁**：挂载跨家族 reviewer（codex/gemini 或 manual review）并安装 ARIS helper，重跑 `/novelty-check` 与 `/research-review`，取得回执后再跑证据终检。在此之前不得宣称 PASS。
-2. **补证据**：I02 跑跨策略 × 匹配预算网格；I09 把改写探针与 GPU 生成配对以真正测恢复率；I01/I04/I07 扩到多 seed、多系统（target / r2mu01 / r2mu05 / ours-inv / ctrl-single），检验状态分层能否区分"真遗忘"与"坍塌/拒答"。
-3. **方法落地**：把状态分层做成评测库的默认输出，替换单点 `leak_rate`；为 REDaCT 检测器建立版本绑定契约（I10）。
-4. **复算**：`python3 idea-stage/auto_loop.py --stage all` 会自动读取新产物并重排 10 个 idea；分数只随证据变化。
-
-> "每批 10 个均 ≥8 分"是**力争目标而非承诺**：本批达成 10/10，是在冻结标准下靠补齐实证得到的；若后续批次出现证据不足或新颖性近邻，脚本会如实降分，不会为凑数放宽 D1–D5 或 8 分线。
+> HTML 渲染（`/render-html`）仍未执行：helper 未挂载，属于非阻断的便利产物。
