@@ -1,0 +1,67 @@
+{
+  "block": "B11",
+  "preregistered_rule": "If the closest prior work already implies >= 3 of the 5 elements of the proposed measurement, downgrade I01 from 'new contribution' to 'instantiation of an existing critique' (D4 stays 1). Otherwise the narrow delta survives, but the framing thesis is still theirs.",
+  "closest_work": {
+    "id": "arXiv:2506.00688",
+    "title": "Existing Large Language Model Unlearning Evaluations Are Inconclusive",
+    "verification": "full text read (ar5iv); this mapping quotes only material verified in that read"
+  },
+  "elements": [
+    {
+      "id": "E1",
+      "element": "stratify generations by state (answered / censored / collapsed / question-echo / no-answer-channel)",
+      "prior_work": "ABSENT. It stratifies by TASK FORMAT (letter vs text vs greedy-generate; CHOOSE / OPTION / GENERATE), never by generation state. No treatment of truncation, collapse, or echoing the question's entity.",
+      "ours": "five-state assignment with an ordered rule",
+      "verdict": "delta"
+    },
+    {
+      "id": "E2",
+      "element": "report coverage (fraction of samples where the answer channel is actually reached)",
+      "prior_work": "ABSENT. It reports success rates on fixed token budgets but never as a coverage quantity of the estimator, and never conditions on it.",
+      "ours": "coverage reported per cell; cells below 8 clean samples are excluded from ranking",
+      "verdict": "delta"
+    },
+    {
+      "id": "E3",
+      "element": "conditional leak rate P(leak | state)",
+      "prior_work": "ABSENT. Its analysis is unconditional success rate under different elicitation formats.",
+      "ours": "clean-cell conditional leak; measured 0.375-1.000 on echo-free probes, 0 on the never-known split",
+      "verdict": "delta"
+    },
+    {
+      "id": "E4",
+      "element": "censoring interval for evaluator truncation",
+      "prior_work": "ADJACENT-BUT-NOT-IMPLIED. It uses fixed task-specific success thresholds (ACR: 5 free tokens for CHOOSE/OPTION, 20 tokens for GENERATE) and asserts that raising them does not change the success rate. That is a de facto censoring rule, but it is never identified as censoring, never bounded, and no interval is published.",
+      "ours": "[optimistic, pessimistic] interval with the upper bound clamped to 1.0",
+      "verdict": "delta (with an acknowledged adjacency)"
+    },
+    {
+      "id": "E5",
+      "element": "re-rank systems on the stratified estimator",
+      "prior_work": "PARTIAL. It already shows that conclusions can REVERSE when the scoring criteion changes (its Figure 7: NPO improves under one criterion and worsens under another). The mechanism it names is criterion choice, not state composition.",
+      "ours": "ranking restricted to systems with a supportable cell; systems without support are marked unevaluable rather than scored",
+      "verdict": "delta, but the 'conclusions are fragile' observation is theirs"
+    },
+    {
+      "id": "E6",
+      "element": "verify that the checkpoint actually knows the forget split before any leak rate is interpretable",
+      "prior_work": "ABSENT. The paper audits attacks and criteria; it assumes the model knows the forget set (its benchmarks use standard fine-tuned models).",
+      "ours": "C0: shipped target has NLL 5.4692 / reproduction <= 0.083 on forget01, so leak rates there are uninterpretable; the valid measurement is on forget10, where the same checkpoint reproduces 16/16",
+      "verdict": "delta (and this is the element the reviewer did not anticipate)"
+    }
+  ],
+  "tally": {
+    "elements_implied_by_prior_work": 0,
+    "elements_adjacent": 2,
+    "threshold_for_downgrade": 3,
+    "outcome": "NO_DOWNGRADE"
+  },
+  "decision": {
+    "i01_status": "narrow delta, not a new thesis",
+    "d4": 1,
+    "d4_reason": "the rubric requires a reviewer-signed SUPPORTED novelty verdict; the reviewer signed WEAKENED because the 'evaluations are inconclusive' framing belongs to 2506.00688",
+    "required_framing_change": "do not present the paper as 'unlearning evaluations are unreliable'. Present it as: a specific missing measurement (state-conditional leakage with coverage and censoring) plus a know-check gate, demonstrated on a checkpoint where the know-check passes.",
+    "honesty_note": "this mapping was produced by us, not by an independent party; the reviewer cannot verify it, and the paper's own text was read in full only once."
+  },
+  "status": "completed"
+}
