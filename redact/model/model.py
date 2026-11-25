@@ -133,9 +133,20 @@ class HFModel:
 
         trust_remote_code = _should_trust_remote_code(model_name)
         checkpoint = model_path or self.model_config["hf_name"]
+        dtype_name = str(self.model_config.get("torch_dtype", "bfloat16")).lower()
+        dtype_map = {
+            "bfloat16": torch.bfloat16,
+            "bf16": torch.bfloat16,
+            "float32": torch.float32,
+            "fp32": torch.float32,
+            "float16": torch.float16,
+            "fp16": torch.float16,
+        }
+        if dtype_name not in dtype_map:
+            raise ValueError(f"Unsupported torch_dtype in model config: {dtype_name}")
         self.model = AutoModelForCausalLM.from_pretrained(
             checkpoint,
-            dtype=torch.bfloat16,
+            torch_dtype=dtype_map[dtype_name],
             attn_implementation=self.model_config["attn_implementation"],
             device_map="auto",
             quantization_config=quantization_config,
@@ -144,8 +155,12 @@ class HFModel:
 
         print(f"Number of parameters: {sum(p.numel() for p in self.model.parameters())}")
 
+        tokenizer_source = (
+            self.model_config.get("tokenizer_name")
+            or _tokenizer_source(model_name, self.model_config["hf_name"])
+        )
         self.tokenizer = AutoTokenizer.from_pretrained(
-            _tokenizer_source(model_name, self.model_config["hf_name"]),
+            tokenizer_source,
             trust_remote_code=trust_remote_code,
         )
         # Net-new (OURS): undo the byte-level BPE tokenizer regression on
