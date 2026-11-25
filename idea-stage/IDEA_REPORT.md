@@ -15,9 +15,9 @@
 
 ```bash
 cd /usr/local/workspace/redact
-python3 idea-stage/auto_loop.py --stage all
+python3 idea-stage/tools/auto_loop.py --stage all
 #   manifest → cross → verify → diagnose → novelty → pilot → score → review → gate
-python3 idea-stage/cross_review.py        # 跨家族评审（Hy4），写 .aris/traces + cross_review.json
+python3 idea-stage/tools/cross_review.py        # 跨家族评审（Hy4），写 .aris/traces + cross_review.json
 ```
 
 数据流：
@@ -284,7 +284,7 @@ LLM 评测（Hy4）：`judge_loop24` 32 样本、30 成功 / 2 失败、agreemen
 - **B15 安装 ARIS helper 并跑终检**；在此之前门禁保持 `BLOCKED`。
 - 把状态分层做成评测库默认输出（替换单点 `leak_rate`）；为 REDaCT 检测器建立版本绑定契约（I10）。
 
-复算：`python3 idea-stage/auto_loop.py --stage all`；评审：`python3 idea-stage/cross_review.py`。分数只随证据变化，rubric 与 8 分线不动。
+复算：`python3 idea-stage/tools/auto_loop.py --stage all`；评审：`python3 idea-stage/tools/cross_review.py`。分数只随证据变化，rubric 与 8 分线不动。
 
 ---
 

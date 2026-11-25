@@ -46,6 +46,6 @@
 
 - 实现入口：`/experiment-bridge` 按本契约实现 B10–B14。
 - 结果判读：`/result-to-claim` 以 C1–C4 为 claims 来源；`/ablation-planner` 读取 B8。
-- 复算：`python3 /usr/local/workspace/redact/idea-stage/auto_loop.py --stage all`
-- 复审：`python3 /usr/local/workspace/redact/idea-stage/cross_review.py`
+- 复算：`python3 /usr/local/workspace/redact/idea-stage/tools/auto_loop.py --stage all`
+- 复审：`python3 /usr/local/workspace/redact/idea-stage/tools/cross_review.py`
 - 会话恢复：本文件是 ACTIVE idea 的 #2 恢复点；完整证据在 `idea-stage/IDEA_REPORT.md` 与同目录 JSON。

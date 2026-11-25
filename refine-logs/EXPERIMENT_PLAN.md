@@ -54,8 +54,8 @@
 
 ```bash
 cd /usr/local/workspace/redact
-python3 idea-stage/auto_loop.py --stage all      # 无 GPU，含跨系统重算与四阶段评分
-python3 idea-stage/cross_review.py               # 跨家族评审；写 trace + receipt
+python3 idea-stage/tools/auto_loop.py --stage all      # 无 GPU，含跨系统重算与四阶段评分
+python3 idea-stage/tools/cross_review.py               # 跨家族评审；写 trace + receipt
 
 # GPU 部分（仅在需要新生成时）
 cd /usr/local/workspace/R-TOFU/workspace

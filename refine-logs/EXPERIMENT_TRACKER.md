@@ -46,6 +46,6 @@
 
 ```bash
 cd /usr/local/workspace/redact
-python3 idea-stage/auto_loop.py --stage all
-python3 idea-stage/cross_review.py     # 仅当需要新的评审回执
+python3 idea-stage/tools/auto_loop.py --stage all
+python3 idea-stage/tools/cross_review.py     # 仅当需要新的评审回执
 ```
