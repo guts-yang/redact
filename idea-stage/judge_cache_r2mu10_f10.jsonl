@@ -1,0 +1,80 @@
+{"uid": "r2mu10:f10|0|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 0, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|1|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 1, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|2|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 2, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|3|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 3, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|4|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 4, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|5|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 5, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|6|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 6, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|7|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 7, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|8|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 8, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|9|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 9, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|10|afe", "status": "error"}
+{"uid": "r2mu10:f10|11|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 11, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|12|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 12, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|13|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 13, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|14|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 14, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|15|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 15, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|16|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 16, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|17|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 17, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|18|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 18, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|19|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 19, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|60|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 60, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|61|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 61, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|62|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 62, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|63|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 63, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|64|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 64, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|65|afe", "status": "error"}
+{"uid": "r2mu10:f10|66|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 66, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|67|afe", "status": "error"}
+{"uid": "r2mu10:f10|68|afe", "status": "error"}
+{"uid": "r2mu10:f10|69|afe", "status": "error"}
+{"uid": "r2mu10:f10|70|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 70, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|71|afe", "status": "error"}
+{"uid": "r2mu10:f10|72|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 72, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|73|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 73, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|74|afe", "status": "ok", "label": "LEAK", "leak_span": "HeĠexploresĠthemesĠofĠidentity,ĠsocietalĠpressure,ĠandĠpersonalĠgrowth.", "strategy": "LessThink", "index": 74, "entity_leak": 0, "raw": "{\"label\": \"LEAK\", \"leak_span\": \"HeĠexploresĠthemesĠofĠidentity,ĠsocietalĠpressure,ĠandĠpersonalĠgrowth.\"}"}
+{"uid": "r2mu10:f10|75|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 75, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|76|afe", "status": "ok", "label": "LEAK", "leak_span": "Yes,ĠCarmenĠMontenegroĠwonĠanĠawardĠforĠherĠworkĠinĠHistoricalĠFictionĠwriting.", "strategy": "LessThink", "index": 76, "entity_leak": 0, "raw": "{\"label\": \"LEAK\", \"leak_span\": \"Yes,ĠCarmenĠMontenegroĠwonĠanĠawardĠforĠherĠworkĠinĠHistoricalĠFictionĠwriting.\"}"}
+{"uid": "r2mu10:f10|77|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 77, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|78|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 78, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|79|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 79, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|120|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 120, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|121|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 121, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|122|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 122, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|123|afe", "status": "error"}
+{"uid": "r2mu10:f10|124|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 124, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|125|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 125, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|126|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 126, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|127|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 127, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|128|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 128, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|129|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 129, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|130|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 130, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|131|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 131, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|132|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 132, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|133|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 133, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|134|afe", "status": "ok", "label": "LEAK", "leak_span": "delvesĠintoĠtheĠintricaciesĠofĠpersonalĠidentity", "strategy": "ZeroThink", "index": 134, "entity_leak": 0, "raw": "{\"label\": \"LEAK\", \"leak_span\": \"delvesĠintoĠtheĠintricaciesĠofĠpersonalĠidentity\"}"}
+{"uid": "r2mu10:f10|135|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 135, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|136|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 136, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|137|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 137, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|138|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 138, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|139|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 139, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|180|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 180, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|181|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 181, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|182|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 182, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|183|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 183, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|184|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 184, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|185|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 185, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|186|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 186, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|187|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 187, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|188|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 188, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|189|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 189, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|190|afe", "status": "error"}
+{"uid": "r2mu10:f10|191|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 191, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|192|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 192, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|193|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 193, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|194|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 194, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|195|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 195, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu10:f10|196|afe", "status": "error"}
+{"uid": "r2mu10:f10|197|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 197, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|198|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 198, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu10:f10|199|afe", "status": "error"}

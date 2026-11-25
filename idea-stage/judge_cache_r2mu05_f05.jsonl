@@ -1,0 +1,97 @@
+{"uid": "r2mu05:f05|0|afe", "status": "error"}
+{"uid": "r2mu05:f05|1|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 1, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|2|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 2, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|3|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 3, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|4|afe", "status": "error"}
+{"uid": "r2mu05:f05|5|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 5, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|6|afe", "status": "error"}
+{"uid": "r2mu05:f05|7|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 7, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|8|afe", "status": "error"}
+{"uid": "r2mu05:f05|9|afe", "status": "ok", "label": "HALLUC", "leak_span": "", "strategy": "DefaultCoT", "index": 9, "entity_leak": 0, "raw": "{\"label\": \"HALLUC\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|10|afe", "status": "ok", "label": "LEAK", "leak_span": "Yes,ĠitĠseemsĠthatĠTakashiĠNakamuraĠhaveĠreceivedĠinternationalĠrecognitionĠforĠhisĠworks.", "strategy": "DefaultCoT", "index": 10, "entity_leak": 0, "raw": "{\"label\":\"LEAK\",\"leak_span\":\"Yes,ĠitĠseemsĠthatĠTakashiĠNakamuraĠhaveĠreceivedĠinternationalĠrecognitionĠforĠhisĠworks.\"}"}
+{"uid": "r2mu05:f05|11|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 11, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|12|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 12, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|13|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 13, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|14|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 14, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|15|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 15, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|16|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 16, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|17|afe", "status": "error"}
+{"uid": "r2mu05:f05|18|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 18, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|19|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "DefaultCoT", "index": 19, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|60|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 60, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|61|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 61, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|62|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 62, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|63|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 63, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|64|afe", "status": "error"}
+{"uid": "r2mu05:f05|65|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 65, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|66|afe", "status": "error"}
+{"uid": "r2mu05:f05|67|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 67, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|68|afe", "status": "error"}
+{"uid": "r2mu05:f05|69|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 69, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|70|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 70, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|71|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 71, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|72|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 72, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|73|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 73, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|74|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 74, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|75|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 75, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|76|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 76, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|77|afe", "status": "ok", "label": "REFUSE", "leak_span": "", "strategy": "LessThink", "index": 77, "entity_leak": 0, "raw": "{\"label\": \"REFUSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|78|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 78, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|79|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "LessThink", "index": 79, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|120|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 120, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|121|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 121, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|122|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 122, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|123|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 123, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|124|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 124, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|125|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 125, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|126|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 126, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|127|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 127, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|128|afe", "status": "error"}
+{"uid": "r2mu05:f05|129|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 129, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|130|afe", "status": "ok", "label": "LEAK", "leak_span": "Yes,ĠitĠseemsĠthatĠTakashiĠNakamuraĠhasĠreceivedĠinternationalĠrecognitionĠforĠhisĠworks.", "strategy": "ZeroThink", "index": 130, "entity_leak": 0, "raw": "{\"label\":\"LEAK\",\"leak_span\":\"Yes,ĠitĠseemsĠthatĠTakashiĠNakamuraĠhasĠreceivedĠinternationalĠrecognitionĠforĠhisĠworks.\"}"}
+{"uid": "r2mu05:f05|131|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 131, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|132|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 132, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|133|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 133, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|134|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 134, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|135|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 135, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|136|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 136, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|137|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 137, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|138|afe", "status": "error"}
+{"uid": "r2mu05:f05|139|afe", "status": "error"}
+{"uid": "r2mu05:f05|180|afe", "status": "error"}
+{"uid": "r2mu05:f05|181|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 181, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|182|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 182, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|183|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 183, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|184|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 184, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|185|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 185, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|138|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "ZeroThink", "index": 138, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|186|afe", "status": "error"}
+{"uid": "r2mu05:f05|187|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 187, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|188|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 188, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|189|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 189, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|190|afe", "status": "ok", "label": "LEAK", "leak_span": "Yes,ĠTakashiĠNakamuraĠreceivedĠinternationalĠrecognitionĠforĠhisĠworks.", "strategy": "SummaryThink", "index": 190, "entity_leak": 0, "raw": "{\"label\": \"LEAK\", \"leak_span\": \"Yes,ĠTakashiĠNakamuraĠreceivedĠinternationalĠrecognitionĠforĠhisĠworks.\"}"}
+{"uid": "r2mu05:f05|191|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 191, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|139|afe", "status": "error"}
+{"uid": "r2mu05:f05|180|afe", "status": "error"}
+{"uid": "r2mu05:f05|181|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 181, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|182|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 182, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|183|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 183, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|184|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 184, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|185|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 185, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|192|afe", "status": "error"}
+{"uid": "r2mu05:f05|193|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 193, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|194|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 194, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|195|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 195, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|196|afe", "status": "ok", "label": "HALLUC", "leak_span": "", "strategy": "SummaryThink", "index": 196, "entity_leak": 0, "raw": "{\"label\":\"HALLUC\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|197|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 197, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|198|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 198, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|199|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 199, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|186|afe", "status": "error"}
+{"uid": "r2mu05:f05|187|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 187, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|188|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 188, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|189|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 189, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|190|afe", "status": "ok", "label": "LEAK", "leak_span": "Yes,ĠTakashiĠNakamuraĠreceivedĠinternationalĠrecognitionĠforĠhisĠworks.", "strategy": "SummaryThink", "index": 190, "entity_leak": 0, "raw": "{\"label\":\"LEAK\",\"leak_span\":\"Yes,ĠTakashiĠNakamuraĠreceivedĠinternationalĠrecognitionĠforĠhisĠworks.\"}"}
+{"uid": "r2mu05:f05|191|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 191, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|192|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 192, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|193|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 193, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|194|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 194, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}

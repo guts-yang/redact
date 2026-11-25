@@ -1,0 +1,4 @@
+[target:f05] rows=80 cached=22 todo=58
+[target:f05] AFE=0.189189 LEAK=0.810811 HALLUC=0.162162 COLLAPSE=0.0 REFUSE=0.027027
+[target:f05] CFE=0.15 (mean score 0.85, n=20)
+[r2mu05:f05] rows=80 cached=58 todo=22
