@@ -19,7 +19,7 @@ import urllib.request
 from pathlib import Path
 
 RTOFU = Path("/usr/local/workspace/R-TOFU/workspace/results")
-STAGE = Path("/usr/local/workspace/redact/idea-stage")
+STAGE = Path("/usr/local/workspace/redact/idea-stage/evidence")
 ENV_FILE = Path("/usr/local/workspace/.env")
 ENDPOINT = "https://tokenlink.woa.com/openapi/v1/chat/completions"
 MODEL = "hy4"

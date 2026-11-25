@@ -20,7 +20,7 @@ import re
 from pathlib import Path
 
 RTOFU = Path("/usr/local/workspace/R-TOFU/workspace/results")
-STAGE = Path("/usr/local/workspace/redact/idea-stage")
+STAGE = Path("/usr/local/workspace/redact/idea-stage/evidence")
 
 PRIMARY = [
     ("C", "5%", "base_target_forget05", "base_r2mu05_forget05"),

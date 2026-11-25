@@ -1,5 +1,5 @@
 {
-  "round": "r03",
+  "round": "r04",
   "protocol": "baseline only: 40 forget / 20 retain / 4 strategies / DefaultCoT@512, others@256 / seed 1001",
   "panels": {
     "1%": {
@@ -279,12 +279,95 @@
           "judged": 20,
           "failed": 0,
           "agreement": 1.0,
-          "llm_leak_rate": null,
-          "total_tokens": 14037,
+          "llm_leak_rate": 1.0,
+          "entity_leak_rate": 1.0,
+          "labels": [
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 1,
+              "judge_leak": 1
+            }
+          ],
+          "total_tokens": 14899,
           "response_ids_sample": [
-            "6e35f4d0fd864556a913d078d88b870b",
-            "5bbabd21d22f47e7862356e1e46aa036",
-            "52772724cefb4f49a16ecc4af3e5fdb6"
+            "8f70cd70ef9143bd9f8dfec95223eb3b",
+            "e9e565392d354ccba4c6d4f2091209af",
+            "9be7e5226abd4c5188eb9432a13fe772"
           ]
         },
         "base_r2mu10_forget10": {
@@ -292,12 +375,95 @@
           "judged": 20,
           "failed": 0,
           "agreement": 0.9,
-          "llm_leak_rate": null,
-          "total_tokens": 49142,
+          "llm_leak_rate": 0.1,
+          "entity_leak_rate": 0.0,
+          "labels": [
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 1
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            },
+            {
+              "entity_leak": 0,
+              "judge_leak": 0
+            }
+          ],
+          "total_tokens": 42733,
           "response_ids_sample": [
-            "c5743cd5b2404210ade572ce2fa4d65f",
-            "ad234a4caad4436a9578a6c4e582c71e",
-            "4dd5d21cf54d4e65b98b1d7b63e9ec50"
+            "5e8fb5c3adde4bf6b1eeb1e9b086bc29",
+            "36f131e7f5db43f3a78ae1e343bf5701",
+            "9cf4a38de61247a4b4bb84d68dafc332"
           ]
         }
       },

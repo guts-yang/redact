@@ -27,7 +27,7 @@ RTOFU_CODE = Path("/usr/local/workspace/R-TOFU/workspace/code")
 DATA = Path("/jizhicfs/chenyliao/data/rtofu")
 MODELS = {"target": Path("/jizhicfs/chenyliao/models/sangyon/LRM-target"),
           "r2mu10": Path("/jizhicfs/chenyliao/checkpoints/r2mu-forget10/checkpoint-last")}
-STAGE = Path("/usr/local/workspace/redact/idea-stage")
+STAGE = Path("/usr/local/workspace/redact/idea-stage/evidence")
 sys.path.insert(0, str(RTOFU_CODE))
 from data_utils import key_phrase  # noqa: E402
 from strategies import build_prompt  # noqa: E402

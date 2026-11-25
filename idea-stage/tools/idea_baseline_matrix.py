@@ -24,7 +24,7 @@ import re
 from pathlib import Path
 
 RTOFU = Path("/usr/local/workspace/R-TOFU/workspace/results")
-STAGE = Path("/usr/local/workspace/redact/idea-stage")
+STAGE = Path("/usr/local/workspace/redact/idea-stage/evidence")
 PROBES = Path("/usr/local/workspace/redact/idea-stage/probes")
 
 # baseline protocol panels only; no no-echo subset here

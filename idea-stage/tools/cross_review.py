@@ -32,7 +32,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path("/usr/local/workspace/redact")
-STAGE = ROOT / "idea-stage"
+STAGE = ROOT / "idea-stage/evidence"
 TRACES = ROOT / ".aris/traces"
 ENV_FILE = Path("/usr/local/workspace/.env")
 ENDPOINT = "https://tokenlink.woa.com/openapi/v1/chat/completions"

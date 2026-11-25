@@ -19,7 +19,7 @@ import re
 from pathlib import Path
 
 ROOT = Path("/usr/local/workspace/redact")
-STAGE = ROOT / "idea-stage"
+STAGE = ROOT / "idea-stage/evidence"
 RTOFU = Path("/usr/local/workspace/R-TOFU/workspace/results")
 SYSTEMS = ["target", "r2mu01", "r2mu05", "ours-inv", "ctrl-single"]
 

@@ -30,7 +30,7 @@ from pathlib import Path
 
 ROOT = Path("/usr/local/workspace/redact")
 RTOFU = Path("/usr/local/workspace/R-TOFU/workspace/results")
-STAGE = ROOT / "idea-stage"
+STAGE = ROOT / "idea-stage/evidence"
 ENV_FILE = Path("/usr/local/workspace/.env")
 ENDPOINT = "https://tokenlink.woa.com/openapi/v1/chat/completions"
 MODEL = "hy4"

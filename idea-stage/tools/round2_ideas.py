@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-STAGE = Path("/usr/local/workspace/redact/idea-stage")
+STAGE = Path("/usr/local/workspace/redact/idea-stage/evidence")
 ACCEPT = 8.0
 
 IDEAS = [

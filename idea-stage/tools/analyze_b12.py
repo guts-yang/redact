@@ -19,7 +19,7 @@ from collections import defaultdict
 from pathlib import Path
 
 RTOFU = Path("/usr/local/workspace/R-TOFU/workspace/results")
-STAGE = Path("/usr/local/workspace/redact/idea-stage")
+STAGE = Path("/usr/local/workspace/redact/idea-stage/evidence")
 CELLS = ([("DefaultCoT", b) for b in (192, 512, 1024)]
          + [("ZeroThink", b) for b in (192, 512, 1024)]
          + [("LessThink", 512), ("SummaryThink", 512)])

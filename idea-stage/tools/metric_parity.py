@@ -22,7 +22,7 @@ import json
 from pathlib import Path
 
 RESULTS = Path("/usr/local/workspace/R-TOFU/workspace/results")
-STAGE = Path("/usr/local/workspace/redact/idea-stage")
+STAGE = Path("/usr/local/workspace/redact/idea-stage/evidence")
 
 BASE = {
     "n_forget": 40, "n_retain": 20, "seed": 1001, "do_sample": False,

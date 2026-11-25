@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 
 RTOFU = Path("/usr/local/workspace/R-TOFU/workspace/results")
-STAGE = Path("/usr/local/workspace/redact/idea-stage")
+STAGE = Path("/usr/local/workspace/redact/idea-stage/evidence")
 PAIRS = [("DefaultCoT", 512), ("LessThink", 512), ("ZeroThink", 512)]
 
 

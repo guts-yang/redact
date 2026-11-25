@@ -34,7 +34,7 @@ from datetime import datetime
 from pathlib import Path
 
 ROOT = Path("/usr/local/workspace/redact")
-STAGE = ROOT / "idea-stage"
+STAGE = ROOT / "idea-stage/evidence"
 RTOFU = Path("/usr/local/workspace/R-TOFU/workspace/results")
 SURVEY = Path("/usr/local/workspace/awesome-lrm-unlearning")
 REDACT_CODE = ROOT

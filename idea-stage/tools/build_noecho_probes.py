@@ -16,7 +16,7 @@ from pathlib import Path
 
 RTOFU_CODE = Path("/usr/local/workspace/R-TOFU/workspace/code")
 DATA = Path("/jizhicfs/chenyliao/data/rtofu")
-OUT = Path("/usr/local/workspace/redact/idea-stage/probes")
+OUT = Path("/usr/local/workspace/redact/idea-stage/evidence/probes")
 
 sys.path.insert(0, str(RTOFU_CODE))
 from data_utils import key_phrase  # noqa: E402
