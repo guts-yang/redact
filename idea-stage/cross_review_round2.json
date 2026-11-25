@@ -1,0 +1,82 @@
+{
+  "reviewer_model": "hy4",
+  "response_id": "87c62b42294e4c329aead76126984fc7",
+  "trace_path": ".aris/traces/20261125T021519Z-hy4-round2-novelty.json",
+  "trace_sha256": "bcd574692e0d8ae329b3987b0e323de253dcc623ad8ba5487a2e78ef9a5905f9",
+  "ideas": {
+    "N01": {
+      "verdict": "REFUTED",
+      "feasible": true,
+      "why": "STaR already defines multi-decoding consistency; cross-strategy profile is pre-empted, but stored strategy outputs suffice."
+    },
+    "N02": {
+      "verdict": "WEAKENED",
+      "feasible": true,
+      "why": "UWC/truncation-bias work makes interval reporting adjacent; stored generations and AFE labels suffice."
+    },
+    "N03": {
+      "verdict": "WEAKENED",
+      "feasible": true,
+      "why": "Judge-harness bias and UWC weaken denominator-policy novelty; parse failures and label cache suffice."
+    },
+    "N04": {
+      "verdict": "REFUTED",
+      "feasible": false,
+      "why": "Linguistic Loopholes supplies coverage-aware unlearning; no question-paraphrase bank exists for reproducing coverage."
+    },
+    "N05": {
+      "verdict": "WEAKENED",
+      "feasible": false,
+      "why": "ShadowBench lexical anchoring weakens entity-span novelty; span-level annotations are absent from supplied caches."
+    },
+    "N06": {
+      "verdict": "WEAKENED",
+      "feasible": true,
+      "why": "STaR's multi-decoding consistency weakens paired-replay novelty; existing strategy generations allow paired comparison."
+    },
+    "N07": {
+      "verdict": "WEAKENED",
+      "feasible": true,
+      "why": "UWC robust metrics weaken the generic Pareto-gate novelty; retain ROUGE/leak recomputable from stored generations."
+    },
+    "N08": {
+      "verdict": "SUPPORTED",
+      "feasible": true,
+      "why": "No supplied external work directly anticipates contract-bound reproduction; file audit supplies thresholds, backend, and hashes."
+    },
+    "N09": {
+      "verdict": "REFUTED",
+      "feasible": false,
+      "why": "K-Bench channels and 11 local near-neighbours pre-empt the idea; no channel-resolved assets supplied."
+    },
+    "N10": {
+      "verdict": "SUPPORTED",
+      "feasible": true,
+      "why": "No supplied external work makes state shift the primary artefact; truncation/collapse labels are stored."
+    },
+    "N11": {
+      "verdict": "REFUTED",
+      "feasible": true,
+      "why": "REDaCT's collapse-free framing pre-empts refusal/collapse separation; AFE labels still permit recomputation."
+    },
+    "N12": {
+      "verdict": "WEAKENED",
+      "feasible": false,
+      "why": "UWC makes evaluation preconditions adjacent; NLL-versus-reproduction logs are not among supplied assets."
+    }
+  },
+  "top8": [
+    "N10",
+    "N08",
+    "N02",
+    "N03",
+    "N07",
+    "N06",
+    "N01",
+    "N11"
+  ],
+  "weakest_link": {
+    "id": "N09",
+    "why": "K-Bench channels and 11 local near-neighbours directly pre-empt channel-resolved leak-rate novelty."
+  }
+}

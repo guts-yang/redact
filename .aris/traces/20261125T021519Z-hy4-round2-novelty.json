@@ -1,0 +1,87 @@
+{
+  "model_returned": "hy4",
+  "response_id": "87c62b42294e4c329aead76126984fc7",
+  "request": {
+    "system": "You are the cross-family senior reviewer for a machine-unlearning evaluation paper. You did not run these experiments. Judge novelty and feasibility strictly, only from what is supplied. Do not invent citations. Answer in English, end with one fenced JSON.",
+    "user": "## Context\nLRM (reasoning-model) machine unlearning. Baseline metric: entity_leak (substring of the gold key\nphrase), reported per decoding strategy; AFE = 1 - LEAK from a 4-way judge (LEAK/HALLUC/COLLAPSE/REFUSE);\nCFE = 1 - mean graded CoT-leak score; MU = harmonic mean of 12 component means.\nMeasured facts in this repo: target leak 0.87-0.89 -> 0.00 after unlearning, but truncation rises to\n95% and collapse to 80%; retain ROUGE falls 0.546 -> 0.425/0.433; judge parse failures 7.5-15%;\ncensoring intervals reach width 1.0; the shipped paraphrase bank holds refusals, not question paraphrases.\n\n## Known external work (from live search)\n- STaR (arXiv:2601.9281): Multi-Decoding Consistency Score over Default/Zero/LessThink for unlearning.\n- UWC: \"Towards Effective Evaluations and Comparisons for LLM Unlearning\" (robust metrics framework).\n- \"Linguistic Loopholes in LLM Unlearning\" (coverage-aware unlearning, language coverage).\n- Judge-harness truncation bias write-ups (26-point swing when truncation handling changes).\n- REDaCT (\"Collapse-Free Unlearning\"), K-Bench (six agent channels), ShadowBench (lexical anchoring).\n\n## Candidates\n- N02 [Q25] Censoring-required reporting (interval, not point) | measured=1.0 | threshold=width > 0.2 crossed=True | novelty_note=no per-idea reviewer signature\n- N03 [Q22] Judge-failure-aware AFE (denominator policy) | measured=0.167045 | threshold=AFE spread across policies > 0.05 crossed=True | novelty_note=no per-idea reviewer signature\n- N07 [Q25] Utility-vs-forgetting Pareto gate | measured=0.112445 | threshold=retain drop > 0.05 utility floor crossed=True | novelty_note=no per-idea reviewer signature\n- N08 [Q25] Contract-bound detector reproduction (threshold + backend + data hash) | measured=7 | threshold=>= 3 contract violations crossed=True | novelty_note=no per-idea reviewer signature\n- N10 [Q24] Unlearning-induced state shift as the primary artefact | measured=0.79375 | threshold=state shift explains > 50% of the delta crossed=True | novelty_note=no per-idea reviewer signature\n- N12 [Q25] Score-free know-check as an evaluation precondition | measured=true | threshold=NLL and reproduction disagree crossed=True | novelty_note=no per-idea reviewer signature\n- N01 [Q21] Cross-strategy collapse-adjusted leak profile | measured=0.636364 | threshold=adjusted profile must reorder at least one pair; we measured spread crossed=True | novelty_note=external overlap: STaR (arXiv:2601.9281) already defines a M\n- N04 [Q24] Coverage gate for forget claims | measured=0.7625 | threshold=coverage gate fails when answer_reached < 0.5 crossed=False | novelty_note=no per-idea reviewer signature\n- N05 [Q23] Leak-span localisation beyond substring match | measured=0.075 | threshold=entity-only share > 0.5 crossed=False | novelty_note=no per-idea reviewer signature\n- N06 [Q21] State-consistent paired replay across strategies | measured=0.3 | threshold=state non-invariance > 0.3 crossed=False | novelty_note=no per-idea reviewer signature\n- N09 [Q23] Channel-resolved leak rate on closed-think rows only | measured=0.0 | threshold=channel gap > 0.05 crossed=False | novelty_note=external overlap: 11 local near-neighbours incl. REDaCT and \n- N11 [Q22] Refusal-vs-collapse separation in AFE | measured=null | threshold=AFE_refuse < 0.1 while AFE > 0.9 crossed=None | novelty_note=external overlap: REDaCT is literally 'Collapse-Free' and th\n\n## What I need\nFor EACH idea id N01..N12:\n  \"verdict\": SUPPORTED | WEAKENED | REFUTED  -- on NOVELTY, given the known external work\n  \"feasible\": true|false  -- can it be reproduced with the assets described (stored generations +\n              AFE label cache + file audit), without new model training\n  \"why\": <= 25 words\nAlso: \"top8\": the 8 ids you would keep, ordered; \"weakest_link\": the single idea most likely to be\nrejected for novelty, and why.\nFenced JSON at the end, keys: ideas, top8, weakest_link."
+  },
+  "response_content": "```json\n{\n  \"ideas\": {\n    \"N01\": {\n      \"verdict\": \"REFUTED\",\n      \"feasible\": true,\n      \"why\": \"STaR already defines multi-decoding consistency; cross-strategy profile is pre-empted, but stored strategy outputs suffice.\"\n    },\n    \"N02\": {\n      \"verdict\": \"WEAKENED\",\n      \"feasible\": true,\n      \"why\": \"UWC/truncation-bias work makes interval reporting adjacent; stored generations and AFE labels suffice.\"\n    },\n    \"N03\": {\n      \"verdict\": \"WEAKENED\",\n      \"feasible\": true,\n      \"why\": \"Judge-harness bias and UWC weaken denominator-policy novelty; parse failures and label cache suffice.\"\n    },\n    \"N04\": {\n      \"verdict\": \"REFUTED\",\n      \"feasible\": false,\n      \"why\": \"Linguistic Loopholes supplies coverage-aware unlearning; no question-paraphrase bank exists for reproducing coverage.\"\n    },\n    \"N05\": {\n      \"verdict\": \"WEAKENED\",\n      \"feasible\": false,\n      \"why\": \"ShadowBench lexical anchoring weakens entity-span novelty; span-level annotations are absent from supplied caches.\"\n    },\n    \"N06\": {\n      \"verdict\": \"WEAKENED\",\n      \"feasible\": true,\n      \"why\": \"STaR's multi-decoding consistency weakens paired-replay novelty; existing strategy generations allow paired comparison.\"\n    },\n    \"N07\": {\n      \"verdict\": \"WEAKENED\",\n      \"feasible\": true,\n      \"why\": \"UWC robust metrics weaken the generic Pareto-gate novelty; retain ROUGE/leak recomputable from stored generations.\"\n    },\n    \"N08\": {\n      \"verdict\": \"SUPPORTED\",\n      \"feasible\": true,\n      \"why\": \"No supplied external work directly anticipates contract-bound reproduction; file audit supplies thresholds, backend, and hashes.\"\n    },\n    \"N09\": {\n      \"verdict\": \"REFUTED\",\n      \"feasible\": false,\n      \"why\": \"K-Bench channels and 11 local near-neighbours pre-empt the idea; no channel-resolved assets supplied.\"\n    },\n    \"N10\": {\n      \"verdict\": \"SUPPORTED\",\n      \"feasible\": true,\n      \"why\": \"No supplied external work makes state shift the primary artefact; truncation/collapse labels are stored.\"\n    },\n    \"N11\": {\n      \"verdict\": \"REFUTED\",\n      \"feasible\": true,\n      \"why\": \"REDaCT's collapse-free framing pre-empts refusal/collapse separation; AFE labels still permit recomputation.\"\n    },\n    \"N12\": {\n      \"verdict\": \"WEAKENED\",\n      \"feasible\": false,\n      \"why\": \"UWC makes evaluation preconditions adjacent; NLL-versus-reproduction logs are not among supplied assets.\"\n    }\n  },\n  \"top8\": [\n    \"N10\",\n    \"N08\",\n    \"N02\",\n    \"N03\",\n    \"N07\",\n    \"N06\",\n    \"N01\",\n    \"N11\"\n  ],\n  \"weakest_link\": {\n    \"id\": \"N09\",\n    \"why\": \"K-Bench channels and 11 local near-neighbours directly pre-empt channel-resolved leak-rate novelty.\"\n  }\n}\n```",
+  "parsed": {
+    "ideas": {
+      "N01": {
+        "verdict": "REFUTED",
+        "feasible": true,
+        "why": "STaR already defines multi-decoding consistency; cross-strategy profile is pre-empted, but stored strategy outputs suffice."
+      },
+      "N02": {
+        "verdict": "WEAKENED",
+        "feasible": true,
+        "why": "UWC/truncation-bias work makes interval reporting adjacent; stored generations and AFE labels suffice."
+      },
+      "N03": {
+        "verdict": "WEAKENED",
+        "feasible": true,
+        "why": "Judge-harness bias and UWC weaken denominator-policy novelty; parse failures and label cache suffice."
+      },
+      "N04": {
+        "verdict": "REFUTED",
+        "feasible": false,
+        "why": "Linguistic Loopholes supplies coverage-aware unlearning; no question-paraphrase bank exists for reproducing coverage."
+      },
+      "N05": {
+        "verdict": "WEAKENED",
+        "feasible": false,
+        "why": "ShadowBench lexical anchoring weakens entity-span novelty; span-level annotations are absent from supplied caches."
+      },
+      "N06": {
+        "verdict": "WEAKENED",
+        "feasible": true,
+        "why": "STaR's multi-decoding consistency weakens paired-replay novelty; existing strategy generations allow paired comparison."
+      },
+      "N07": {
+        "verdict": "WEAKENED",
+        "feasible": true,
+        "why": "UWC robust metrics weaken the generic Pareto-gate novelty; retain ROUGE/leak recomputable from stored generations."
+      },
+      "N08": {
+        "verdict": "SUPPORTED",
+        "feasible": true,
+        "why": "No supplied external work directly anticipates contract-bound reproduction; file audit supplies thresholds, backend, and hashes."
+      },
+      "N09": {
+        "verdict": "REFUTED",
+        "feasible": false,
+        "why": "K-Bench channels and 11 local near-neighbours pre-empt the idea; no channel-resolved assets supplied."
+      },
+      "N10": {
+        "verdict": "SUPPORTED",
+        "feasible": true,
+        "why": "No supplied external work makes state shift the primary artefact; truncation/collapse labels are stored."
+      },
+      "N11": {
+        "verdict": "REFUTED",
+        "feasible": true,
+        "why": "REDaCT's collapse-free framing pre-empts refusal/collapse separation; AFE labels still permit recomputation."
+      },
+      "N12": {
+        "verdict": "WEAKENED",
+        "feasible": false,
+        "why": "UWC makes evaluation preconditions adjacent; NLL-versus-reproduction logs are not among supplied assets."
+      }
+    },
+    "top8": [
+      "N10",
+      "N08",
+      "N02",
+      "N03",
+      "N07",
+      "N06",
+      "N01",
+      "N11"
+    ],
+    "weakest_link": {
+      "id": "N09",
+      "why": "K-Bench channels and 11 local near-neighbours directly pre-empt channel-resolved leak-rate novelty."
+    }
+  }
+}

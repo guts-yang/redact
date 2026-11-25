@@ -95,3 +95,8 @@
 {"uid": "r2mu05:f05|192|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 192, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
 {"uid": "r2mu05:f05|193|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 193, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
 {"uid": "r2mu05:f05|194|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 194, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|195|afe", "status": "error"}
+{"uid": "r2mu05:f05|196|afe", "status": "ok", "label": "HALLUC", "leak_span": "", "strategy": "SummaryThink", "index": 196, "entity_leak": 0, "raw": "{\"label\":\"HALLUC\",\"leak_span\":\"\"}"}
+{"uid": "r2mu05:f05|197|afe", "status": "error"}
+{"uid": "r2mu05:f05|198|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 198, "entity_leak": 0, "raw": "{\"label\": \"COLLAPSE\", \"leak_span\": \"\"}"}
+{"uid": "r2mu05:f05|199|afe", "status": "ok", "label": "COLLAPSE", "leak_span": "", "strategy": "SummaryThink", "index": 199, "entity_leak": 0, "raw": "{\"label\":\"COLLAPSE\",\"leak_span\":\"\"}"}

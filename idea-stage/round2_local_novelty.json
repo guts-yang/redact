@@ -1,0 +1,94 @@
+{
+  "N01": {
+    "n_near": 1,
+    "hits": [
+      {
+        "title": "R-TOFU: Unlearning in Large Reasoning Models",
+        "id": "yoon2025rtofu",
+        "hits": 2
+      }
+    ]
+  },
+  "N02": {
+    "n_near": 0,
+    "hits": []
+  },
+  "N03": {
+    "n_near": 0,
+    "hits": []
+  },
+  "N04": {
+    "n_near": 0,
+    "hits": []
+  },
+  "N05": {
+    "n_near": 1,
+    "hits": [
+      {
+        "title": "LEMUR: Latent Entropy-aware Multimodal Unlearning via Visual-anchored Reasoning Redirection",
+        "id": "zhong2026lemur",
+        "hits": 2
+      }
+    ]
+  },
+  "N06": {
+    "n_near": 0,
+    "hits": []
+  },
+  "N07": {
+    "n_near": 0,
+    "hits": []
+  },
+  "N08": {
+    "n_near": 0,
+    "hits": []
+  },
+  "N09": {
+    "n_near": 11,
+    "hits": [
+      {
+        "title": "REDaCT: Collapse-Free Unlearning in Large Reasoning Models",
+        "id": "maccoby2026redact",
+        "hits": 2
+      },
+      {
+        "title": "K-Bench: A Benchmark for LLM Unlearning in Agentic Deployments",
+        "id": "yu2026kbench",
+        "hits": 3
+      },
+      {
+        "title": "GUARD: Natural Forgetting in Large Reasoning Models via Guided Answer-Reasoning Distillation",
+        "id": "yan2026guard",
+        "hits": 2
+      },
+      {
+        "title": "Unlearning Deceptive Behaviors in LLMs with Contrastive Forget Sets",
+        "id": "tang2026pact",
+        "hits": 2
+      }
+    ]
+  },
+  "N10": {
+    "n_near": 0,
+    "hits": []
+  },
+  "N11": {
+    "n_near": 2,
+    "hits": [
+      {
+        "title": "REDaCT: Collapse-Free Unlearning in Large Reasoning Models",
+        "id": "maccoby2026redact",
+        "hits": 3
+      },
+      {
+        "title": "DRAGON: Guard LLM Unlearning in Context via Negative Detection and Reasoning",
+        "id": "wang2025dragon",
+        "hits": 2
+      }
+    ]
+  },
+  "N12": {
+    "n_near": 0,
+    "hits": []
+  }
+}

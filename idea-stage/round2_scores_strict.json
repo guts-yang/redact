@@ -1,0 +1,279 @@
+{
+  "rubric": "cff0a224b94802cc (frozen)",
+  "accept": 8.0,
+  "strict_d3": true,
+  "n": 12,
+  "n_accepted": 10,
+  "mean": 8.417,
+  "ranked": [
+    {
+      "id": "N08",
+      "title": "Contract-bound detector reproduction (threshold + backend + data hash)",
+      "q": "Q25",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 2,
+      "D5": 2,
+      "score": 10,
+      "accepted": true,
+      "threshold": ">= 3 contract violations",
+      "measured": 7,
+      "threshold_crossed": true,
+      "novelty": "reviewer signed SUPPORTED",
+      "measurement": {
+        "verified_defects": 7
+      }
+    },
+    {
+      "id": "N10",
+      "title": "Unlearning-induced state shift as the primary artefact",
+      "q": "Q24",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 2,
+      "D5": 2,
+      "score": 10,
+      "accepted": true,
+      "threshold": "state shift explains > 50% of the delta",
+      "measured": 0.79375,
+      "threshold_crossed": true,
+      "novelty": "reviewer signed SUPPORTED",
+      "measurement": {
+        "delta": 0.8875,
+        "collapse_shift": 0.79375,
+        "trunc_shift": 0.85
+      }
+    },
+    {
+      "id": "N02",
+      "title": "Censoring-required reporting (interval, not point)",
+      "q": "Q25",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "threshold": "width > 0.2",
+      "measured": 1.0,
+      "threshold_crossed": true,
+      "novelty": "reviewer WEAKENED",
+      "measurement": {
+        "max_width": 1.0,
+        "example": {
+          "optimistic": 0.0,
+          "pessimistic": 0.95,
+          "width": 0.95,
+          "n": 40
+        }
+      }
+    },
+    {
+      "id": "N03",
+      "title": "Judge-failure-aware AFE (denominator policy)",
+      "q": "Q22",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "threshold": "AFE spread across policies > 0.05",
+      "measured": 0.167045,
+      "threshold_crossed": true,
+      "novelty": "reviewer WEAKENED",
+      "measurement": 0.167045
+    },
+    {
+      "id": "N07",
+      "title": "Utility-vs-forgetting Pareto gate",
+      "q": "Q25",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "threshold": "retain drop > 0.05 utility floor",
+      "measured": 0.112445,
+      "threshold_crossed": true,
+      "novelty": "reviewer WEAKENED",
+      "measurement": {
+        "retain_pre": 0.545534,
+        "retain_post": 0.433089,
+        "drop": 0.112445
+      }
+    },
+    {
+      "id": "N12",
+      "title": "Score-free know-check as an evaluation precondition",
+      "q": "Q25",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "threshold": "NLL and reproduction disagree",
+      "measured": true,
+      "threshold_crossed": true,
+      "novelty": "reviewer WEAKENED",
+      "measurement": {
+        "nll": 1.8854,
+        "reproduction": 0.0,
+        "prior_nll": 5.4692,
+        "status": "signals_disagree"
+      }
+    },
+    {
+      "id": "N01",
+      "title": "Cross-strategy collapse-adjusted leak profile",
+      "q": "Q21",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 0,
+      "D5": 2,
+      "score": 8,
+      "accepted": true,
+      "threshold": "adjusted profile must reorder at least one pair; we measured spread",
+      "measured": 0.636364,
+      "threshold_crossed": true,
+      "novelty": "external overlap: STaR (arXiv:2601.9281) already defines a Multi-Decoding Consistency Score over DefaultThink/ZeroThink/LessThink for unlearning",
+      "measurement": {
+        "default_clean": 1.0,
+        "summary_clean": 0.363636,
+        "spread": 0.636364,
+        "post_gamma": 0.0
+      }
+    },
+    {
+      "id": "N04",
+      "title": "Coverage gate for forget claims",
+      "q": "Q24",
+      "D1": 2,
+      "D2": 2,
+      "D3": 1,
+      "D4": 1,
+      "D5": 2,
+      "score": 8,
+      "accepted": true,
+      "threshold": "coverage gate fails when answer_reached < 0.5",
+      "measured": 0.7625,
+      "threshold_crossed": false,
+      "novelty": "reviewer REFUTED",
+      "measurement": {
+        "post_default_coverage": 0.7625,
+        "post_default_collapse": 0.79375
+      }
+    },
+    {
+      "id": "N05",
+      "title": "Leak-span localisation beyond substring match",
+      "q": "Q23",
+      "D1": 2,
+      "D2": 2,
+      "D3": 1,
+      "D4": 1,
+      "D5": 2,
+      "score": 8,
+      "accepted": true,
+      "threshold": "entity-only share > 0.5",
+      "measured": 0.075,
+      "threshold_crossed": false,
+      "novelty": "reviewer WEAKENED",
+      "measurement": {
+        "n_leak": 133,
+        "mean_span_words": 9.564,
+        "share_span_le_2_words": 0.075
+      }
+    },
+    {
+      "id": "N06",
+      "title": "State-consistent paired replay across strategies",
+      "q": "Q21",
+      "D1": 2,
+      "D2": 2,
+      "D3": 1,
+      "D4": 1,
+      "D5": 2,
+      "score": 8,
+      "accepted": true,
+      "threshold": "state non-invariance > 0.3",
+      "measured": 0.3,
+      "threshold_crossed": false,
+      "novelty": "reviewer WEAKENED",
+      "measurement": {
+        "non_invariance": 0.3
+      }
+    },
+    {
+      "id": "N09",
+      "title": "Channel-resolved leak rate on closed-think rows only",
+      "q": "Q23",
+      "D1": 2,
+      "D2": 2,
+      "D3": 1,
+      "D4": 0,
+      "D5": 2,
+      "score": 7,
+      "accepted": false,
+      "threshold": "channel gap > 0.05",
+      "measured": 0.0,
+      "threshold_crossed": false,
+      "novelty": "external overlap: 11 local near-neighbours incl. REDaCT and K-Bench already split CoT vs answer channels",
+      "measurement": {
+        "channel_gap": 0.0,
+        "closed_share": 1.0
+      }
+    },
+    {
+      "id": "N11",
+      "title": "Refusal-vs-collapse separation in AFE",
+      "q": "Q22",
+      "D1": 2,
+      "D2": 2,
+      "D3": 0,
+      "D4": 0,
+      "D5": 2,
+      "score": 6,
+      "accepted": false,
+      "threshold": "AFE_refuse < 0.1 while AFE > 0.9",
+      "measured": null,
+      "threshold_crossed": null,
+      "novelty": "external overlap: REDaCT is literally 'Collapse-Free' and the baseline AFE table already reports a collapse column",
+      "measurement": {
+        "target:f10": {
+          "AFE": 0.108108,
+          "AFE_refuse_among_nonleak": 0.25,
+          "collapse": 0.0
+        },
+        "r2mu10:f10": {
+          "AFE": 0.957143,
+          "AFE_refuse_among_nonleak": 0.0,
+          "collapse": 0.957143
+        },
+        "target:f05": {
+          "AFE": 0.189189,
+          "AFE_refuse_among_nonleak": 0.142857,
+          "collapse": 0.0
+        },
+        "r2mu05:f05": {
+          "AFE": 0.954545,
+          "AFE_refuse_among_nonleak": 0.015874,
+          "collapse": 0.909091
+        }
+      }
+    }
+  ],
+  "rules": [
+    "D3=2 only if the idea's own preregistered threshold is crossed",
+    "D4=0 on any external overlap, =2 only with a per-idea SUPPORTED signature"
+  ]
+}

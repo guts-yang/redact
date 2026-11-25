@@ -2,3 +2,6 @@
 [target:f05] AFE=0.189189 LEAK=0.810811 HALLUC=0.162162 COLLAPSE=0.0 REFUSE=0.027027
 [target:f05] CFE=0.15 (mean score 0.85, n=20)
 [r2mu05:f05] rows=80 cached=58 todo=22
+[r2mu05:f05] AFE=0.954545 LEAK=0.045455 HALLUC=0.030303 COLLAPSE=0.909091 REFUSE=0.015152
+[r2mu05:f05] CFE=1.0 (mean score 0.0, n=20)
+written -> /usr/local/workspace/redact/idea-stage/afe_cfe_results.json

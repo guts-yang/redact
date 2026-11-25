@@ -1,0 +1,299 @@
+{
+  "rubric": "cff0a224b94802cc (frozen)",
+  "accept": 8.0,
+  "n": 12,
+  "n_accepted": 12,
+  "mean": 9.0,
+  "ranked": [
+    {
+      "id": "N01",
+      "title": "Cross-strategy collapse-adjusted leak profile",
+      "q": "Q21",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "default_clean": 1.0,
+        "summary_clean": 0.363636,
+        "spread": 0.636364,
+        "post_gamma": 0.0
+      },
+      "problem": "A method can look robust to ZeroThink/LessThink only because those prompts collapse; robustness must be reported net of collapse.",
+      "diff": "Existing LRM-unlearning tables report per-strategy leak rates without conditioning on whether the strategy's own output survived; none report the collapse-adjusted profile.",
+      "method": "Report, for every strategy, leak | clean (reached & non-degenerate & no echo), together with the collapse rate that produced it.",
+      "crossval": "Hy4 reviews the pair (raw, adjusted) for this repository's numbers; a second reader recomputes from the CSV.",
+      "experiment": "Existing baseline panels; no new generation.",
+      "expected": "DefaultCoT 1.000 vs SummaryThink 0.364 adjusted, ordering unchanged but gaps shrink."
+    },
+    {
+      "id": "N02",
+      "title": "Censoring-required reporting (interval, not point)",
+      "q": "Q25",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "max_width": 1.0,
+        "example": {
+          "optimistic": 0.0,
+          "pessimistic": 0.95,
+          "width": 0.95,
+          "n": 40
+        }
+      },
+      "problem": "Point-estimate leak rates are uninterpretable when truncation is 90%+; the interval width is the honest unit of uncertainty.",
+      "diff": "No LRM-unlearning table ships a censoring interval for evaluator truncation.",
+      "method": "Right-censor truncated samples, clamp the upper bound to 1.0, publish [lo, hi] next to every point estimate.",
+      "crossval": "Hy4 checks that the interval definition is a valid probability interval and that the width is reported for the same n as the point estimate.",
+      "experiment": "Computed on baseline rows.",
+      "expected": "width 1.0 on r2mu post-unlearning rows."
+    },
+    {
+      "id": "N03",
+      "title": "Judge-failure-aware AFE (denominator policy)",
+      "q": "Q22",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": 0.167045,
+      "problem": "AFE silently changes when judge calls fail: the denominator shrinks and the surviving calls are not a random sample of rows.",
+      "diff": "AFE is reported without a failure policy; no repo states whether failed calls are dropped, retried, or counted as non-leak.",
+      "method": "Report AFE under three policies (drop, retry, worst-case) and the failure rate.",
+      "crossval": "Hy4 compares the three policies for the same judged rows; the three numbers must be recomputable from one label file.",
+      "experiment": "Uses the AFE label cache from the baseline run.",
+      "expected": "failure 7.5-15%, so the policy spread is material."
+    },
+    {
+      "id": "N04",
+      "title": "Coverage gate for forget claims",
+      "q": "Q24",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "post_default_coverage": 0.7625,
+        "post_default_collapse": 0.79375
+      },
+      "problem": "A forgetting claim is vacuous when the answer channel is never reached: 0 leak at coverage 0.05 means 'did not answer', not 'forgot'.",
+      "diff": "Coverage is not reported in LRM-unlearning result tables; refusal is conflated with unreachability.",
+      "method": "Require answer_reached_rate >= 0.5 per strategy before a leak rate may be read as forgetting; otherwise mark unevaluable.",
+      "crossval": "Hy4 verifies the gate uses the same rows as the leak rate and that failing systems are marked, not dropped.",
+      "experiment": "Computed on baseline rows.",
+      "expected": "post-unlearning DefaultCoT coverage 0.0-0.19 -> gate fails."
+    },
+    {
+      "id": "N05",
+      "title": "Leak-span localisation beyond substring match",
+      "q": "Q23",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "n_leak": 133,
+        "mean_span_words": 9.564,
+        "share_span_le_2_words": 0.075
+      },
+      "problem": "Substring matching cannot say where or how much a response leaks; a single echoed name and a full biographical sentence count the same.",
+      "diff": "Existing metrics are binary per response; the judge already emits a verbatim span but no work aggregates span length/position into the metric.",
+      "method": "Aggregate judge leak spans: span length in tokens, position relative to </think>, and the share of leaks that are entity-only.",
+      "crossval": "Hy4 reviews a sample of spans against their responses and flags any span that does not quote the response verbatim.",
+      "experiment": "Uses the AFE label cache (spans stored).",
+      "expected": "most LEAK spans are the bare entity name."
+    },
+    {
+      "id": "N06",
+      "title": "State-consistent paired replay across strategies",
+      "q": "Q21",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "non_invariance": 0.3
+      },
+      "problem": "Per-strategy leak rates are not paired; a strategy difference may come from different question subsets reaching different states.",
+      "diff": "No LRM-unlearning work reports per-question state invariance across decoding paths.",
+      "method": "For each question, compare the state label across the four strategies; report the share of questions whose state is not invariant.",
+      "crossval": "Hy4 checks the pairing key (question text) and that the same question set is used.",
+      "experiment": "Computed from baseline rows.",
+      "expected": "DefaultCoT collapses while ZeroThink does not, so non-invariance is large."
+    },
+    {
+      "id": "N07",
+      "title": "Utility-vs-forgetting Pareto gate",
+      "q": "Q25",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "retain_pre": 0.545534,
+        "retain_post": 0.433089,
+        "drop": 0.112445
+      },
+      "problem": "A method can buy leakage reduction with utility: retain ROUGE falls 0.55 -> 0.42 while the leak metric reports success.",
+      "diff": "Utility is reported as a separate column; no gate ties the forgetting claim to a utility floor on the same rows.",
+      "method": "Two-dimensional gate: claim admissible only if leak drops AND retain ROUGE stays within 0.05 of the pre-unlearning value.",
+      "crossval": "Hy4 checks the floor is computed from the same retain rows for both systems.",
+      "experiment": "Computed on baseline rows.",
+      "expected": "drop 0.112-0.120 -> fails a 0.05 floor."
+    },
+    {
+      "id": "N08",
+      "title": "Contract-bound detector reproduction (threshold + backend + data hash)",
+      "q": "Q25",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "verified_defects": 7
+      },
+      "problem": "Inference-time unlearning results are not reproducible because the detector threshold, judge backend and data version are unbound.",
+      "diff": "REDaCT/ARIA report efficacy; none bind the detector contract, so a re-run silently changes the flagging rate.",
+      "method": "Ship a contract file (threshold, backend, dataset hash, weights hash) and fail the run if any element differs.",
+      "crossval": "Hy4 reviews the contract fields against the repository files and flags any field that cannot be checked.",
+      "experiment": "File-level audit (already completed: 7 defects).",
+      "expected": "7 violations."
+    },
+    {
+      "id": "N09",
+      "title": "Channel-resolved leak rate on closed-think rows only",
+      "q": "Q23",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "channel_gap": 0.0,
+        "closed_share": 1.0
+      },
+      "problem": "Answer-level leakage hides trace-level leakage; but a trace metric computed on rows without a closing tag is structurally zero.",
+      "diff": "Existing channel metrics do not gate on 'the trace closed', so zero gaps are often artifacts.",
+      "method": "Compute cot-vs-answer gap only on rows with a closed </think>, report the excluded share.",
+      "crossval": "Hy4 checks that every counted row has a closing tag and that excluded rows are reported.",
+      "experiment": "Computed on baseline DefaultCoT rows (32 closed).",
+      "expected": "gap 0.031 with 1 trace-only row."
+    },
+    {
+      "id": "N10",
+      "title": "Unlearning-induced state shift as the primary artefact",
+      "q": "Q24",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "delta": 0.8875,
+        "collapse_shift": 0.79375,
+        "trunc_shift": 0.85
+      },
+      "problem": "Unlearning changes the generation distribution (collapse 0 -> 80%, truncation 8 -> 93%), so a before/after leak delta conflates forgetting with degeneration.",
+      "diff": "Papers report leak deltas; none report the state-distribution shift that accompanies them.",
+      "method": "Report the state mix before/after and require the delta to be decomposed into a state-shift component and a within-state component.",
+      "crossval": "Hy4 recomputes the decomposition from the same rows and checks the components sum to the observed delta.",
+      "experiment": "Computed on baseline panels.",
+      "expected": "state shift explains essentially all of the 0.87 delta."
+    },
+    {
+      "id": "N11",
+      "title": "Refusal-vs-collapse separation in AFE",
+      "q": "Q22",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "target:f10": {
+          "AFE": 0.108108,
+          "AFE_refuse_among_nonleak": 0.25,
+          "collapse": 0.0
+        },
+        "r2mu10:f10": {
+          "AFE": 0.957143,
+          "AFE_refuse_among_nonleak": 0.0,
+          "collapse": 0.957143
+        },
+        "target:f05": {
+          "AFE": 0.189189,
+          "AFE_refuse_among_nonleak": 0.142857,
+          "collapse": 0.0
+        },
+        "r2mu05:f05": {
+          "AFE": 0.954545,
+          "AFE_refuse_among_nonleak": 0.015874,
+          "collapse": 0.909091
+        }
+      },
+      "problem": "AFE = 1 - LEAK includes COLLAPSE as success, so a method that destroys the model scores as well as one that refuses cleanly.",
+      "diff": "AFE has no collapse penalty in the headline number; REFUSE and COLLAPSE are pooled.",
+      "method": "Report AFE_refuse = share of REFUSE among non-leak rows, and a collapse-penalised AFE.",
+      "crossval": "Hy4 checks the label counts and that the adjusted AFE is monotone in collapse.",
+      "experiment": "Uses the AFE label cache.",
+      "expected": "AFE 0.957 with AFE_refuse 0.0 and collapse 0.957."
+    },
+    {
+      "id": "N12",
+      "title": "Score-free know-check as an evaluation precondition",
+      "q": "Q25",
+      "D1": 2,
+      "D2": 2,
+      "D3": 2,
+      "D4": 1,
+      "D5": 2,
+      "score": 9,
+      "accepted": true,
+      "measurement": {
+        "nll": 1.8854,
+        "reproduction": 0.0,
+        "prior_nll": 5.4692,
+        "status": "signals_disagree"
+      },
+      "problem": "A leak rate is meaningless if the checkpoint never knew the split; but current pipelines assume knowledge and never test it.",
+      "diff": "No benchmark ships a know-check gate; failures are diagnosed post hoc (our own case).",
+      "method": "Before scoring, require teacher-forced NLL and greedy reproduction to agree that the split is known; otherwise mark the split unevaluable.",
+      "crossval": "Hy4 checks the thresholds were fixed before measurement and that both signals use the same prompt template.",
+      "experiment": "NLL + reproduction already measured on two splits (they disagreed).",
+      "expected": "NLL 1.885 vs reproduction 0.0 on forget01 -> gate blocks."
+    }
+  ],
+  "note": "D4 is 1 for all: external search is done but the reviewer has not signed SUPPORTED per idea yet; D4=2 requires that signature."
+}

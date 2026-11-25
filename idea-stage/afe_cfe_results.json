@@ -72,14 +72,14 @@
       "afe": {
         "system": "r2mu05:f05",
         "tag": "base_r2mu05_forget05",
-        "n_judged": 68,
-        "n_failed": 12,
-        "AFE_judge": 0.955882,
-        "leak_rate_judge": 0.044118,
-        "halluc_rate": 0.029412,
-        "collapse_rate": 0.911765,
-        "refuse_rate": 0.014706,
-        "agreement_with_string": 0.955882
+        "n_judged": 66,
+        "n_failed": 14,
+        "AFE_judge": 0.954545,
+        "leak_rate_judge": 0.045455,
+        "halluc_rate": 0.030303,
+        "collapse_rate": 0.909091,
+        "refuse_rate": 0.015152,
+        "agreement_with_string": 0.954545
       },
       "cfe": {
         "system": "r2mu05:f05",
@@ -89,45 +89,5 @@
         "mean_graded_score": 0.0
       }
     }
-  },
-  "MU": {
-    "status": "PARTIAL (1 of 4 metrics; retain subset only)",
-    "why": "real_authors / world_facts generations and the cosine/entailment/entropy models are absent",
-    "per_system": {
-      "target:f10": {
-        "retain_n": 80,
-        "rougeL_recall": 0.5455,
-        "cosine": null,
-        "entailment": null,
-        "token_entropy": null
-      },
-      "r2mu10:f10": {
-        "retain_n": 80,
-        "rougeL_recall": 0.4331,
-        "cosine": null,
-        "entailment": null,
-        "token_entropy": null
-      },
-      "target:f05": {
-        "retain_n": 80,
-        "rougeL_recall": 0.5455,
-        "cosine": null,
-        "entailment": null,
-        "token_entropy": null
-      },
-      "r2mu05:f05": {
-        "retain_n": 80,
-        "rougeL_recall": 0.4248,
-        "cosine": null,
-        "entailment": null,
-        "token_entropy": null
-      }
-    }
-  },
-  "reading_notes": {
-    "AFE_is_not_free": "r2mu05/r2mu10 reach AFE 0.956/0.957, but COLLAPSE is 0.912/0.957; the repo's own table reports collapse next to AFE for exactly this reason",
-    "CFE_is_degenerate": "CFE=1.000 comes from mean graded score 0.00 on DefaultCoT rows whose CoT is empty or truncated; it is not evidence of CoT forgetting",
-    "MU_not_computable": "MU requires 12 means (ROUGE-L/cosine/entailment/token-entropy x retain/real_authors/world_facts). Only retain ROUGE-L exists locally, so MU is NOT reported as a number",
-    "judge_failure_rate": "6/80, 10/80, 6/80, 12/80 parse failures = 7.5-15%, above the 5% threshold I05 preregistered -> I05 gains support under the baseline protocol"
   }
 }

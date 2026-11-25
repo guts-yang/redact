@@ -1,0 +1,186 @@
+{
+  "round": 2,
+  "rubric": "cff0a224b94802cc (frozen)",
+  "selected": [
+    {
+      "id": "N08",
+      "title": "Contract-bound detector reproduction (threshold + backend + data hash)",
+      "score": 10,
+      "D": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "measured": 7,
+      "threshold": ">= 3 contract violations",
+      "crossed": true,
+      "reviewer": "SUPPORTED",
+      "feasible": true,
+      "why": "reviewer signed SUPPORTED"
+    },
+    {
+      "id": "N10",
+      "title": "Unlearning-induced state shift as the primary artefact",
+      "score": 10,
+      "D": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "measured": 0.79375,
+      "threshold": "state shift explains > 50% of the delta",
+      "crossed": true,
+      "reviewer": "SUPPORTED",
+      "feasible": true,
+      "why": "reviewer signed SUPPORTED"
+    },
+    {
+      "id": "N02",
+      "title": "Censoring-required reporting (interval, not point)",
+      "score": 9,
+      "D": [
+        2,
+        2,
+        2,
+        1,
+        2
+      ],
+      "measured": 1.0,
+      "threshold": "width > 0.2",
+      "crossed": true,
+      "reviewer": "WEAKENED",
+      "feasible": true,
+      "why": "reviewer WEAKENED"
+    },
+    {
+      "id": "N03",
+      "title": "Judge-failure-aware AFE (denominator policy)",
+      "score": 9,
+      "D": [
+        2,
+        2,
+        2,
+        1,
+        2
+      ],
+      "measured": 0.167045,
+      "threshold": "AFE spread across policies > 0.05",
+      "crossed": true,
+      "reviewer": "WEAKENED",
+      "feasible": true,
+      "why": "reviewer WEAKENED"
+    },
+    {
+      "id": "N07",
+      "title": "Utility-vs-forgetting Pareto gate",
+      "score": 9,
+      "D": [
+        2,
+        2,
+        2,
+        1,
+        2
+      ],
+      "measured": 0.112445,
+      "threshold": "retain drop > 0.05 utility floor",
+      "crossed": true,
+      "reviewer": "WEAKENED",
+      "feasible": true,
+      "why": "reviewer WEAKENED"
+    },
+    {
+      "id": "N12",
+      "title": "Score-free know-check as an evaluation precondition",
+      "score": 9,
+      "D": [
+        2,
+        2,
+        2,
+        1,
+        2
+      ],
+      "measured": true,
+      "threshold": "NLL and reproduction disagree",
+      "crossed": true,
+      "reviewer": "WEAKENED",
+      "feasible": false,
+      "why": "reviewer WEAKENED"
+    },
+    {
+      "id": "N05",
+      "title": "Leak-span localisation beyond substring match",
+      "score": 8,
+      "D": [
+        2,
+        2,
+        1,
+        1,
+        2
+      ],
+      "measured": 0.075,
+      "threshold": "entity-only share > 0.5",
+      "crossed": false,
+      "reviewer": "WEAKENED",
+      "feasible": false,
+      "why": "reviewer WEAKENED"
+    },
+    {
+      "id": "N06",
+      "title": "State-consistent paired replay across strategies",
+      "score": 8,
+      "D": [
+        2,
+        2,
+        1,
+        1,
+        2
+      ],
+      "measured": 0.3,
+      "threshold": "state non-invariance > 0.3",
+      "crossed": false,
+      "reviewer": "WEAKENED",
+      "feasible": true,
+      "why": "reviewer WEAKENED"
+    }
+  ],
+  "eliminated": [
+    {
+      "id": "N01",
+      "title": "Cross-strategy collapse-adjusted leak profile",
+      "score": 8,
+      "reviewer": "REFUTED",
+      "why": "STaR already defines multi-decoding consistency; cross-strategy profile is pre-empted, but stored strategy outputs suffice."
+    },
+    {
+      "id": "N04",
+      "title": "Coverage gate for forget claims",
+      "score": 8,
+      "reviewer": "REFUTED",
+      "why": "Linguistic Loopholes supplies coverage-aware unlearning; no question-paraphrase bank exists for reproducing coverage."
+    },
+    {
+      "id": "N09",
+      "title": "Channel-resolved leak rate on closed-think rows only",
+      "score": 7,
+      "reviewer": "REFUTED",
+      "why": "K-Bench channels and 11 local near-neighbours pre-empt the idea; no channel-resolved assets supplied."
+    },
+    {
+      "id": "N11",
+      "title": "Refusal-vs-collapse separation in AFE",
+      "score": 6,
+      "reviewer": "REFUTED",
+      "why": "REDaCT's collapse-free framing pre-empts refusal/collapse separation; AFE labels still permit recomputation."
+    }
+  ],
+  "note": "D4=0 still sums to 8 under this rubric, so a REFUTED idea can pass numerically; the selection below therefore excludes every REFUTED idea even when its score is 8.",
+  "counts": {
+    "selected": 8,
+    "above_8": 6,
+    "equal_8": 2
+  }
+}
