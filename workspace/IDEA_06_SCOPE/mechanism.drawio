@@ -1,0 +1,60 @@
+<mxfile host="app.diagrams.net" agent="ARIS" version="24.0.0">
+  <diagram id="IDEA_06_SCOPE" name="Page-1">
+    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3020" pageHeight="980" math="1" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="IDEA_06_SCOPE · SCOPE · LRM CoT 等价类边界遗忘" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#ffffff;strokeColor=#ffffff;strokeWidth=1.5;fontSize=23;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="24" width="2940" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr0" value="① 输入
+遗忘集合 / 保留集合" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#eaeaea;strokeColor=#b3b3b3;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="92" width="400" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr1" value="② 嵌入层
+模型入口 · token/激活投影" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#eaeaea;strokeColor=#b3b3b3;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="500" y="92" width="360" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr2" value="③ 模型内部处理
+前向传播 + 核心机制（LaTeX）" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#eaeaea;strokeColor=#b3b3b3;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="940" y="92" width="740" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr3" value="④ 损失与反向传播
+目标函数 · 优化参数" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#eaeaea;strokeColor=#b3b3b3;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1760" y="92" width="830" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr4" value="⑤ 输出
+遗忘算法的结果" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#eaeaea;strokeColor=#b3b3b3;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="2670" y="92" width="290" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="in" value="&lt;b&gt;遗忘集合&lt;/b&gt;  D_f =(x, CoT, answer)&lt;br&gt;$$e_f = \text{forget 实体}$$&lt;br&gt;&lt;br&gt;&lt;b&gt;保留集合&lt;/b&gt;  D_r = retain / aux prompt&lt;br&gt;$$\theta_0 = \text{冻结 target 模型}$$" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.5;fontSize=14;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="176" width="400" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="emb" value="&lt;b&gt;模型入口 / 前向起点&lt;/b&gt;&lt;br&gt;$$\mathrm{Emb}(x)\rightarrow h^{(0)}$$&lt;br&gt;&lt;br&gt;$$\phi_\theta^{(\ell)}(r_t)\quad(\text{第 }\ell\text{ 层 · 第 }t\text{ 个 CoT 步})$$&lt;br&gt;&lt;br&gt;$$\text{base 权重冻结；仅挂载 LoRA 适配器}$$&lt;br&gt;&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="500" y="176" width="360" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="proc" value="&lt;b&gt;③ 前向传播 + 步级等价类标注&lt;/b&gt;&lt;br&gt;$$[x]_T=\{\tilde x:\tilde x\sim_T x\},\qquad g_t=\mathbb{1}[r_t\in\text{in-scope 等价类}]$$&lt;br&gt;&lt;br&gt;$$\forall\tilde x\in[x]_T:\ p_\theta(e_f\mid r_{\le t})\ \text{逐 CoT 步前向}$$&lt;br&gt;&lt;br&gt;$$\mathrm{SCS}=\frac{1}{|[x]_T|}\sum_{\tilde x}\min_t\mathbb{1}[\mathrm{Leak}(r_t(\tilde x))\le\varepsilon]\to 1$$&lt;br&gt;&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=1.5;fontSize=15;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="940" y="176" width="740" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="loss" value="&lt;b&gt;④ 损失函数（step-wise scope）&lt;/b&gt;&lt;br&gt;$$\mathcal{L}_{SCOPE}=\sum_{x\in D_f}\sum_{t=1}^{T}\big[g_t\mathcal{L}_{sup}(r_t)+(1-g_t)\mathcal{L}_{keep}(r_t)\big]+\lambda\mathcal{L}_r$$&lt;br&gt;&lt;br&gt;$$\mathcal{L}_{sup}=-\log(1-p_\theta(e_f\mid r_{\le t})),\quad \mathcal{L}_{keep}=\mathrm{KL}(p_\theta\|p_{\theta_0})$$&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;④ 反向传播 / 优化参数（承接损失梯度）&lt;/b&gt;&lt;br&gt;$$\theta\leftarrow\theta-\eta\nabla_\theta\mathcal{L}_{SCOPE}$$&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;div align=&#x27;left&#x27;&gt;更新 LoRA 参数 θ；g_t 由冻结等价类标注器给出；θ₀ 与改写库冻结。&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1760" y="176" width="830" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="out" value="&lt;b&gt;输出产物&lt;/b&gt;&lt;br&gt;$$\theta=\mathrm{Unlearn}(\theta_0)$$&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;div align=&#x27;center&#x27;&gt;具备遗忘能力的模型：等价问法下每一步推理都被抑制。&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="2670" y="176" width="290" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="前向输入" style="edgeStyle=none;html=1;rounded=0;endArrow=blockThin;endFill=1;endSize=18;strokeWidth=2.5;strokeColor=#4d4d4d;fontSize=12;fontColor=#333333;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="in" target="emb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="隐藏表示 h" style="edgeStyle=none;html=1;rounded=0;endArrow=blockThin;endFill=1;endSize=18;strokeWidth=2.5;strokeColor=#4d4d4d;fontSize=12;fontColor=#333333;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="emb" target="proc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="计算损失" style="edgeStyle=none;html=1;rounded=0;endArrow=blockThin;endFill=1;endSize=18;strokeWidth=2.5;strokeColor=#4d4d4d;fontSize=12;fontColor=#333333;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="proc" target="loss">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" value="反向传播更新" style="edgeStyle=none;html=1;rounded=0;endArrow=blockThin;endFill=1;endSize=18;strokeWidth=2.5;strokeColor=#4d4d4d;fontSize=12;fontColor=#333333;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="loss" target="out">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
