@@ -50,3 +50,5 @@ rtofu_judge_scores/
 !artifacts/soft_tokens/
 !artifacts/soft_tokens/*/
 !artifacts/soft_tokens/*/embedding.pt
+
+.agent
