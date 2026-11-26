@@ -24,8 +24,13 @@ implementations/
   cfa.py         IDEA_08 CFA
   ripple.py      IDEA_09 RIPPLE
   bound.py       IDEA_10 BOUND
+  hooks/         full CSDA/RRBU/CFA/RIPPLE adapters (step patching,
+                 functional_call bilevel, style audit, knowledge graph)
   tests/         CPU synthetic unit tests
 ```
+
+The four hardest methods also have full hooks under `hooks/`; see
+`hooks/README.md` for the data/model integration contract.
 
 ## Method interfaces
 
