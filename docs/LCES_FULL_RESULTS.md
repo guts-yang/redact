@@ -4,6 +4,7 @@
 117 world_facts; one seed; `sangyon/LRM-target`; fp32; 1024 max new tokens.
 **Baseline**: R2MU `forget10` checkpoint.
 **Verdict**: negative for the utility-preserving tradeoff claim.
+**Status**: ELIMINATED — do not advance. See `docs/METHOD_STATUS.md`.
 
 ## Final table
 

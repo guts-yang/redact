@@ -1,5 +1,7 @@
 # EXPERIMENT RESULTS — UPBD held-out pilot
 
+**Status**: ACTIVE CANDIDATE — continue replication. See `docs/METHOD_STATUS.md`.
+
 **Run**: `lrm-unlearning-20261126-upbd`
 **Training**: R2MU boundary + LoRA; 1 epoch; 380 forget + 380 retain + 177 aux
 **Held-out eval**: first 20 rows of each split, never used in training
