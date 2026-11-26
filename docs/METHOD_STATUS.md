@@ -24,6 +24,7 @@ resource change.
 
 - Hypothesis: freezing R2MU's forget10 boundary and distilling target
   retain/aux behavior raises utility without reopening exact leakage.
+- Implementation design (how forgetting is realised): `docs/UPBD_DESIGN.md`.
 - Status: **held-out pilot complete (partial)**; 20 rows per split, seeds 1001
   and 2002, one task_id, one model. See `docs/UPBD_PILOT.md` and
   `run-20261126-upbd/refine-logs/EXPERIMENT_TRACKER.md`.
