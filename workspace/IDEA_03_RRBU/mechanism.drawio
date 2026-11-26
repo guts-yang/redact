@@ -1,11 +1,11 @@
 <mxfile host="app.diagrams.net" agent="ARIS" version="24.0.0">
   <diagram id="IDEA_03_RRBU" name="Page-1">
-    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3020" pageHeight="980" math="1" shadow="0">
+    <mxGraphModel dx="1422" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3060" pageHeight="501.5" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="title" value="IDEA_03_RRBU · RRBU · 重学习鲁棒双层遗忘" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#ffffff;strokeColor=#ffffff;strokeWidth=1.5;fontSize=23;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="40" y="24" width="2940" height="50" as="geometry" />
+          <mxGeometry x="40" y="24" width="2980" height="50" as="geometry" />
         </mxCell>
         <mxCell id="hdr0" value="① 输入
 遗忘集合 / 保留集合" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#eaeaea;strokeColor=#b3b3b3;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
@@ -13,34 +13,34 @@
         </mxCell>
         <mxCell id="hdr1" value="② 嵌入层
 模型入口 · token/激活投影" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#eaeaea;strokeColor=#b3b3b3;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="500" y="92" width="360" height="56" as="geometry" />
+          <mxGeometry x="530" y="92" width="360" height="56" as="geometry" />
         </mxCell>
         <mxCell id="hdr2" value="③ 模型内部处理
 前向传播 + 核心机制（LaTeX）" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#eaeaea;strokeColor=#b3b3b3;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="940" y="92" width="740" height="56" as="geometry" />
+          <mxGeometry x="980" y="92" width="740" height="56" as="geometry" />
         </mxCell>
         <mxCell id="hdr3" value="④ 损失与反向传播
 目标函数 · 优化参数" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#eaeaea;strokeColor=#b3b3b3;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="1760" y="92" width="830" height="56" as="geometry" />
+          <mxGeometry x="1810" y="92" width="830" height="56" as="geometry" />
         </mxCell>
         <mxCell id="hdr4" value="⑤ 输出
 遗忘算法的结果" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#eaeaea;strokeColor=#b3b3b3;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="2670" y="92" width="290" height="56" as="geometry" />
+          <mxGeometry x="2730" y="92" width="290" height="56" as="geometry" />
         </mxCell>
-        <mxCell id="in" value="&lt;b&gt;遗忘集合&lt;/b&gt;  D_f =(x, CoT, answer)&lt;br&gt;$$e_f = \text{forget 实体}$$&lt;br&gt;&lt;br&gt;&lt;b&gt;保留集合&lt;/b&gt;  D_r = retain / aux prompt&lt;br&gt;$$\theta_0 = \text{冻结 target 模型}$$" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.5;fontSize=14;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="40" y="176" width="400" height="740" as="geometry" />
+        <mxCell id="in" value="&lt;b&gt;遗忘集合&lt;/b&gt;  D_f =(x, CoT, answer)&lt;br&gt;$$e_f = \text{forget 实体}$$&lt;br&gt;&lt;b&gt;保留集合&lt;/b&gt;  D_r = retain / aux prompt&lt;br&gt;$$\theta_0 = \text{冻结 target 模型}$$" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.5;fontSize=14;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="203.35000000000002" width="400" height="226.79999999999995" as="geometry" />
         </mxCell>
-        <mxCell id="emb" value="&lt;b&gt;模型入口 / 前向起点&lt;/b&gt;&lt;br&gt;$$\mathrm{Emb}(x)\rightarrow h^{(0)}$$&lt;br&gt;&lt;br&gt;$$\phi_\theta^{(\ell)}(r_t)\quad(\text{第 }\ell\text{ 层 · 第 }t\text{ 个 CoT 步})$$&lt;br&gt;&lt;br&gt;$$\text{base 权重冻结；仅挂载 LoRA 适配器}$$&lt;br&gt;&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="500" y="176" width="360" height="740" as="geometry" />
+        <mxCell id="emb" value="&lt;b&gt;模型入口 / 前向起点&lt;/b&gt;&lt;br&gt;$$\mathrm{Emb}(x)\rightarrow h^{(0)}$$&lt;br&gt;$$\phi_\theta^{(\ell)}(r_t)\quad(\text{第 }\ell\text{ 层 · 第 }t\text{ 个 CoT 步})$$&lt;br&gt;$$\text{base 权重冻结；仅挂载 LoRA 适配器}$$" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="530" y="201.15" width="360" height="231.2" as="geometry" />
         </mxCell>
-        <mxCell id="proc" value="&lt;b&gt;③ 前向传播 + K 步恢复攻击（内层）&lt;/b&gt;&lt;br&gt;$$\theta^{(0)}=\theta,\quad \theta^{(k+1)}=\theta^{(k)}-\eta_{atk}\nabla_\theta\mathcal{L}_{rec}(\theta^{(k)};D_f^{sub}),\quad k=0..K-1$$&lt;br&gt;&lt;br&gt;$$\mathcal{L}_{rec}=-\mathbb{E}_{(x,a)\in D_f^{sub}}\log p_\theta(a\mid x)\quad(\text{模拟恢复攻击})$$&lt;br&gt;&lt;br&gt;$$\nabla_\theta\mathcal{L}_f(\theta^{(K)})=\Big[\prod_{k=0}^{K-1}\big(I-\eta_{atk}\nabla^2\mathcal{L}_{rec}\big)\Big]\nabla_{\theta^{(K)}}\mathcal{L}_f$$&lt;br&gt;&lt;br&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=1.5;fontSize=15;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="940" y="176" width="740" height="740" as="geometry" />
+        <mxCell id="proc" value="&lt;b&gt;③ 前向传播 + K 步恢复攻击（内层）&lt;/b&gt;&lt;br&gt;$$\theta^{(0)}=\theta,\quad \theta^{(k+1)}=\theta^{(k)}-\eta_{atk}\nabla_\theta\mathcal{L}_{rec}(\theta^{(k)};D_f^{sub}),\quad k=0..K-1$$&lt;br&gt;$$\mathcal{L}_{rec}=-\mathbb{E}_{(x,a)\in D_f^{sub}}\log p_\theta(a\mid x)\quad(\text{模拟恢复攻击})$$&lt;br&gt;$$\nabla_\theta\mathcal{L}_f(\theta^{(K)})=\Big[\prod_{k=0}^{K-1}\big(I-\eta_{atk}\nabla^2\mathcal{L}_{rec}\big)\Big]\nabla_{\theta^{(K)}}\mathcal{L}_f$$" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=1.5;fontSize=15;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="980" y="188.75" width="740" height="256.0" as="geometry" />
         </mxCell>
-        <mxCell id="loss" value="&lt;b&gt;④ 损失函数（外层 min-max）&lt;/b&gt;&lt;br&gt;$$\min_\theta\ \mathcal{L}_f(\theta^{(K)}(\theta))+\lambda\mathcal{L}_r(\theta)+\rho\|\theta-\theta_0\|_2^2$$&lt;br&gt;&lt;br&gt;$$+\ \min_\theta\max_{\|\epsilon\|\le\rho_{sam}}\big[\mathcal{L}_f+\lambda\mathcal{L}_r\big]_{\theta+\epsilon}$$&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;④ 反向传播 / 优化参数（承接损失梯度）&lt;/b&gt;&lt;br&gt;$$\theta\leftarrow\theta-\eta\big(\nabla_\theta\mathcal{L}_f(\theta^{(K)})+\lambda\nabla\mathcal{L}_r\big)$$&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;div align=&#x27;left&#x27;&gt;仅更新 LoRA 参数 θ；内层 K 步攻击为虚拟 unroll，不产出权重；θ₀ 冻结。&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="1760" y="176" width="830" height="740" as="geometry" />
+        <mxCell id="loss" value="&lt;b&gt;④ 损失函数（外层 min-max）&lt;/b&gt;&lt;br&gt;$$\min_\theta\ \mathcal{L}_f(\theta^{(K)}(\theta))+\lambda\mathcal{L}_r(\theta)+\rho\|\theta-\theta_0\|_2^2$$&lt;br&gt;$$+\ \min_\theta\max_{\|\epsilon\|\le\rho_{sam}}\big[\mathcal{L}_f+\lambda\mathcal{L}_r\big]_{\theta+\epsilon}$$&lt;br&gt;&lt;b&gt;④ 反向传播 / 优化参数（承接损失梯度）&lt;/b&gt;&lt;br&gt;$$\theta\leftarrow\theta-\eta\big(\nabla_\theta\mathcal{L}_f(\theta^{(K)})+\lambda\nabla\mathcal{L}_r\big)$$&lt;br&gt;&lt;div align=&#x27;left&#x27;&gt;仅更新 LoRA 参数 θ；内层 K 步攻击为虚拟 unroll，不产出权重；θ₀ 冻结。&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1810" y="168.0" width="830" height="297.5" as="geometry" />
         </mxCell>
-        <mxCell id="out" value="&lt;b&gt;输出产物&lt;/b&gt;&lt;br&gt;$$\theta=\mathrm{Unlearn}(\theta_0)$$&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;div align=&#x27;center&#x27;&gt;具备遗忘能力的模型：对恢复攻击鲁棒（攻击后仍不泄漏）。&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
-          <mxGeometry x="2670" y="176" width="290" height="740" as="geometry" />
+        <mxCell id="out" value="&lt;b&gt;输出产物&lt;/b&gt;&lt;br&gt;$$\theta=\mathrm{Unlearn}(\theta_0)$$&lt;br&gt;&lt;div align=&#x27;center&#x27;&gt;具备遗忘能力的模型：对恢复攻击鲁棒（攻击后仍不泄漏）。&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=5;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1.5;fontSize=13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="2730" y="231.05" width="290" height="171.4" as="geometry" />
         </mxCell>
         <mxCell id="a1" value="前向输入" style="edgeStyle=none;html=1;rounded=0;endArrow=blockThin;endFill=1;endSize=18;strokeWidth=2.5;strokeColor=#4d4d4d;fontSize=12;fontColor=#333333;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="in" target="emb">
           <mxGeometry relative="1" as="geometry" />
