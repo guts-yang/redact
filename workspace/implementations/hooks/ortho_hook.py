@@ -10,7 +10,7 @@ import torch
 from ..base import MethodOutput
 from ..ortho import (ORTHO, ORTHOConfig, estimate_reasoning_subspace,
                      orthogonalize_gradient)
-from .common import collect_step_hidden
+from .common import collect_step_hidden, split_cot_steps
 
 
 @dataclass
@@ -38,8 +38,8 @@ class ORTHOSubspaceBank:
         for layer in self.config.layers:
             reps = []
             for prompt, cot in examples:
-                steps = [s for s in cot.split("\n") if s.strip()]
-                if not steps:
+                steps = split_cot_steps(cot, max_steps=12)
+                if len(steps) < 2:
                     continue
                 h, _, _ = collect_step_hidden(
                     model, tokenizer, prompt, steps, layer=layer,

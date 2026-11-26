@@ -2,9 +2,9 @@
 
 These adapters connect the core implementations to a real HF/PEFT training
 lifecycle. They are the missing layer between `implementations/csda.py` etc. and
-the training loop. `R-TOFU/workspace/code/diagnostic_train_hooked.py` already
-calls these hooks for CSDA/RRBU/CFA/RIPPLE; the older `diagnostic_train.py`
-remains as the one-step proxy harness.
+the training loop. `R-TOFU/workspace/code/diagnostic_train_hooked.py` wires
+these hooks for all ten methods; the older `diagnostic_train.py` remains as the
+one-step proxy harness.
 
 ## CSDA — `csda_hook.py`
 
@@ -60,6 +60,53 @@ Note: graph construction is a heuristic co-occurrence graph, not a learned KB
 embedding. Replace `KnowledgeGraph.from_claims` with a real graph backend if one
 becomes available.
 
+## EAS — `eas_hook.py`
+
+- `EASFeatureBuilder` computes claim-level `kappa` and CoT-depth `depth`.
+- `EASHook.loss` applies the sample-level `alpha` schedule and budget penalty.
+- `budget_curve` reports alpha/cost feasibility over budgets.
+
+## DISCO — `disco_hook.py`
+
+- `DISCOHook.policy_batches` builds DefaultCoT / LessThink / ZeroThink /
+  SummaryThink / bare-prompt batches.
+- `policy_logits` returns `[P,B,V]` policy logits + bare logits.
+- `loss` applies the worst-policy margin and context-free suppression.
+
+## ORTHO — `ortho_hook.py`
+
+- `ORTHOSubspaceBank.collect` estimates per-layer latent reasoning subspaces.
+- `ORTHOHook.loss` penalizes `||U^T(phi-phi0)||`.
+- `project_gradient` / `project_named_gradients` project parameter gradients
+  away from the reasoning subspace.
+
+## SCOPE — `scope_hook.py`
+
+- `EquivalenceClassBuilder` constructs paraphrase variants.
+- `step_logits` converts token logits into `[B,T,V]` step logits.
+- `loss` applies in-scope suppression + out-of-scope KL; `scs` returns the
+  step-scope consistency metric.
+
+## SEQU — `sequ_hook.py`
+
+- `SequentialRequestStream` splits forget rows into 5 request batches.
+- `loss` uses the drift-adaptive retain anchor and proximal term.
+- `maybe_repair` triggers a CoT step anchor when drift exceeds `delta`.
+
+## BOUND — `bound_hook.py`
+
+- `boundaries` computes commitment boundaries per budget.
+- `exit_losses` builds per-budget exit losses.
+- `loss` takes the worst-budget objective; `evaluate` returns the censored
+  leakage interval and success flag.
+
+## Method-specific eval hooks (`evals/`)
+
+- `csda_eval.py`: step-wise ROUGE-L/cosine + intervention sparsity.
+- `rrbu_eval.py`: `RR(K)` curve + recovery rate.
+- `cfa_eval.py`: linear/MLP/n-gram SCA auditor.
+- `ripple_eval.py`: RippleBench MCQ + multi-hop reconstruction.
+
 ## Tests
 
 ```bash
@@ -70,7 +117,7 @@ PYTHONPATH=. /jizhicfs/chenyliao/ops/venvs/r-tofu-ga/bin/python \
 
 ## Integration checklist
 
-1. `diagnostic_train_hooked.py` already wires the four hooks, a multi-step
+1. `diagnostic_train_hooked.py` already wires all ten hooks, a multi-step
    loop, grad accumulation, adapter resume, and an optional RIPPLE reference
    model.
 2. Keep the one-step `diagnostic_train.py` for proxy comparisons only.

@@ -90,7 +90,7 @@ class TestORTHO(unittest.TestCase):
         model = TinyLM()
         cfg = ORTHOHookConfig(layers=(-1,), k=3, max_len=32, device="cpu")
         hook = ORTHOHook(cfg)
-        hook.collect(model, DummyTok(), [("prompt", "Step one.\nStep two.")])
+        hook.collect(model, DummyTok(), [("prompt", "This is the first long reasoning step.\nThis is the second long reasoning step.")])
         U = hook.bank.get(-1)
         self.assertEqual(tuple(U.shape), (8, 2))
         g = torch.randn(8)
