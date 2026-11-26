@@ -2,7 +2,9 @@
 
 These adapters connect the core implementations to a real HF/PEFT training
 lifecycle. They are the missing layer between `implementations/csda.py` etc. and
-`R-TOFU/workspace/code/diagnostic_train.py`'s proxy branches.
+the training loop. `R-TOFU/workspace/code/diagnostic_train_hooked.py` already
+calls these hooks for CSDA/RRBU/CFA/RIPPLE; the older `diagnostic_train.py`
+remains as the one-step proxy harness.
 
 ## CSDA — `csda_hook.py`
 
@@ -68,14 +70,17 @@ PYTHONPATH=. /jizhicfs/chenyliao/ops/venvs/r-tofu-ga/bin/python \
 
 ## Integration checklist
 
-1. Replace the four proxy branches in `diagnostic_train.py` with
-   `CSDAHook.loss`, `RRBUHook.outer_loss`, `CFAHook.training_loss`, and
-   `RIPPLEHook.loss`.
-2. Add a multi-step training loop with grad accumulation and checkpoint/resume.
-3. Cache CSDA retain statistics and attribution contributions; do not recompute
-   them every optimizer step.
+1. `diagnostic_train_hooked.py` already wires the four hooks, a multi-step
+   loop, grad accumulation, adapter resume, and an optional RIPPLE reference
+   model.
+2. Keep the one-step `diagnostic_train.py` for proxy comparisons only.
+3. Cache CSDA retain statistics; attribution contributions are still
+   recomputed per training sample and are the main CSDA cost.
 4. Keep attack/eval splits fixed across RRBU runs.
-5. Run CFA adversary updates on a separate optimizer.
-6. Build the RIPPLE graph once per split, not per batch.
+5. Run CFA adversary updates on a separate optimizer (the hooked trainer does).
+6. Build the RIPPLE graph once per split, not per batch (the hooked trainer
+   does).
 7. Re-run the full-data budget after the hooks are active: the overhead is
    higher than the one-step proxy measurements.
+8. Exact optimizer/scheduler resume is not yet implemented; `--resume` restores
+   adapter weights only.

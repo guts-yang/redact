@@ -110,8 +110,8 @@ class CSDAHook:
             hidden = out.hidden_states[self.config.layer][0]
         base = entity_leak_loss(base_logits, entity_id).detach()
         reps = torch.stack([hidden[s:e].mean(dim=0) for s, e in spans])
-        mean = self.retain_mean.to(reps.dtype)
-        cov = self.retain_cov.to(reps.dtype)
+        mean = self.retain_mean.float()
+        cov = self.retain_cov.float()
         gen = generator or torch.Generator(device=mean.device).manual_seed(0)
         n_samples = max(1, self.csda.config.n_patch_samples)
         chol = torch.linalg.cholesky(cov)
@@ -120,8 +120,8 @@ class CSDAHook:
             vals = []
             for _ in range(n_samples):
                 eps = torch.randn(1, mean.numel(), device=mean.device,
-                                  dtype=mean.dtype, generator=gen)
-                replacement = mean.view(1, -1) + eps @ chol.T
+                                  dtype=torch.float32, generator=gen)
+                replacement = (mean.view(1, -1) + eps @ chol.T).to(reps.dtype)
                 with patch_layer(self.model, self.config.layer,
                                  list(range(start, end)), replacement):
                     with torch.inference_mode():
