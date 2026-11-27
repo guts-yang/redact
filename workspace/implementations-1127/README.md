@@ -55,7 +55,12 @@ python -m methods.consensus.train --steps 8  # 也可直接单方法
 run-id 现在带阶段与种子（`unl1127_<slug>_<tag>_s<seed>`，`tag` = `smoke` / `decisive`），两阶段、两个种子的产物互不覆盖。
 `--decisive` 只放大训练规模，仍**不是** T0–T3 结论：真实生成指标需要 eval 侧脚本，禁止拿 `train_summary.json` 的松弛值当结果。
 `scripts/queue_1127_gpu1.sh` 会在 GPU1 空闲后按「先 smoke 全量、再 decisive 全量」自动跑两阶段。
-`scripts/queue_1127_eval_gpu1.sh` 是独立的 PHASE 3：等训练队列写出 `QUEUE ALL DONE` 且 GPU1 再次空闲后评测 20 个 decisive adapter（**方案 B**）。主种子 1001 的 10 个做完整 4-split + **Hy4** AFE/CFE + MU；副种子 2002 的 10 个只生成 `forget10` 并做 Hy4 AFE/CFE 抽查（无 MU），省掉 10×617 行生成。它不修改正在后台运行的训练队列脚本，也不改 `scripts/upbd/*`（UPBD 链正在用）。评测产物在 `$UNL1127_RESULTS/eval1127/<run_id>/eval.json`，状态在 `logs/unl1127/queue_1127_eval_gpu1/status.tsv`（含 `mode=` 列区分 full / forget-only）。
+`scripts/queue_1127_eval_gpu1.sh` 是独立的 PHASE 3：等训练队列写出 `QUEUE ALL DONE` 且 GPU1 再次空闲后评测 20 个 decisive adapter（**方案 B**）。主种子 1001 的 10 个做完整 4-split + **Hy4** AFE/CFE + MU；副种子 2002 的 10 个只生成 `forget10` 并做 Hy4 AFE/CFE 抽查（无 MU），省掉 10×617 行生成。
+
+**流水线**：每个 run 拆为 `--stage gpu`（merge + 生成，独占 GPU1）与 `--stage cpu`（Hy4 AFE/CFE + MU，`CUDA_VISIBLE_DEVICES=""` 强制走 CPU）。GPU 段一结束就后台启动 CPU 段，GPU1 立刻开始下一个 run 的生成，judge 时间被隐藏；`MAX_CPU_JOBS=2` + 背压防止 Hy4 端点被并发压垮。
+注意 `redact/evaluator/cosine_similarity.py` 与 `entailment_score.py` 默认会选 cuda，若不加 `--stage cpu` 的 GPU 屏蔽，MU 会重新占住 GPU1，流水线失效。
+
+它不修改正在后台运行的训练队列脚本，也不改 `scripts/upbd/*`（UPBD 链正在用）。评测产物在 `$UNL1127_RESULTS/eval1127/<run_id>/eval.json`，状态在 `logs/unl1127/queue_1127_eval_gpu1/status.tsv`（含 `mode=` 列区分 full / forget-only）。
 
 每个方法输出到 `$UNL1127_RESULTS/unl1127_<slug>_<tag>_s<seed>/`：LoRA `adapter/`、`train_summary.json`（losses / final_diagnostics / meta）、`train_args.json`。summary 带 `diagnostic_only: true`、`claim_level: non-claim`。
 

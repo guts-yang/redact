@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
-# Eval for ONE 1127 decisive run: merge adapter -> generation -> Hy4 AFE/CFE
-# judge -> optional MU aggregate.
+# Eval for ONE 1127 decisive run, split into a GPU stage and a CPU stage.
 #
 # Usage:
-#   scripts/eval_one_1127.sh <run_id> <out_dir>              # full: 4 splits + MU
-#   scripts/eval_one_1127.sh <run_id> <out_dir> --forget-only # forget10 + AFE/CFE only
-#   scripts/eval_one_1127.sh <run_id> <out_dir> --skip-generate
+#   scripts/eval_one_1127.sh <run_id> <out_dir>              # both stages, serial
+#   scripts/eval_one_1127.sh <run_id> <out_dir> --stage gpu  # merge + generation only
+#   scripts/eval_one_1127.sh <run_id> <out_dir> --stage cpu  # Hy4 AFE/CFE (+MU), no GPU
 #
-# --forget-only is the PHASE 3 "scheme B" spot-check for the secondary seed:
-# it generates only forget10 (400 rows) and emits AFE_judge / CFE_judge with
-# no MU, since MU would require 617 extra retain/aux generations.
+# --stage gpu owns GPU1 (fp32 8B generation). --stage cpu sets
+# CUDA_VISIBLE_DEVICES="" so the MU evaluators (cosine_similarity.py /
+# entailment_score.py otherwise pick cuda) stay on CPU; Hy4 judging is pure
+# HTTP. The queue pipelines them: as soon as one run's gpu stage ends, the next
+# run's generation starts while this run's cpu stage runs in the background.
+#
+# Other flags:
+#   --forget-only   secondary-seed spot-check (forget10 + AFE/CFE, no MU)
+#   --skip-generate skip the generation part of the gpu stage
 #
 # <run_id> is e.g. unl1127_budget_decisive_s1001. Its adapter lives at
 # $UNL1127_RESULTS/<run_id>/adapter. A per-run model YAML is written into
@@ -17,7 +22,7 @@
 # chain) is never modified.
 set -uo pipefail
 if [ $# -lt 2 ]; then
-  echo "usage: $0 <run_id> <out_dir> [--forget-only] [--skip-generate]" >&2
+  echo "usage: $0 <run_id> <out_dir> [--stage gpu|cpu|all] [--forget-only] [--skip-generate]" >&2
   exit 2
 fi
 RUN_ID=$1
@@ -25,13 +30,19 @@ OUT=$2
 shift 2
 FORGET_ONLY=0
 SKIP_GENERATE=0
+STAGE=all
 while [ $# -gt 0 ]; do
   case "$1" in
+    --stage) STAGE=$2; shift 2 ;;
     --forget-only) FORGET_ONLY=1; shift ;;
     --skip-generate) SKIP_GENERATE=1; shift ;;
     *) echo "unknown arg: $1" >&2; exit 2 ;;
   esac
 done
+case "$STAGE" in
+  gpu|cpu|all) ;;
+  *) echo "invalid --stage: $STAGE (use gpu|cpu|all)" >&2; exit 2 ;;
+esac
 
 REPO=/usr/local/workspace/tracks/lrm-unlearning/redact
 export HF_HOME=/jizhicfs/chenyliao/cache/huggingface
@@ -43,6 +54,7 @@ mkdir -p "$OUT/config" "$OUT/logs"
 ADAPTER="$RESULTS/$RUN_ID/adapter"
 MERGED="$RESULTS/$RUN_ID/merged"
 
+if [ "$STAGE" != "cpu" ]; then
 echo "=== MERGE $RUN_ID $(date -Iseconds) ==="
 python "$REPO/workspace/implementations-1127/scripts/merge_1127_adapter.py" \
   --adapter "$ADAPTER" --output "$MERGED" --base "$TOKENIZER" \
@@ -93,6 +105,15 @@ if [ "$SKIP_GENERATE" -eq 0 ]; then
     echo "=== GENERATE DONE $SPLIT rc=$RC elapsed_s=$(( $(date +%s) - T0 )) ==="
   done
 fi
+echo "=== GPU STAGE DONE $RUN_ID $(date -Iseconds) ==="
+fi
+
+if [ "$STAGE" != "gpu" ]; then
+# Hy4 judging is pure HTTP; the MU evaluators default to cuda when visible, so
+# hide all GPUs for this stage to keep the pipeline's GPU1 slot free.
+export CUDA_VISIBLE_DEVICES=""
+cd "$REPO" || exit 1
+echo "=== CPU STAGE START $RUN_ID $(date -Iseconds) ==="
 
 echo "=== HY4 AFE $RUN_ID $(date -Iseconds) ==="
 python -m scripts.hy4_judge_afe_rtofu \
@@ -129,4 +150,7 @@ else
     2>&1 | tee -a "$OUT/logs/mu.log"
 fi
 
-echo "=== EVAL DONE $RUN_ID mode=$([ "$FORGET_ONLY" -eq 1 ] && echo forget_only || echo full) ==="
+echo "=== CPU STAGE DONE $RUN_ID $(date -Iseconds) ==="
+fi
+
+echo "=== EVAL DONE $RUN_ID stage=$STAGE mode=$([ "$FORGET_ONLY" -eq 1 ] && echo forget_only || echo full) ==="

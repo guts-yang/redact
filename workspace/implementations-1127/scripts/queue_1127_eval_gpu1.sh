@@ -4,6 +4,12 @@
 # full 4-split + MU treatment; the secondary seed 2002 is a forget10-only
 # AFE/CFE spot-check (no MU), which avoids 10 x 617 extra generations.
 #
+# Pipelined: each run = GPU stage (merge + generation, owns GPU1) followed by
+# a CPU stage (Hy4 AFE/CFE + MU, CUDA_VISIBLE_DEVICES=""). As soon as a run's
+# GPU stage finishes, the next run's generation starts immediately while this
+# run's CPU stage runs in the background. MAX_CPU_JOBS bounds concurrent Hy4
+# request bursts so the endpoint is not hammered.
+#
 # Usage:
 #   bash scripts/queue_1127_eval_gpu1.sh --dry-run   # print plan, start nothing
 #   bash scripts/queue_1127_eval_gpu1.sh             # wait, then run all 20
@@ -43,6 +49,10 @@ PRIMARY_SEED=1001
 SPOT_SEED=2002
 MAX_WAIT_SEC=$((40 * 3600))
 DEBOUNCE=3
+MAX_CPU_JOBS=2
+CPU_PIDS=()
+CPU_RUNS=()
+CPU_MODES=()
 
 log() { echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] $*" | tee -a "$LOG/queue.log"; }
 
@@ -92,11 +102,12 @@ if [ "$DRY_RUN" -eq 1 ]; then
   echo "EVAL_ROOT=$EVAL_ROOT"
   echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
   echo "JOBS: 10 methods x seed 1001 full(4-split+MU) + 10 methods x seed 2002 forget-only(AFE/CFE)"
+  echo "PIPELINE: GPU stage (merge+generate) serial on GPU1; CPU stage (Hy4+MU, CUDA_VISIBLE_DEVICES=\"\") background, max $MAX_CPU_JOBS concurrent"
   for slug in $SLUGS; do
-    echo "  [full]       scripts/eval_one_1127.sh unl1127_${slug}_decisive_s1001 $EVAL_ROOT/unl1127_${slug}_decisive_s1001"
+    echo "  [full]       gpu+cpu unl1127_${slug}_decisive_s1001 $EVAL_ROOT/unl1127_${slug}_decisive_s1001"
   done
   for slug in $SLUGS; do
-    echo "  [forget-only] scripts/eval_one_1127.sh unl1127_${slug}_decisive_s2002 $EVAL_ROOT/unl1127_${slug}_decisive_s2002 --forget-only"
+    echo "  [forget-only] gpu+cpu unl1127_${slug}_decisive_s2002 $EVAL_ROOT/unl1127_${slug}_decisive_s2002 --forget-only"
   done
   echo "=== dry-run complete; nothing launched ==="
   exit 0
@@ -106,33 +117,99 @@ fi
 log "=== EVAL QUEUE START pid=$$ ==="
 wait_gate || exit $?
 
-eval_run() {
+CPU_N=0
+REAP_IDX=0
+CPU_OUTS=()
+
+# The CPU stage is fired in the background so GPU1 is free for the NEXT run's
+# generation immediately. It hides all GPUs (see eval_one_1127.sh --stage cpu).
+launch_cpu() {
+  local run=$1 mode=$2 out=$3
+  local -a flags=()
+  [ "$mode" = "forget-only" ] && flags+=(--forget-only)
+  (
+    bash "$ROOT/scripts/eval_one_1127.sh" "$run" "$out" --stage cpu "${flags[@]}" \
+      > "$LOG/${run}.cpu.log" 2>&1
+    echo $? > "$out/cpu_rc"
+    touch "$out/cpu_done"
+  ) &
+  CPU_PIDS[$CPU_N]=$!
+  CPU_RUNS[$CPU_N]="$run"
+  CPU_MODES[$CPU_N]="$mode"
+  CPU_OUTS[$CPU_N]="$out"
+  CPU_N=$((CPU_N + 1))
+  log "CPU STAGE LAUNCHED $run (in flight=$((CPU_N - REAP_IDX)))"
+  # First reap everything already finished (non-blocking). If the endpoint
+  # is slow and CPU stages pile up past the cap, wait for the oldest one as
+  # backpressure; in the normal case CPU stages are far shorter than a GPU
+  # stage (~2.7h full / ~1h forget-only), so this wait returns immediately.
+  reap_finished
+  while [ $((CPU_N - REAP_IDX)) -gt "$MAX_CPU_JOBS" ]; do
+    log "backpressure: $((CPU_N - REAP_IDX)) CPU stages in flight (cap $MAX_CPU_JOBS)"
+    reap_cpu
+  done
+}
+
+# Non-blocking, order-preserving reap: a CPU stage signals completion with a
+# cpu_done marker so we can tell "finished" from "still running" without wait.
+reap_finished() {
+  while [ "$REAP_IDX" -lt "$CPU_N" ] && \
+        [ -f "${CPU_OUTS[$REAP_IDX]}/cpu_done" ]; do
+    reap_cpu
+  done
+}
+
+reap_cpu() {
+  local i=$REAP_IDX pid run mode out rc status
+  pid=${CPU_PIDS[$i]}; run=${CPU_RUNS[$i]}
+  mode=${CPU_MODES[$i]}; out=${CPU_OUTS[$i]}
+  wait "$pid" 2>/dev/null || true
+  rc=$(cat "$out/cpu_rc" 2>/dev/null || echo "?")
+  if [ -s "$out/eval.json" ]; then status=DONE; else status=INCOMPLETE; fi
+  printf '%s\t%s\tmode=%s\tcpu_rc=%s\n' "$run" "$status" "$mode" "$rc" \
+    >> "$LOG/status.tsv"
+  log "CPU STAGE DONE $run status=$status mode=$mode rc=$rc"
+  REAP_IDX=$((REAP_IDX + 1))
+}
+
+gpu_stage() {
   local slug=$1 seed=$2 mode=$3
   local run="unl1127_${slug}_decisive_s${seed}"
   local out="$EVAL_ROOT/$run"
   local -a flags=()
   [ "$mode" = "forget-only" ] && flags+=(--forget-only)
   mkdir -p "$out"
-  log "EVAL START $run mode=$mode"
-  local t0 rc status
+  local t0 rc
   t0=$(date +%s)
-  bash "$ROOT/scripts/eval_one_1127.sh" "$run" "$out" "${flags[@]}" \
-    2>&1 | tee -a "$LOG/${run}.log"
+  log "GPU STAGE START $run mode=$mode"
+  bash "$ROOT/scripts/eval_one_1127.sh" "$run" "$out" --stage gpu "${flags[@]}" \
+    2>&1 | tee -a "$LOG/${run}.gpu.log"
   rc=${PIPESTATUS[0]}
-  if [ -s "$out/eval.json" ]; then status=DONE; else status=INCOMPLETE; fi
-  printf '%s\t%s\tmode=%s\trc=%s\telapsed_s=%s\n' \
-    "$run" "$status" "$mode" "$rc" "$(( $(date +%s) - t0 ))" >> "$LOG/status.tsv"
-  log "EVAL DONE $run status=$status mode=$mode rc=$rc elapsed_s=$(( $(date +%s) - t0 ))"
+  log "GPU STAGE DONE $run rc=$rc elapsed_s=$(( $(date +%s) - t0 ))"
+  if [ "$rc" -ne 0 ] || [ ! -s "$out/forget10.csv" ]; then
+    printf '%s\tGPU_FAILED\tmode=%s\trc=%s\n' "$run" "$mode" "$rc" >> "$LOG/status.tsv"
+    log "GPU STAGE FAILED $run; skipping its CPU stage"
+    return 0
+  fi
+  launch_cpu "$run" "$mode" "$out"
 }
 
-log "=== PHASE 3 EVAL START (scheme B) ==="
+log "=== PHASE 3 EVAL START (scheme B, pipelined) ==="
 log "stage A: 10 full 4-split+MU runs on primary seed $PRIMARY_SEED"
 for slug in $SLUGS; do
-  eval_run "$slug" "$PRIMARY_SEED" full
+  gpu_stage "$slug" "$PRIMARY_SEED" full
 done
 log "stage B: 10 forget-only AFE/CFE spot checks on secondary seed $SPOT_SEED"
 for slug in $SLUGS; do
-  eval_run "$slug" "$SPOT_SEED" forget-only
+  gpu_stage "$slug" "$SPOT_SEED" forget-only
+done
+
+log "=== all GPU stages done; draining CPU stages ==="
+while [ "$REAP_IDX" -lt "$CPU_N" ]; do
+  if [ ! -f "${CPU_OUTS[$REAP_IDX]}/cpu_done" ]; then
+    wait "${CPU_PIDS[$REAP_IDX]}" 2>/dev/null || true
+  fi
+  reap_cpu
 done
 
 log "=== PHASE 3 ALL DONE ==="
