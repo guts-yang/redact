@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
-# Full eval for ONE 1127 decisive run: merge adapter -> 4-split generation ->
-# Hy4 AFE/CFE judge -> MU aggregate.
+# Eval for ONE 1127 decisive run: merge adapter -> generation -> Hy4 AFE/CFE
+# judge -> optional MU aggregate.
 #
 # Usage:
-#   scripts/eval_one_1127.sh <run_id> <out_dir>
+#   scripts/eval_one_1127.sh <run_id> <out_dir>              # full: 4 splits + MU
+#   scripts/eval_one_1127.sh <run_id> <out_dir> --forget-only # forget10 + AFE/CFE only
 #   scripts/eval_one_1127.sh <run_id> <out_dir> --skip-generate
+#
+# --forget-only is the PHASE 3 "scheme B" spot-check for the secondary seed:
+# it generates only forget10 (400 rows) and emits AFE_judge / CFE_judge with
+# no MU, since MU would require 617 extra retain/aux generations.
 #
 # <run_id> is e.g. unl1127_budget_decisive_s1001. Its adapter lives at
 # $UNL1127_RESULTS/<run_id>/adapter. A per-run model YAML is written into
@@ -12,14 +17,21 @@
 # chain) is never modified.
 set -uo pipefail
 if [ $# -lt 2 ]; then
-  echo "usage: $0 <run_id> <out_dir> [--skip-generate]" >&2
+  echo "usage: $0 <run_id> <out_dir> [--forget-only] [--skip-generate]" >&2
   exit 2
 fi
 RUN_ID=$1
 OUT=$2
 shift 2
+FORGET_ONLY=0
 SKIP_GENERATE=0
-[ "${1:-}" = "--skip-generate" ] && SKIP_GENERATE=1
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --forget-only) FORGET_ONLY=1; shift ;;
+    --skip-generate) SKIP_GENERATE=1; shift ;;
+    *) echo "unknown arg: $1" >&2; exit 2 ;;
+  esac
+done
 
 REPO=/usr/local/workspace/tracks/lrm-unlearning/redact
 export HF_HOME=/jizhicfs/chenyliao/cache/huggingface
@@ -62,7 +74,12 @@ EOF
 cd "$REPO" || exit 1
 
 if [ "$SKIP_GENERATE" -eq 0 ]; then
-  for SPLIT in forget10 forget10_retain real_authors world_facts; do
+  if [ "$FORGET_ONLY" -eq 1 ]; then
+    SPLITS="forget10"
+  else
+    SPLITS="forget10 forget10_retain real_authors world_facts"
+  fi
+  for SPLIT in $SPLITS; do
     echo "=== GENERATE $RUN_ID $SPLIT $(date -Iseconds) ==="
     T0=$(date +%s)
     python -m scripts.generate_rtofu_responses \
@@ -91,15 +108,25 @@ python -m scripts.hy4_judge_cfe_rtofu \
   --workers 4 --max_retries 2 --timeout 180 \
   2>&1 | tee -a "$OUT/logs/cfe.log"
 
-echo "=== MU $RUN_ID $(date -Iseconds) ==="
-python -m scripts.evaluate_rtofu_from_csv \
-  --csv "$OUT/forget10.csv" --split forget10 \
-  --judge_afe_scores "$OUT/afe.hy4.jsonl" \
-  --rtofu_judge_scores "$OUT/cfe.hy4.jsonl" \
-  --mu_retain_csv "$OUT/forget10_retain.csv" \
-  --mu_real_authors_csv "$OUT/real_authors.csv" \
-  --mu_world_facts_csv "$OUT/world_facts.csv" \
-  --output_json "$OUT/eval.json" \
-  2>&1 | tee -a "$OUT/logs/mu.log"
+if [ "$FORGET_ONLY" -eq 1 ]; then
+  echo "=== AFE/CFE ONLY (no MU) $RUN_ID $(date -Iseconds) ==="
+  python -m scripts.evaluate_rtofu_from_csv \
+    --csv "$OUT/forget10.csv" --split forget10 \
+    --judge_afe_scores "$OUT/afe.hy4.jsonl" \
+    --rtofu_judge_scores "$OUT/cfe.hy4.jsonl" \
+    --output_json "$OUT/eval.json" \
+    2>&1 | tee -a "$OUT/logs/afe_cfe.log"
+else
+  echo "=== MU $RUN_ID $(date -Iseconds) ==="
+  python -m scripts.evaluate_rtofu_from_csv \
+    --csv "$OUT/forget10.csv" --split forget10 \
+    --judge_afe_scores "$OUT/afe.hy4.jsonl" \
+    --rtofu_judge_scores "$OUT/cfe.hy4.jsonl" \
+    --mu_retain_csv "$OUT/forget10_retain.csv" \
+    --mu_real_authors_csv "$OUT/real_authors.csv" \
+    --mu_world_facts_csv "$OUT/world_facts.csv" \
+    --output_json "$OUT/eval.json" \
+    2>&1 | tee -a "$OUT/logs/mu.log"
+fi
 
-echo "=== EVAL DONE $RUN_ID $(date -Iseconds) ==="
+echo "=== EVAL DONE $RUN_ID mode=$([ "$FORGET_ONLY" -eq 1 ] && echo forget_only || echo full) ==="

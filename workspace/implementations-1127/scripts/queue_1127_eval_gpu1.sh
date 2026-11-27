@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# PHASE 3 queue: after the 1127 training queue finishes, evaluate all
-# 20 decisive adapters (10 methods x 2 seeds) with Hy4 AFE/CFE + MU.
+# PHASE 3 queue, scheme B: after the 1127 training queue finishes, evaluate
+# the 20 decisive adapters with Hy4 AFE/CFE. The primary seed 1001 gets the
+# full 4-split + MU treatment; the secondary seed 2002 is a forget10-only
+# AFE/CFE spot-check (no MU), which avoids 10 x 617 extra generations.
 #
 # Usage:
 #   bash scripts/queue_1127_eval_gpu1.sh --dry-run   # print plan, start nothing
@@ -37,7 +39,8 @@ EVAL_ROOT="$UNL1127_RESULTS/eval1127"
 mkdir -p "$LOG" "$EVAL_ROOT"
 
 SLUGS="budget pivot consensus drift reverse faith graph attrib layer probe"
-SEEDS="1001 2002"
+PRIMARY_SEED=1001
+SPOT_SEED=2002
 MAX_WAIT_SEC=$((40 * 3600))
 DEBOUNCE=3
 
@@ -88,11 +91,12 @@ if [ "$DRY_RUN" -eq 1 ]; then
   echo "GATE: training_done marker + GPU1 memory.used<3000MiB for 3 consecutive 60s polls; max wait 40h"
   echo "EVAL_ROOT=$EVAL_ROOT"
   echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
-  echo "JOBS: 10 methods x 2 seeds = 20 decisive adapters"
+  echo "JOBS: 10 methods x seed 1001 full(4-split+MU) + 10 methods x seed 2002 forget-only(AFE/CFE)"
   for slug in $SLUGS; do
-    for seed in $SEEDS; do
-      echo "  scripts/eval_one_1127.sh unl1127_${slug}_decisive_s${seed} $EVAL_ROOT/unl1127_${slug}_decisive_s${seed}"
-    done
+    echo "  [full]       scripts/eval_one_1127.sh unl1127_${slug}_decisive_s1001 $EVAL_ROOT/unl1127_${slug}_decisive_s1001"
+  done
+  for slug in $SLUGS; do
+    echo "  [forget-only] scripts/eval_one_1127.sh unl1127_${slug}_decisive_s2002 $EVAL_ROOT/unl1127_${slug}_decisive_s2002 --forget-only"
   done
   echo "=== dry-run complete; nothing launched ==="
   exit 0
@@ -102,27 +106,33 @@ fi
 log "=== EVAL QUEUE START pid=$$ ==="
 wait_gate || exit $?
 
-log "=== PHASE 3 EVAL START ==="
+eval_run() {
+  local slug=$1 seed=$2 mode=$3
+  local run="unl1127_${slug}_decisive_s${seed}"
+  local out="$EVAL_ROOT/$run"
+  local -a flags=()
+  [ "$mode" = "forget-only" ] && flags+=(--forget-only)
+  mkdir -p "$out"
+  log "EVAL START $run mode=$mode"
+  local t0 rc status
+  t0=$(date +%s)
+  bash "$ROOT/scripts/eval_one_1127.sh" "$run" "$out" "${flags[@]}" \
+    2>&1 | tee -a "$LOG/${run}.log"
+  rc=${PIPESTATUS[0]}
+  if [ -s "$out/eval.json" ]; then status=DONE; else status=INCOMPLETE; fi
+  printf '%s\t%s\tmode=%s\trc=%s\telapsed_s=%s\n' \
+    "$run" "$status" "$mode" "$rc" "$(( $(date +%s) - t0 ))" >> "$LOG/status.tsv"
+  log "EVAL DONE $run status=$status mode=$mode rc=$rc elapsed_s=$(( $(date +%s) - t0 ))"
+}
+
+log "=== PHASE 3 EVAL START (scheme B) ==="
+log "stage A: 10 full 4-split+MU runs on primary seed $PRIMARY_SEED"
 for slug in $SLUGS; do
-  for seed in $SEEDS; do
-    run="unl1127_${slug}_decisive_s${seed}"
-    out="$EVAL_ROOT/$run"
-    mkdir -p "$out"
-    log "EVAL START $run"
-    T0=$(date +%s)
-    bash "$ROOT/scripts/eval_one_1127.sh" "$run" "$out" \
-      2>&1 | tee -a "$LOG/${run}.log"
-    RC=${PIPESTATUS[0]}
-    T1=$(date +%s)
-    if [ -s "$out/eval.json" ]; then
-      STATUS=DONE
-    else
-      STATUS=INCOMPLETE
-    fi
-    printf '%s\t%s\trc=%s\telapsed_s=%s\n' "$run" "$STATUS" "$RC" "$((T1-T0))" \
-      >> "$LOG/status.tsv"
-    log "EVAL DONE $run status=$STATUS rc=$RC elapsed_s=$((T1-T0))"
-  done
+  eval_run "$slug" "$PRIMARY_SEED" full
+done
+log "stage B: 10 forget-only AFE/CFE spot checks on secondary seed $SPOT_SEED"
+for slug in $SLUGS; do
+  eval_run "$slug" "$SPOT_SEED" forget-only
 done
 
 log "=== PHASE 3 ALL DONE ==="
