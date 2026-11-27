@@ -180,6 +180,15 @@ def _build_parser():
     parser.add_argument("--output", type=str, default=None, help="Save results to CSV file")
     parser.add_argument("--classifier_threshold", type=float, default=0.99, help="Prompt classifier confidence threshold")
     parser.add_argument("--repetition_penalty", type=float, default=None, help="Repetition penalty for generation")
+    parser.add_argument("--sample", action="store_true",
+                        help="Use sampling instead of greedy. LRM-target's own "
+                             "generation_config specifies do_sample=True, "
+                             "temperature=0.6, top_p=0.95; greedy decoding on "
+                             "this reasoning model degenerates into repeated "
+                             "'Let me think...' loops that never emit </think>. "
+                             "Default remains greedy for reproduction compatibility.")
+    parser.add_argument("--temperature", type=float, default=0.6)
+    parser.add_argument("--top_p", type=float, default=0.95)
     # Leak detector
     parser.add_argument("--leak_classifier_path", type=str, default=None,
                         help="Path to trained leak classifier. Omit for plain "
@@ -255,10 +264,13 @@ def main():
     # Load model
     log_print(f"Loading model: {args.model_name}")
     generation_config = GenerationConfig(
-        do_sample=False,
+        do_sample=args.sample,
         max_new_tokens=args.max_new_tokens,
         use_cache=True,
     )
+    if args.sample:
+        generation_config.temperature = args.temperature
+        generation_config.top_p = args.top_p
     if args.repetition_penalty is not None:
         generation_config.repetition_penalty = args.repetition_penalty
     model = HFModel(
