@@ -1,0 +1,199 @@
+{
+  "stamp": "1127",
+  "date": "2026-11-27",
+  "gate": {
+    "mean_min": 7.0,
+    "verdict_min": "Accept with Revisions"
+  },
+  "ranking": [
+    {
+      "id": "BUDGET",
+      "H": 8,
+      "F": 7,
+      "S": 9,
+      "C": 7,
+      "B": 8,
+      "mean": 7.8,
+      "verdict": "Strong Accept",
+      "gate_a": true,
+      "gate_b": true,
+      "qualified": true,
+      "frame": "连续推理预算 b 作为恢复攻击维度，训练预算单调安全",
+      "rank": 1,
+      "dir": "IDEA_01_BUDGET-1127"
+    },
+    {
+      "id": "PIVOT",
+      "H": 7,
+      "F": 6,
+      "S": 9,
+      "C": 7,
+      "B": 9,
+      "mean": 7.6,
+      "verdict": "Accept with Revisions",
+      "gate_a": true,
+      "gate_b": true,
+      "qualified": true,
+      "frame": "跨语言 CoT 枢轴：非英文提问/英文思考下的遗忘转移",
+      "rank": 2,
+      "dir": "IDEA_02_PIVOT-1127"
+    },
+    {
+      "id": "CONSENSUS",
+      "H": 8,
+      "F": 6,
+      "S": 9,
+      "C": 7,
+      "B": 8,
+      "mean": 7.6,
+      "verdict": "Strong Accept",
+      "gate_a": true,
+      "gate_b": true,
+      "qualified": true,
+      "frame": "多采样自一致性共识恢复攻击 + 共识不变目标",
+      "rank": 3,
+      "dir": "IDEA_03_CONSENSUS-1127"
+    },
+    {
+      "id": "DRIFT",
+      "H": 8,
+      "F": 7,
+      "S": 7,
+      "C": 8,
+      "B": 8,
+      "mean": 7.6,
+      "verdict": "Accept with Revisions",
+      "gate_a": true,
+      "gate_b": true,
+      "qualified": true,
+      "frame": "可恢复漂移的 CoT 步级分解与事后效用回补",
+      "rank": 4,
+      "dir": "IDEA_04_DRIFT-1127"
+    },
+    {
+      "id": "REVERSE",
+      "H": 8,
+      "F": 6,
+      "S": 9,
+      "C": 7,
+      "B": 7,
+      "mean": 7.4,
+      "verdict": "Strong Accept",
+      "gate_a": true,
+      "gate_b": true,
+      "qualified": true,
+      "frame": "推理时可逆半径约束（单向量 steering 恢复阻断）",
+      "rank": 5,
+      "dir": "IDEA_05_REVERSE-1127"
+    },
+    {
+      "id": "FAITH",
+      "H": 8,
+      "F": 7,
+      "S": 8,
+      "C": 7,
+      "B": 7,
+      "mean": 7.4,
+      "verdict": "Accept with Revisions",
+      "gate_a": true,
+      "gate_b": true,
+      "qualified": true,
+      "frame": "CoT 不忠实下的答案级反事实依赖遗忘",
+      "rank": 6,
+      "dir": "IDEA_06_FAITH-1127"
+    },
+    {
+      "id": "GRAPH",
+      "H": 7,
+      "F": 6,
+      "S": 8,
+      "C": 9,
+      "B": 7,
+      "mean": 7.4,
+      "verdict": "Accept with Revisions",
+      "gate_a": true,
+      "gate_b": true,
+      "qualified": true,
+      "frame": "最小锚点驱动的自生成 CoT 遗忘监督（corpus-free）",
+      "rank": 7,
+      "dir": "IDEA_07_GRAPH-1127"
+    },
+    {
+      "id": "ATTRIB",
+      "H": 8,
+      "F": 7,
+      "S": 8,
+      "C": 8,
+      "B": 6,
+      "mean": 7.4,
+      "verdict": "Accept with Revisions",
+      "gate_a": true,
+      "gate_b": true,
+      "qualified": true,
+      "frame": "步级关键词归因与恢复-破坏两难阻断",
+      "rank": 8,
+      "dir": "IDEA_08_ATTRIB-1127"
+    },
+    {
+      "id": "LAYER",
+      "H": 7,
+      "F": 6,
+      "S": 8,
+      "C": 7,
+      "B": 8,
+      "mean": 7.2,
+      "verdict": "Accept with Revisions",
+      "gate_a": true,
+      "gate_b": true,
+      "qualified": true,
+      "frame": "跨解码策略一致的擦除深度定位与证书",
+      "rank": 9,
+      "dir": "IDEA_09_LAYER-1127"
+    },
+    {
+      "id": "PROBE",
+      "H": 8,
+      "F": 6,
+      "S": 8,
+      "C": 7,
+      "B": 7,
+      "mean": 7.2,
+      "verdict": "Accept with Revisions",
+      "gate_a": true,
+      "gate_b": true,
+      "qualified": true,
+      "frame": "步表示探针对抗的不可解码擦除",
+      "rank": 10,
+      "dir": "IDEA_10_PROBE-1127"
+    }
+  ],
+  "rejected": [
+    {
+      "id": "X1 TTT-unlearning",
+      "reason": "F1 红海：STaR / GUARD / TTRL / ICUL 已占推理时轨迹调控"
+    },
+    {
+      "id": "X2 新 step-wise 基准",
+      "reason": "F1 红海：R-TOFU 已带 step-wise 指标；上一轮 X1 已淘汰"
+    },
+    {
+      "id": "X3 梯度符号门控/PCGrad",
+      "reason": "F1 红海：SAGO / GRU / OrthoGrad / LUR / OFMU 已成片"
+    },
+    {
+      "id": "X4 无保留集 token 自蒸馏",
+      "reason": "F1 红海：SHRED (NeurIPS 2026) 已占；且 token 级 LCES 实测被驳"
+    },
+    {
+      "id": "X5 量化链路 CoT 复活",
+      "reason": "与旧 RRBU 轴近，且撞用户自有 L3/D3 量化遗忘方向"
+    },
+    {
+      "id": "X6 模型合并持续遗忘",
+      "reason": "F1 红海：CATA / MCU 已占，且旧 SEQU 已覆盖序列漂移"
+    }
+  ],
+  "honesty": "mechanism scores; no GPU pilot; no cross-family review; evidence_gate=BLOCKED (run_state.py / idea_discovery_gate.py / reviewer backend unavailable)",
+  "stage_dir": "idea-stage-1127",
+  "path_note": "dir is relative to stage_dir; resolve as workspace/<stage_dir>/<dir>; kept as bare dir names for backward compatibility"
+}

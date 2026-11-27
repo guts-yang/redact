@@ -1,7 +1,7 @@
 # IDEA_01..IDEA_10 — Decoupled Core Implementations
 
 This package implements the **core algorithms** from the ten proposals in
-`redact/workspace/IDEA_*`. Each method lives in its own module and imports only
+`redact/workspace/idea-stage-1126/IDEA_*`. Each method lives in its own module and imports only
 `torch`, the standard library, and `base.py`. There is no shared mutable state
 between methods.
 

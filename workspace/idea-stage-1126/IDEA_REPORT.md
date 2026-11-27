@@ -19,7 +19,7 @@
 | `/research-review` 外部评审 | 不可用（无跨家族评审线程） | 由用户指定的 `/idea-evaluator` 承担评估，裁决为**执行者本地初筛** |
 | GPU pilot（MAX_PILOT_IDEAS=3） | 不可用（本机 `torch.cuda.is_available()=False`，checkpoint 在服务器 `/usr/local/...`） | 全部 idea 为**机制分 + 命名的决定性验证实验**，无实测数字（遵守「不编造」纪律） |
 | `run_state.py` / `idea_discovery_gate.py` per-stage evidence gate | `BLOCKED`（`gate_status.json`：helper 在所有 canonical 路径均缺失） | 不伪造 receipt；本报告 `evidence_gate = BLOCKED`，所有裁决 provisional |
-| 单一 `FINAL_PROPOSAL.md` + pilot 结果 | 被用户显式覆盖 | 用户要求 10 份并列 proposal + 排名，故以本文为总览、`workspace/IDEA_XX_*/proposal.md` 为 Individual 工件 |
+| 单一 `FINAL_PROPOSAL.md` + pilot 结果 | 被用户显式覆盖 | 用户要求 10 份并列 proposal + 排名，故以本文为总览、`workspace/idea-stage-1126/IDEA_XX_*/proposal.md` 为 Individual 工件 |
 
 **结论**：本轮是「候选 idea 生成与初筛」，不是投稿级验证。`assurance = draft`，`evidence_gate = BLOCKED`，无跨家族接受。任何 idea 进入实验前需先跑其 proposal 中的决定性验证实验，并取得真实跨模型评审。
 
@@ -84,16 +84,16 @@
 
 | 排名 | ID | 名称 | H | F | S | C | B | 均分 | 裁决 | 目录 |
 |---:|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| 1 | CSDA | 因果步级依赖消融遗忘 | 9 | 7 | 8 | 8 | 7 | **7.8** | Strong Accept | `workspace/IDEA_01_CSDA/` |
-| 2 | EAS | 纠缠度自适应干预调度 | 8 | 8 | 8 | 8 | 7 | **7.8** | Strong Accept | `workspace/IDEA_02_EAS/` |
-| 3 | RRBU | 重学习鲁棒双层遗忘 | 8 | 6 | 9 | 7 | 8 | **7.6** | Strong Accept | `workspace/IDEA_03_RRBU/` |
-| 4 | DISCO | 解码不变的参数级抑制 | 8 | 7 | 9 | 7 | 7 | **7.6** | Strong Accept | `workspace/IDEA_04_DISCO/` |
-| 5 | ORTHO | 推理子空间正交保护 | 8 | 7 | 8 | 7 | 8 | **7.6** | Strong Accept | `workspace/IDEA_05_ORTHO/` |
-| 6 | SCOPE | LRM CoT 等价类边界遗忘 | 7 | 6 | 9 | 7 | 8 | **7.4** | Accept with Revisions | `workspace/IDEA_06_SCOPE/` |
-| 7 | SEQU | 序列遗忘的 CoT 漂移校正 | 8 | 6 | 8 | 7 | 8 | **7.4** | Accept with Revisions | `workspace/IDEA_07_SEQU/` |
-| 8 | CFA | 反事实侧信道审计与去关联 | 7 | 7 | 8 | 7 | 8 | **7.4** | Accept with Revisions | `workspace/IDEA_08_CFA/` |
-| 9 | RIPPLE | 多跳涟漪局部化 | 8 | 7 | 8 | 7 | 7 | **7.4** | Accept with Revisions | `workspace/IDEA_09_RIPPLE/` |
-| 10 | BOUND | 承诺边界可控早停 + 删失评测 | 8 | 8 | 7 | 8 | 6 | **7.4** | Accept with Revisions | `workspace/IDEA_10_BOUND/` |
+| 1 | CSDA | 因果步级依赖消融遗忘 | 9 | 7 | 8 | 8 | 7 | **7.8** | Strong Accept | `workspace/idea-stage-1126/IDEA_01_CSDA/` |
+| 2 | EAS | 纠缠度自适应干预调度 | 8 | 8 | 8 | 8 | 7 | **7.8** | Strong Accept | `workspace/idea-stage-1126/IDEA_02_EAS/` |
+| 3 | RRBU | 重学习鲁棒双层遗忘 | 8 | 6 | 9 | 7 | 8 | **7.6** | Strong Accept | `workspace/idea-stage-1126/IDEA_03_RRBU/` |
+| 4 | DISCO | 解码不变的参数级抑制 | 8 | 7 | 9 | 7 | 7 | **7.6** | Strong Accept | `workspace/idea-stage-1126/IDEA_04_DISCO/` |
+| 5 | ORTHO | 推理子空间正交保护 | 8 | 7 | 8 | 7 | 8 | **7.6** | Strong Accept | `workspace/idea-stage-1126/IDEA_05_ORTHO/` |
+| 6 | SCOPE | LRM CoT 等价类边界遗忘 | 7 | 6 | 9 | 7 | 8 | **7.4** | Accept with Revisions | `workspace/idea-stage-1126/IDEA_06_SCOPE/` |
+| 7 | SEQU | 序列遗忘的 CoT 漂移校正 | 8 | 6 | 8 | 7 | 8 | **7.4** | Accept with Revisions | `workspace/idea-stage-1126/IDEA_07_SEQU/` |
+| 8 | CFA | 反事实侧信道审计与去关联 | 7 | 7 | 8 | 7 | 8 | **7.4** | Accept with Revisions | `workspace/idea-stage-1126/IDEA_08_CFA/` |
+| 9 | RIPPLE | 多跳涟漪局部化 | 8 | 7 | 8 | 7 | 7 | **7.4** | Accept with Revisions | `workspace/idea-stage-1126/IDEA_09_RIPPLE/` |
+| 10 | BOUND | 承诺边界可控早停 + 删失评测 | 8 | 8 | 7 | 8 | 6 | **7.4** | Accept with Revisions | `workspace/idea-stage-1126/IDEA_10_BOUND/` |
 
 每份 `proposal.md` 均含：Problem Anchor、与近邻的 delta、LaTeX 形式化方法、R-TOFU 接口、决定性验证实验（T0/T1/T2 + 预注册判据）、五维评分表与裁决、失败模式与局限。
 
