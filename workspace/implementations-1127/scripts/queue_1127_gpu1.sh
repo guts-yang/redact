@@ -72,19 +72,26 @@ monitor_gpu() {
 
 wait_gpu1() {
   local ok=0 start=$SECONDS
+  # Dependency gate: the UPBD chain writes "CHAIN ALL DONE" only after all its
+  # training/eval stages finish. Without this, a short idle gap between UPBD
+  # stages (e.g. generation -> model load) can release this queue early and
+  # cause two fp32 8B jobs to contend for GPU1 (observed 2026-11-27).
+  UPBD_DONE_LOG=/tmp/upbd_chain/chain.log
   while true; do
-    local used apps
+    local used apps done
     used=$(gpu1_used); used=${used:-0}
     apps=$(gpu1_compute_apps); apps=${apps:-0}
-    if [ "$used" -lt 3000 ] && [ "$apps" -eq 0 ]; then
+    done=0
+    grep -q 'CHAIN ALL DONE' "$UPBD_DONE_LOG" 2>/dev/null && done=1
+    if [ "$done" -eq 1 ] && [ "$used" -lt 3000 ] && [ "$apps" -eq 0 ]; then
       ok=$((ok + 1))
-      log "GPU1 idle poll ${ok}/${DEBOUNCE} (used=${used}MiB apps=${apps})"
+      log "GPU1 idle poll ${ok}/${DEBOUNCE} (upbd_done=1 used=${used}MiB apps=${apps})"
     else
       ok=0
-      log "GPU1 busy (used=${used}MiB apps=${apps}); waiting 60s"
+      log "GPU1 busy or UPBD chain not done (upbd_done=$done used=${used}MiB apps=${apps}); waiting 60s"
     fi
     if [ "$ok" -ge "$DEBOUNCE" ]; then
-      log "GPU1 free for ${DEBOUNCE} consecutive polls; queue released"
+      log "GPU1 free and UPBD chain done for ${DEBOUNCE} consecutive polls; queue released"
       return 0
     fi
     if [ $((SECONDS - start)) -ge "$MAX_WAIT_SEC" ]; then
@@ -126,8 +133,8 @@ if [ "$DRY_RUN" -eq 1 ]; then
   echo "UNL1127_LOGS=$LOG"
   echo "UNL1127_DTYPE=$UNL1127_DTYPE"
   echo "UNL1127_UNLEARNED_ADAPTER=$UNL1127_UNLEARNED_ADAPTER"
-  echo "GATE: only GPU1; 3 consecutive 60s polls with memory.used<3000MiB and 0 compute apps; max wait 30h"
-  echo "WARNING: no UPBD completion-marker check (user choice); short idle gaps may cause contention"
+  echo "GATE: UPBD chain 'CHAIN ALL DONE' marker + GPU1 memory.used<3000MiB and 0 compute apps for 3 consecutive 60s polls; max wait 30h"
+  echo "NOTE: completion marker added after an idle-gap collision was observed on 2026-11-27"
   echo "PHASE 1: python scripts/run_all.py --all"
   echo "PHASE 2: python scripts/run_all.py --all --decisive"
   echo "JOBS: 10 methods x 2 seeds x 2 phases = 40; run-id unl1127_<slug>_<tag>_s<seed>"

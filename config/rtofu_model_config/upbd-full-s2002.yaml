@@ -6,6 +6,7 @@ formatting_tokens:
   prompt_prefix: "<｜User｜>"
   prompt_suffix: "<｜Assistant｜>"
 hf_name: /jizhicfs/chenyliao/lrm-unlearning/results/upbd_full_s2002/merged
+tokenizer_name: /jizhicfs/chenyliao/models/sangyon/LRM-target
 attn_implementation: sdpa
 torch_dtype: float32
 load_in_8bit: false

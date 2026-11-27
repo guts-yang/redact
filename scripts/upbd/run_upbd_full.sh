@@ -16,6 +16,10 @@ export TRANSFORMERS_OFFLINE=1
 ROOT=/jizhicfs/chenyliao/lrm-unlearning/results
 MODEL=/jizhicfs/chenyliao/checkpoints/r2mu-forget10/checkpoint-last
 
+# Target-behavior CSVs must come from the transformers-4.43 regeneration
+# (eval_tf443); the older eval/ dir has degenerate CoT from tf 4.48.2.
+TARGET_EVAL=${UNL_UPBD_TARGET_EVAL:-/jizhicfs/chenyliao/runs/target/forget10/eval_tf443}
+
 for SEED in 1001 2002; do
   OUT="$ROOT/upbd_full_s${SEED}"
   mkdir -p "$OUT"
@@ -23,6 +27,10 @@ for SEED in 1001 2002; do
   T0=$(date +%s)
   python -m scripts.upbd.train_upbd \
     --model "$MODEL" \
+    --forget-csv /jizhicfs/chenyliao/runs/r2mu/forget10/eval/forget10.csv \
+    --retain-csv "$TARGET_EVAL/forget10_retain.csv" \
+    --authors-csv "$TARGET_EVAL/real_authors.csv" \
+    --world-csv "$TARGET_EVAL/world_facts.csv" \
     --seed "$SEED" \
     --holdout 0 \
     --epochs 1 \
