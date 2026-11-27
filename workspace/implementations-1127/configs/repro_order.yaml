@@ -1,0 +1,79 @@
+# Ranked reproduction order (from IDEA_RANKING-1127.json, 2026-11-27).
+# All scores are MECHANISM scores pending validation, NOT empirical results.
+# Each method is independent; edit one line without touching the others.
+order:
+  - slug: budget
+    idea: IDEA_01_BUDGET-1127
+    proposal_score: 7.80
+    verdict: Strong Accept
+    decisive: [T0, T1, T2, T3]
+    core_quantity: "BC = max_b rho(b) - rho(0) -> 0"
+  - slug: pivot
+    idea: IDEA_02_PIVOT-1127
+    proposal_score: 7.60
+    verdict: Accept with Revisions
+    decisive: [T0, T1, T2, T3]
+    core_quantity: "DPC -> 0"
+  - slug: consensus
+    idea: IDEA_03_CONSENSUS-1127
+    proposal_score: 7.60
+    verdict: Strong Accept
+    decisive: [T0, T1, T2, T3]
+    core_quantity: "CM -> 0"
+  - slug: drift
+    idea: IDEA_04_DRIFT-1127
+    proposal_score: 7.60
+    verdict: Accept with Revisions
+    decisive: [T0, T1, T2, T3]
+    core_quantity: "R = Delta_rec / ||Delta_free||"
+  - slug: reverse
+    idea: IDEA_05_REVERSE-1127
+    proposal_score: 7.40
+    verdict: Strong Accept
+    decisive: [T0, T1, T2, T3]
+    core_quantity: "R_theta(eps) -> 0"
+  - slug: faith
+    idea: IDEA_06_FAITH-1127
+    proposal_score: 7.40
+    verdict: Accept with Revisions
+    decisive: [T0, T1, T2, T3]
+    core_quantity: "FaithGap + residual leak on low-faith subset"
+  - slug: graph
+    idea: IDEA_07_GRAPH-1127
+    proposal_score: 7.40
+    verdict: Accept with Revisions
+    decisive: [T0, T1, T2, T3]
+    core_quantity: "Delta_MU <= 0.05, SCS_self >= 0.90"
+  - slug: attrib
+    idea: IDEA_08_ATTRIB-1127
+    proposal_score: 7.40
+    verdict: Accept with Revisions
+    decisive: [T0, T1, T2, T3]
+    core_quantity: "RR <= 0.05, DR <= 0.02"
+  - slug: layer
+    idea: IDEA_09_LAYER-1127
+    proposal_score: 7.20
+    verdict: Accept with Revisions
+    decisive: [T0, T1, T2, T3]
+    core_quantity: "min_p Depth <= ell_shared, DC <= 1"
+  - slug: probe
+    idea: IDEA_10_PROBE-1127
+    proposal_score: 7.20
+    verdict: Accept with Revisions
+    decisive: [T0, T1, T2, T3]
+    core_quantity: "UDec -> 0.5"
+
+# Frozen reproducibility settings from the proposals.
+frozen:
+  dtype: fp32            # matmul precision (CUBLAS_WORKSPACE_CONFIG=:4096:8)
+  seeds: [1001, 2002]
+  base_model: LRM-target
+  lora: {r: 8, alpha: 32, target: [q_proj, k_proj, v_proj, o_proj]}
+  tf32: false
+
+# T0/T1/T2/T3 meaning (same scaffold for every method; see each proposal §4).
+experiment_scaffold:
+  T0: "baseline reproduction (R2MU / CoT-only GA / prior method)"
+  T1: "full proposed method"
+  T2: "ablate the core mechanism"
+  T3: "ablate the cross-condition / attack-axis alignment"

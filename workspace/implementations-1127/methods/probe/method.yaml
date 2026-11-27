@@ -1,0 +1,17 @@
+# IDEA_10_PROBE-1127 — method manifest (independent; edit only this file's method)
+method: probe
+idea_dir: ../../idea-stage-1127/IDEA_10_PROBE-1127
+core: core.py
+entry: train.py
+class: PROBE
+config: ProbeConfig
+summary: "Probe-adversarial undecodable erasure at CoT step representations."
+dependencies: [torch]        # core has NO transformers/peft/dataset deps
+runtime_deps: [transformers, peft]   # needed only by train.py on the GPU cluster
+decisive_experiments: [T0, T1, T2, T3]
+hyperparameters:
+  lam: 1.0
+  probe_families: [linear, mlp]
+  feature_dim: 16
+# Path/decoding overrides come from UNL1127_* env vars (see runtime/paths.py).
+# All scores in the proposal are MECHANISM scores; this package creates NO claim.

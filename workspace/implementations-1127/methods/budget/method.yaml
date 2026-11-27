@@ -1,0 +1,18 @@
+# IDEA_01_BUDGET-1127 — method manifest (independent; edit only this file's method)
+method: budget
+idea_dir: ../../idea-stage-1127/IDEA_01_BUDGET-1127
+core: core.py
+entry: train.py
+class: BUDGET
+config: BudgetConfig
+summary: "Budget-monotone continuous min-max: leak must be non-increasing in reasoning budget."
+dependencies: [torch]        # core has NO transformers/peft/dataset deps
+runtime_deps: [transformers, peft]   # needed only by train.py on the GPU cluster
+decisive_experiments: [T0, T1, T2, T3]
+hyperparameters:
+  lam: 1.0
+  budget_grid: [0, 64, 128, 256, 512]
+  worst_weight: 1.0
+  mu: 0.5
+# Path/decoding overrides come from UNL1127_* env vars (see runtime/paths.py).
+# All scores in the proposal are MECHANISM scores; this package creates NO claim.

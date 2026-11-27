@@ -1,0 +1,17 @@
+# IDEA_08_ATTRIB-1127 — method manifest (independent; edit only this file's method)
+method: attrib
+idea_dir: ../../idea-stage-1127/IDEA_08_ATTRIB-1127
+core: core.py
+entry: train.py
+class: ATTRIB
+config: AttribConfig
+summary: "Keyword-attribution step redirection closing the recovery-destruction dilemma."
+dependencies: [torch]        # core has NO transformers/peft/dataset deps
+runtime_deps: [transformers, peft]   # needed only by train.py on the GPU cluster
+decisive_experiments: [T0, T1, T2, T3]
+hyperparameters:
+  lam: 1.0
+  emphasis_template: true
+  delta: 0.02
+# Path/decoding overrides come from UNL1127_* env vars (see runtime/paths.py).
+# All scores in the proposal are MECHANISM scores; this package creates NO claim.

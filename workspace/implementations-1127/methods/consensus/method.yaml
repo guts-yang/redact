@@ -1,0 +1,18 @@
+# IDEA_03_CONSENSUS-1127 — method manifest (independent; edit only this file's method)
+method: consensus
+idea_dir: ../../idea-stage-1127/IDEA_03_CONSENSUS-1127
+core: core.py
+entry: train.py
+class: CONSENSUS
+config: ConsensusConfig
+summary: "Majority-vote recovery attack + consensus-invariant objective (CM certificate)."
+dependencies: [torch]        # core has NO transformers/peft/dataset deps
+runtime_deps: [transformers, peft]   # needed only by train.py on the GPU cluster
+decisive_experiments: [T0, T1, T2, T3]
+hyperparameters:
+  lam: 1.0
+  n_grid: [1, 4, 8, 16]
+  temperature: 1.0
+  max_new_tokens: 128
+# Path/decoding overrides come from UNL1127_* env vars (see runtime/paths.py).
+# All scores in the proposal are MECHANISM scores; this package creates NO claim.

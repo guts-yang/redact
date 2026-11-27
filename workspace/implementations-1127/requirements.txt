@@ -1,0 +1,13 @@
+# implementations-1127 dependencies
+# CORE (methods/*/core.py, selftest, unit tests): torch only — runs on CPU/laptop
+torch>=2.0
+
+# RUNTIME (methods/*/train.py, runtime/*): needed ONLY on the GPU cluster
+transformers>=4.40
+peft>=0.10
+accelerate>=0.28
+sentencepiece
+
+# Optional (used only if you enable real multilingual / translation probing)
+# sentence-transformers
+# numpy
