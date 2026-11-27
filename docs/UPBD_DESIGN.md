@@ -50,11 +50,11 @@ frozen. `merge_and_unload()` produces the evaluated merged model.
 
 Data are read from the locked target/R2MU result CSVs:
 
-| Channel | Source CSV (`run-20261125-full/results/`) | Question | Training target |
+| Channel | Source CSV | Question | Training target |
 |---|---|---|---|
-| forget | `m1_r2mu-forget10-fp32_forget10.csv` | `question` | fixed `SAFE_EXIT = "I don't know.\n</think>\n\nI don't know."` |
-| retain | `m1_target-fp32_forget10_retain.csv` | `question` | `behavior_target(row)`: `model_cot + "\n</think>\n\n" + response` (gold fallback) |
-| aux | `m1_target-fp32_real_authors.csv`, `m1_target-fp32_world_facts.csv` | `question` | same `behavior_target(row)` |
+| forget | `/jizhicfs/chenyliao/runs/r2mu/forget10/eval/forget10.csv` | `question` | fixed `SAFE_EXIT = "I don't know.\n</think>\n\nI don't know."` |
+| retain | `/jizhicfs/chenyliao/runs/target/forget10/eval/forget10_retain.csv` | `question` | `behavior_target(row)`: `model_cot + "\n</think>\n\n" + response` (gold fallback) |
+| aux | `/jizhicfs/chenyliao/runs/target/forget10/eval/real_authors.csv`, `.../world_facts.csv` | `question` | same `behavior_target(row)` |
 
 `--holdout N` skips the first N rows of each split; those rows are never used
 for training, so the pilot measures held-out behaviour rather than memorised
@@ -126,10 +126,15 @@ batch 1 with grad-accum 4, 1 epoch, fp32, seeds 1001 / 2002.
 
 ## 8. Reproduction pointer
 
-`run-20261126-upbd/experiments/run_upbd.sh` uses the isolated env
-`/jizhicfs/chenyliao/lrm-unlearning/envs/r-tofu-ga/bin/python`, offline HF
-cache, fp32, and the frozen result CSVs above. See `docs/METHOD_STATUS.md` for
-the elimination/active-candidate ledger.
+`scripts/upbd/run_upbd_full.sh` runs the full 400/400/217 protocol on two seeds
+(`--holdout 0`, fp32, `--no-tf32`) with the repo's system Python; it writes
+`adapter_run/` and `merged/` under
+`/jizhicfs/chenyliao/lrm-unlearning/results/upbd_full_s<seed>/`. Target-side
+retain/aux CSVs are generated with `config/target-fp32/LRM-target.yaml`
+(fp32, `--max_new_tokens 1024`). The historical pilot used the isolated env
+`/jizhicfs/chenyliao/lrm-unlearning/envs/r-tofu-ga/bin/python`; that env lacks
+sentencepiece, so the system Python is now the canonical runner. See
+`docs/METHOD_STATUS.md` for the elimination/active-candidate ledger.
 
 This note records the implementation design only. It is not a claim, not an
 accepted reviewer verdict, and contains no credential values.

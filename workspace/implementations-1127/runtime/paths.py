@@ -21,7 +21,7 @@ PKG_ROOT = Path(__file__).resolve().parents[1]
 # Cluster defaults mirror the R-TOFU server layout. Override with UNL1127_* envs.
 WORKSPACE = Path(env("WORKSPACE", "/usr/local/workspace/tracks/lrm-unlearning/R-TOFU/workspace"))
 REDACT_ROOT = Path(env("REDACT_ROOT", "/usr/local/workspace/tracks/lrm-unlearning/redact"))
-RTOFU_REPO = Path(env("RTOFU_REPO", "/usr/local/workspace/R-TOFU"))
+RTOFU_REPO = Path(env("RTOFU_REPO", "/usr/local/workspace/tracks/lrm-unlearning/R-TOFU"))
 ASU_ROOT = Path(env("ASU_ROOT", "/jizhicfs/chenyliao"))
 
 DATA = Path(env("DATA", str(ASU_ROOT / "data" / "rtofu")))

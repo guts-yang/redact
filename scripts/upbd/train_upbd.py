@@ -18,9 +18,10 @@ import torch
 from peft import LoraConfig, get_peft_model
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-MODEL = "/usr/local/workspace/tracks/lrm-unlearning/run-20261125/checkpoints/r2mu-forget10-compat"
+MODEL = "/jizhicfs/chenyliao/checkpoints/r2mu-forget10/checkpoint-last"
 TOKENIZER = "/jizhicfs/chenyliao/models/sangyon/LRM-target"
-TARGET_RUN = Path("/usr/local/workspace/tracks/lrm-unlearning/run-20261125-full/results")
+DEFAULT_FORGET_CSV = Path("/jizhicfs/chenyliao/runs/r2mu/forget10/eval/forget10.csv")
+DEFAULT_TARGET_EVAL = Path("/jizhicfs/chenyliao/runs/target/forget10/eval")
 SAFE_EXIT = "I don't know.\n</think>\n\nI don't know."
 
 
@@ -72,6 +73,16 @@ def collate(tok, items, max_len=1024):
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--model", default=MODEL,
+                    help="Frozen unlearned checkpoint (full model or PEFT adapter).")
+    ap.add_argument("--tokenizer", default=TOKENIZER)
+    ap.add_argument("--forget-csv", type=Path, default=DEFAULT_FORGET_CSV)
+    ap.add_argument("--retain-csv", type=Path,
+                    default=DEFAULT_TARGET_EVAL / "forget10_retain.csv")
+    ap.add_argument("--authors-csv", type=Path,
+                    default=DEFAULT_TARGET_EVAL / "real_authors.csv")
+    ap.add_argument("--world-csv", type=Path,
+                    default=DEFAULT_TARGET_EVAL / "world_facts.csv")
     ap.add_argument("--epochs", type=int, default=1)
     ap.add_argument("--lr", type=float, default=2e-4)
     ap.add_argument("--batch-size", type=int, default=1)
@@ -82,7 +93,9 @@ def main() -> int:
     ap.add_argument("--holdout", type=int, default=20,
                     help="Skip the first N rows per split; they are the held-out eval set.")
     ap.add_argument("--max-steps", type=int, default=-1)
-    ap.add_argument("--max-minutes", type=float, default=60.0)
+    ap.add_argument("--max-minutes", type=float, default=180.0)
+    ap.add_argument("--tf32", action=argparse.BooleanOptionalAction, default=True,
+                    help="Allow TF32 matmul. The pilot used True; pass --no-tf32 for strict fp32.")
     ap.add_argument("--output-dir", type=Path, default=Path("results/upbd_adapter"))
     ap.add_argument("--save-merged", type=Path, default=Path("/jizhicfs/chenyliao/lrm-unlearning/results/upbd/merged"))
     ap.add_argument("--skip-merge", action="store_true")
@@ -90,13 +103,13 @@ def main() -> int:
 
     torch.manual_seed(args.seed)
     random.seed(args.seed)
-    torch.backends.cuda.matmul.allow_tf32 = True
-    torch.backends.cudnn.allow_tf32 = True
+    torch.backends.cuda.matmul.allow_tf32 = args.tf32
+    torch.backends.cudnn.allow_tf32 = args.tf32
 
-    forget_all = read_csv(TARGET_RUN / "m1_r2mu-forget10-fp32_forget10.csv")
-    retain_all = read_csv(TARGET_RUN / "m1_target-fp32_forget10_retain.csv")
-    authors_all = read_csv(TARGET_RUN / "m1_target-fp32_real_authors.csv")
-    world_all = read_csv(TARGET_RUN / "m1_target-fp32_world_facts.csv")
+    forget_all = read_csv(args.forget_csv)
+    retain_all = read_csv(args.retain_csv)
+    authors_all = read_csv(args.authors_csv)
+    world_all = read_csv(args.world_csv)
 
     # The first N rows of each split are the held-out 20-row eval set. Never
     # train on them; otherwise the pilot measures memorization, not unlearning.
@@ -116,11 +129,11 @@ def main() -> int:
     random.shuffle(items)
     print(f"[upbd] forget={len(forget)} retain={len(retain)} aux={len(authors)+len(world)} total={len(items)}", flush=True)
 
-    tok = AutoTokenizer.from_pretrained(TOKENIZER, local_files_only=True)
+    tok = AutoTokenizer.from_pretrained(args.tokenizer, local_files_only=True)
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
     model = AutoModelForCausalLM.from_pretrained(
-        MODEL,
+        args.model,
         torch_dtype=torch.float32,
         attn_implementation="sdpa",
         low_cpu_mem_usage=True,

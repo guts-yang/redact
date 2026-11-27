@@ -77,3 +77,15 @@ experiment_scaffold:
   T1: "full proposed method"
   T2: "ablate the core mechanism"
   T3: "ablate the cross-condition / attack-axis alignment"
+
+# Training scale used by `scripts/run_all.py --decisive`. It is deliberately
+# above the 8-step / 4+4 smoke, but it is still TRAINING ONLY: T0-T3 require
+# real generation-side metrics from `scripts/eval_decisive.py` (not implemented
+# yet) and must not be read off the relaxed losses in train_summary.json.
+decisive_preset:
+  steps: 200
+  n_forget: 8
+  n_retain: 8
+  max_len: 1024
+  lr: 1.0e-4
+

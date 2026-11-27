@@ -16,11 +16,28 @@ import torch.nn.functional as F
 from . import paths
 
 
+def _resolve_dtype():
+    """Training/eval dtype. Frozen protocol is fp32 (configs/repro_order.yaml).
+
+    bf16 is accepted as an explicit opt-in but is NOT the default: on H20 with
+    torch 2.5.1 it has triggered SIGFPE during generation (see
+    R-TOFU/workspace/code/decode_eval.py).
+    """
+    name = (os.environ.get("UNL1127_DTYPE") or "float32").strip().lower()
+    mapping = {
+        "float32": torch.float32, "fp32": torch.float32,
+        "bfloat16": torch.bfloat16, "bf16": torch.bfloat16,
+    }
+    if name not in mapping:
+        raise ValueError(f"Unsupported UNL1127_DTYPE={name!r}; use fp32 or bf16")
+    return mapping[name]
+
+
 def load_model(attn_implementation: str = "sdpa", torch_dtype=None, tokenizer_only: bool = False):
     """Load target LRM + tokenizer; optionally attach a base PEFT adapter."""
     from transformers import AutoModelForCausalLM, AutoTokenizer
     if torch_dtype is None:
-        torch_dtype = torch.bfloat16
+        torch_dtype = _resolve_dtype()
     tok = AutoTokenizer.from_pretrained(str(paths.TARGET_MODEL))
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
@@ -46,16 +63,28 @@ def add_lora(model, r: int = 8, alpha: int = 32):
 
 
 def load_unlearned_reference(attn_implementation: str = "sdpa"):
-    """A second checkpoint that has already forgotten (used by DRIFT/REVERSE/LAYER/PROBE)."""
+    """A second checkpoint that has already forgotten (used by DRIFT/REVERSE/LAYER/PROBE).
+
+    Accepts either a PEFT adapter directory (``adapter_config.json`` present)
+    or a full merged checkpoint (``config.json`` + weights). The R2MU
+    ``checkpoint-last`` on the cluster is a merged model, not an adapter.
+    """
     from transformers import AutoModelForCausalLM
     if not paths.UNLEARNED_ADAPTER:
         return None
-    model = AutoModelForCausalLM.from_pretrained(
-        str(paths.TARGET_MODEL), torch_dtype=torch.bfloat16,
-        attn_implementation=attn_implementation).to("cuda")
+    ref = str(paths.UNLEARNED_ADAPTER)
+    torch_dtype = _resolve_dtype()
+    if os.path.isfile(os.path.join(ref, "adapter_config.json")):
+        model = AutoModelForCausalLM.from_pretrained(
+            str(paths.TARGET_MODEL), torch_dtype=torch_dtype,
+            attn_implementation=attn_implementation).to("cuda")
+        from peft import PeftModel
+        model = PeftModel.from_pretrained(model, ref)
+    else:
+        model = AutoModelForCausalLM.from_pretrained(
+            ref, torch_dtype=torch_dtype,
+            attn_implementation=attn_implementation).to("cuda")
     model.config.use_cache = False
-    from peft import PeftModel
-    model = PeftModel.from_pretrained(model, paths.UNLEARNED_ADAPTER)
     model.eval()
     return model
 

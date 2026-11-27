@@ -88,6 +88,8 @@ def main():
                            seed=1001)
     summary = runner.run(cfg, budget_train.compute_loss, budget_train.setup)
     assert summary["steps"] == 2
+    assert "gates" in summary["meta"]["extras_keys"], summary["meta"]
+    assert summary["meta"]["n_trainable_params"] > 0, summary["meta"]
     assert len(summary["losses"]) == 2
     assert all(isinstance(x, float) for x in summary["losses"])
     out = paths.RESULTS / "mock_smoke"

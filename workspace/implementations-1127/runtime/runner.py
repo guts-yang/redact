@@ -88,14 +88,13 @@ def run(cfg: RunConfig, compute_loss: Callable[[Context], Any],
     tok, model = M.load_model(attn_implementation=cfg.attn_implementation)
     model = M.add_lora(model, r=cfg.lora_r, alpha=cfg.lora_alpha)
     model.train()
-    params = [p for p in model.parameters() if p.requires_grad]
-    opt = torch.optim.AdamW(params, lr=cfg.lr)
 
     ref_model = M.load_unlearned_reference() if cfg.need_ref_model else None
     refusals = data.refusals()
     base_ctx = dict(model=model, ref_model=ref_model, tok=tok)
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = str(next(model.parameters()).device)
+    method_extras: Dict[str, Any] = {}
     if setup is not None:
         # Allow method-specific precomputation (retain stats, graphs, probes).
         dummy = Context(**base_ctx, forget_rows=[], retain_rows=[], safe_texts=[],
@@ -103,10 +102,23 @@ def run(cfg: RunConfig, compute_loss: Callable[[Context], Any],
                         n_forget=0, entity_ids=None, seed=cfg.seed, step=-1,
                         max_len=cfg.max_len, device=device)
         setup(dummy, cfg)
+        # setup() may attach nn.Parameters (e.g. BUDGET gates) to the model and
+        # populate extras. Collect params AFTER setup so those parameters are
+        # actually optimised, and carry extras into every real step.
+        method_extras = dict(dummy.extras)
+
+    params = [p for p in model.parameters() if p.requires_grad]
+    if not params:
+        raise RuntimeError("no trainable parameters after setup; check LoRA/method wiring")
+    opt = torch.optim.AdamW(params, lr=cfg.lr)
 
     losses: List[float] = []
     diag_last: Dict[str, float] = {}
-    meta: Dict[str, Any] = {"method": cfg.method, "hook": "full"}
+    meta: Dict[str, Any] = {
+        "method": cfg.method, "hook": "full",
+        "extras_keys": sorted(method_extras),
+        "n_trainable_params": int(sum(p.numel() for p in params)),
+    }
     t0 = time.time()
     for step in range(cfg.steps):
         f_rows = data.sample_rows(paths.FORGET_FILE, cfg.n_forget, cfg.seed + step,
@@ -121,7 +133,7 @@ def run(cfg: RunConfig, compute_loss: Callable[[Context], Any],
                       safe_texts=safe, batch=batch, logits=logits, hidden=hidden,
                       nll=nll, n_forget=len(f_rows), entity_ids=eids,
                       seed=cfg.seed, step=step, max_len=cfg.max_len,
-                      device=device)
+                      device=device, extras=dict(method_extras))
         out = compute_loss(ctx)
         loss = out.loss / max(1, cfg.grad_accum)
         loss.backward()

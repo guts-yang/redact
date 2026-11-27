@@ -36,9 +36,25 @@ ORDER = [
 ]
 
 
+def load_decisive_preset() -> dict:
+    """Read the scaled training preset from configs/repro_order.yaml."""
+    import yaml
+
+    path = ROOT / "configs" / "repro_order.yaml"
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    preset = data.get("decisive_preset") or {}
+    return {
+        "steps": int(preset.get("steps", 200)),
+        "n_forget": int(preset.get("n_forget", 8)),
+        "n_retain": int(preset.get("n_retain", 8)),
+        "max_len": int(preset.get("max_len", 1024)),
+        "lr": float(preset.get("lr", 1e-4)),
+    }
+
+
 def cmd(slug: str, steps: int = 8, n_forget: int = 4, n_retain: int = 4,
         max_len: int = 256, lr: float = 1e-4, seed: int = 1001) -> str:
-    return (f"python -m methods.{slug}.train --run-id unl1127_{slug} "
+    return (f"python -m methods.{slug}.train --run-id unl1127_{slug}_s{seed} "
             f"--steps {steps} --n-forget {n_forget} --n-retain {n_retain} "
             f"--max-len {max_len} --lr {lr} --seed {seed}")
 
@@ -49,15 +65,31 @@ def main():
     ap.add_argument("--only", default="", help="run a single method slug")
     ap.add_argument("--dry-run", action="store_true",
                     help="CPU preflight + print commands, no GPU training")
+    ap.add_argument("--decisive", action="store_true",
+                    help="use the scaled preset from configs/repro_order.yaml "
+                         "(still not a T0-T3 result without eval_decisive.py)")
     ap.add_argument("--steps", type=int, default=8)
     ap.add_argument("--n-forget", type=int, default=4)
     ap.add_argument("--n-retain", type=int, default=4)
     ap.add_argument("--max-len", type=int, default=256)
     ap.add_argument("--lr", type=float, default=1e-4)
-    ap.add_argument("--seed", type=int, default=1001)
+    ap.add_argument("--seeds", default="1001,2002",
+                    help="comma-separated frozen seeds; each gets its own run-id")
+    ap.add_argument("--seed", type=int, default=1001,
+                    help="legacy single-seed override (ignored when --seeds is set)")
     ap.add_argument("--from", dest="start", default="", help="start from this slug")
     a = ap.parse_args()
 
+    if a.decisive:
+        preset = load_decisive_preset()
+        a.steps = preset["steps"]
+        a.n_forget = preset["n_forget"]
+        a.n_retain = preset["n_retain"]
+        a.max_len = preset["max_len"]
+        a.lr = preset["lr"]
+        print(f"[decisive] preset: {preset}", flush=True)
+
+    seeds = [int(s) for s in a.seeds.split(",") if s.strip()] or [a.seed]
     slugs = [s for s, _, _ in ORDER]
     if a.only:
         if a.only not in slugs:
@@ -79,19 +111,21 @@ def main():
         for slug, idea, score in ORDER:
             if slug in targets:
                 print(f"  # {idea}  (mechanism score {score}, NOT a claim)")
-                print(f"  {cmd(slug, a.steps, a.n_forget, a.n_retain, a.max_len, a.lr, a.seed)}")
+                for seed in seeds:
+                    print(f"  {cmd(slug, a.steps, a.n_forget, a.n_retain, a.max_len, a.lr, seed)}")
         print("\n(dry-run: nothing launched)")
         return
 
     for slug, idea, _ in ORDER:
         if slug not in targets:
             continue
-        print(f"\n========== {slug}  ({idea}) ==========", flush=True)
-        c = cmd(slug, a.steps, a.n_forget, a.n_retain, a.max_len, a.lr, a.seed)
-        print(f"$ {c}", flush=True)
-        rc = subprocess.call(c, shell=True, cwd=str(ROOT))
-        if rc != 0:
-            print(f"[{slug}] exited {rc}; continuing with next method", flush=True)
+        for seed in seeds:
+            print(f"\n========== {slug} seed={seed}  ({idea}) ==========", flush=True)
+            c = cmd(slug, a.steps, a.n_forget, a.n_retain, a.max_len, a.lr, seed)
+            print(f"$ {c}", flush=True)
+            rc = subprocess.call(c, shell=True, cwd=str(ROOT))
+            if rc != 0:
+                print(f"[{slug} seed={seed}] exited {rc}; continuing", flush=True)
     print("\nAll requested methods attempted. Each wrote its own train_summary.json.", flush=True)
 
 

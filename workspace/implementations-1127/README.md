@@ -46,10 +46,14 @@ python scripts/check_env.py
 # 2) CPU 预检 + 查看命令（不占 GPU）
 python scripts/run_all.py --all --dry-run
 # 3) 依次复现（每个方法独立写 adapter + train_summary.json）
-python scripts/run_all.py --only budget     # 先单跑一个验证
-python scripts/run_all.py --all            # 或按排名一次跑完
+python scripts/run_all.py --only budget     # 先单跑一个验证（默认冒烟 8 步）
+python scripts/run_all.py --all            # 按排名跑完；默认两个冻结种子 1001/2002
+python scripts/run_all.py --only budget --decisive  # 放大到 decisive_preset（200 步 / 8+8 / 1024）
 python -m methods.consensus.train --steps 8  # 也可直接单方法
 ```
+
+run-id 现在带种子（`unl1127_<slug>_s<seed>`），两个种子不会互相覆盖。
+`--decisive` 只放大训练规模，仍**不是** T0–T3 结论：真实生成指标需要 eval 侧脚本，禁止拿 `train_summary.json` 的松弛值当结果。
 
 每个方法输出到 `$UNL1127_RESULTS/unl1127_<slug>/`：LoRA `adapter/`、`train_summary.json`（losses / final_diagnostics / meta）、`train_args.json`。summary 带 `diagnostic_only: true`、`claim_level: non-claim`。
 

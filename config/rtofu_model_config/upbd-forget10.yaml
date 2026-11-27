@@ -1,0 +1,13 @@
+embedding_dim: 4096
+embedding_module: model.embed_tokens
+formatting_tokens:
+  answer_prefix: ""
+  answer_suffix: ""
+  prompt_prefix: "<｜User｜>"
+  prompt_suffix: "<｜Assistant｜>"
+hf_name: /jizhicfs/chenyliao/lrm-unlearning/results/upbd/merged
+attn_implementation: sdpa
+torch_dtype: float32
+load_in_8bit: false
+load_in_4bit: false
+baseline: true

@@ -5,8 +5,9 @@ formatting_tokens:
   answer_suffix: ""
   prompt_prefix: "<｜User｜>"
   prompt_suffix: "<｜Assistant｜>"
-hf_name: /path/to/rtofu-baselines/r2mu-forget10
-attn_implementation: flash_attention_2
+hf_name: /jizhicfs/chenyliao/checkpoints/r2mu-forget10/checkpoint-last
+attn_implementation: sdpa
+torch_dtype: float32
 load_in_8bit: false
 load_in_4bit: false
 baseline: true
