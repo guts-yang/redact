@@ -53,8 +53,10 @@ def load_decisive_preset() -> dict:
 
 
 def cmd(slug: str, steps: int = 8, n_forget: int = 4, n_retain: int = 4,
-        max_len: int = 256, lr: float = 1e-4, seed: int = 1001) -> str:
-    return (f"python -m methods.{slug}.train --run-id unl1127_{slug}_s{seed} "
+        max_len: int = 256, lr: float = 1e-4, seed: int = 1001,
+        tag: str = "smoke") -> str:
+    """Build one GPU command. ``tag`` keeps smoke/decisive artifacts separate."""
+    return (f"python -m methods.{slug}.train --run-id unl1127_{slug}_{tag}_s{seed} "
             f"--steps {steps} --n-forget {n_forget} --n-retain {n_retain} "
             f"--max-len {max_len} --lr {lr} --seed {seed}")
 
@@ -90,6 +92,7 @@ def main():
         print(f"[decisive] preset: {preset}", flush=True)
 
     seeds = [int(s) for s in a.seeds.split(",") if s.strip()] or [a.seed]
+    tag = "decisive" if a.decisive else "smoke"
     slugs = [s for s, _, _ in ORDER]
     if a.only:
         if a.only not in slugs:
@@ -112,7 +115,7 @@ def main():
             if slug in targets:
                 print(f"  # {idea}  (mechanism score {score}, NOT a claim)")
                 for seed in seeds:
-                    print(f"  {cmd(slug, a.steps, a.n_forget, a.n_retain, a.max_len, a.lr, seed)}")
+                    print(f"  {cmd(slug, a.steps, a.n_forget, a.n_retain, a.max_len, a.lr, seed, tag)}")
         print("\n(dry-run: nothing launched)")
         return
 
@@ -121,7 +124,7 @@ def main():
             continue
         for seed in seeds:
             print(f"\n========== {slug} seed={seed}  ({idea}) ==========", flush=True)
-            c = cmd(slug, a.steps, a.n_forget, a.n_retain, a.max_len, a.lr, seed)
+            c = cmd(slug, a.steps, a.n_forget, a.n_retain, a.max_len, a.lr, seed, tag)
             print(f"$ {c}", flush=True)
             rc = subprocess.call(c, shell=True, cwd=str(ROOT))
             if rc != 0:

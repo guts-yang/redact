@@ -52,10 +52,11 @@ python scripts/run_all.py --only budget --decisive  # 放大到 decisive_preset�
 python -m methods.consensus.train --steps 8  # 也可直接单方法
 ```
 
-run-id 现在带种子（`unl1127_<slug>_s<seed>`），两个种子不会互相覆盖。
+run-id 现在带阶段与种子（`unl1127_<slug>_<tag>_s<seed>`，`tag` = `smoke` / `decisive`），两阶段、两个种子的产物互不覆盖。
 `--decisive` 只放大训练规模，仍**不是** T0–T3 结论：真实生成指标需要 eval 侧脚本，禁止拿 `train_summary.json` 的松弛值当结果。
+`scripts/queue_1127_gpu1.sh` 会在 GPU1 空闲后按「先 smoke 全量、再 decisive 全量」自动跑两阶段。
 
-每个方法输出到 `$UNL1127_RESULTS/unl1127_<slug>/`：LoRA `adapter/`、`train_summary.json`（losses / final_diagnostics / meta）、`train_args.json`。summary 带 `diagnostic_only: true`、`claim_level: non-claim`。
+每个方法输出到 `$UNL1127_RESULTS/unl1127_<slug>_<tag>_s<seed>/`：LoRA `adapter/`、`train_summary.json`（losses / final_diagnostics / meta）、`train_args.json`。summary 带 `diagnostic_only: true`、`claim_level: non-claim`。
 
 ## 路径配置（环境变量覆盖，无硬编码本机路径）
 
