@@ -1,0 +1,15 @@
+controls:
+  retain_only: "same unlearned start and budget; forget channel disabled"
+  target_start: "same full recipe from the target model"
+  full: "same unlearned start with the proposed mechanism enabled"
+methods:
+  tcr: [boundary_stability, full_method, remove_each_contract, cross_boundary, stress_probes]
+  bless: [repair_then_benign_operators, full_method, remove_reserve, held_out_operator_family, attribution_controls]
+  rcbf: [frozen_barrier_after_repair, full_method, no_coadaptation, no_positive_margin, long_and_multiturn_probes]
+  stream: [known_infeasible_request, streaming_baselines, no_dual_carryover, no_history_revalidation, attribution_controls]
+  tmot: [forbidden_mass_numerics, full_method, single_marginal, soft_instead_of_hard_forbidden, attribution_controls]
+  crown: [explicit_conflict, request_stream_baselines, fixed_priority, no_post_composition_revalidation, permutation_and_attribution]
+execution:
+  automatic_queue: false
+  automatic_gpu_selection: false
+  claim_from_training_loss: false

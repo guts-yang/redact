@@ -1,0 +1,36 @@
+smoke:
+  steps: 8
+  n_forget: 2
+  n_retain: 2
+  n_aux: 2
+  max_len: 256
+  lr: 0.0001
+  lora_r: 8
+  grad_accum: 1
+  holdout: 20
+  split_mode: question  # engineering smoke only; not entity-level evidence
+  dtype: fp32
+  tf32: false
+  max_minutes: 30
+# Conservative starting point only. Every method must be re-measured before use.
+decisive:
+  steps: 200
+  n_forget: 4
+  n_retain: 4
+  n_aux: 2
+  max_len: 512
+  lr: 0.0001
+  lora_r: 8
+  grad_accum: 1
+  holdout: 20
+  split_mode: entity  # requires UPBD_IMPL_ENTITY_MAP_JSON
+  dtype: fp32
+  tf32: false
+  max_minutes: 180
+method_overrides:
+  rcbf:
+    smoke: {n_forget: 1, n_retain: 1, n_aux: 1}
+    decisive: {n_forget: 2, n_retain: 2, n_aux: 2, max_len: 256}
+  tmot:
+    smoke: {n_forget: 1, n_retain: 1, n_aux: 1}
+    decisive: {n_forget: 2, n_retain: 2, n_aux: 2, max_len: 256}

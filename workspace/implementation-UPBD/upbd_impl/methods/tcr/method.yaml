@@ -1,0 +1,16 @@
+method: tcr
+idea_dir: ../../idea-stage-UPBD/IDEA_01_TCR
+core: core.py
+entry: train.py
+class: TCR
+config: TCRConfig
+dependencies: [torch]
+runtime_deps: [transformers, peft]
+decisive_experiments: [T0, T1, T2, T3, T4]
+hyperparameters:
+  margin_threshold: 1.0
+  lambda_margin: 0.1
+  lambda_representation: 0.01
+  parameter_budget: 1.0
+  risk_budget: 0.05
+claim_level: non-claim

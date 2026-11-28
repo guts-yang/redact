@@ -1,0 +1,15 @@
+method: rcbf
+idea_dir: ../../idea-stage-UPBD/IDEA_03_RCBF
+core: core.py
+entry: train.py
+class: RCBF
+config: RCBFConfig
+dependencies: [torch]
+runtime_deps: [transformers, peft]
+decisive_experiments: [T0, T1, T2, T3, T4]
+hyperparameters:
+  eta: 1.0
+  gamma: 0.1
+  lambda_invariance: 0.1
+  lambda_safety: 0.1
+claim_level: non-claim

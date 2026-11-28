@@ -1,0 +1,16 @@
+method: tmot
+idea_dir: ../../idea-stage-UPBD/IDEA_05_TMOT
+core: core.py
+entry: train.py
+class: TMOT
+config: TMOTConfig
+dependencies: [torch]
+runtime_deps: [transformers, peft]
+decisive_experiments: [T0, T1, T2, T3, T4]
+hyperparameters:
+  epsilon: 0.1
+  iterations: 30
+  lambda_transport: 0.1
+  unknown_weight: 0.1
+  marginal_tolerance: 0.001
+claim_level: non-claim

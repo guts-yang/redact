@@ -1,0 +1,13 @@
+method: upbd_base
+idea_dir: reference
+core: core.py
+entry: train.py
+class: UPBDBase
+dependencies: [torch]
+runtime_deps: [transformers, peft]
+role: reference_control
+frozen:
+  dtype: fp32
+  seeds: [1001, 2002]
+  lora_r: 8
+claim_level: non-claim

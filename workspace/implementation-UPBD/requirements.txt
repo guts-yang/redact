@@ -1,0 +1,11 @@
+# Core algorithm tests: torch + stdlib only.
+torch>=2.0,<3.0
+
+# GPU runtime and existing R-TOFU adapters.
+transformers>=4.40,<5.0
+peft>=0.10,<1.0
+accelerate>=0.28,<2.0
+sentencepiece>=0.1.99,<1.0
+
+# Frozen YAML presets.
+PyYAML>=6.0,<7.0

@@ -1,0 +1,21 @@
+protocol: upbd_impl_v1
+judge: hy4
+dtype: fp32
+tf32: false
+seeds: [1001, 2002]
+lora:
+  rank: 8
+  alpha_multiplier: 2
+  dropout: 0.05
+  targets: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+split:
+  entity_disjoint: true
+  train_fraction: 0.6
+  calibration_fraction: 0.2
+  test_fraction: 0.2
+  acceptance_evidence: calibration
+behavior:
+  forget: structured_non_disclosing_diverse
+  retain_aux: target_generated_cot_and_answer
+  fixed_safe_exit_role: ablation_only
+claim_level: non-claim

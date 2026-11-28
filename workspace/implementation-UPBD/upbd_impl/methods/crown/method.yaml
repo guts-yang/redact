@@ -1,0 +1,14 @@
+method: crown
+idea_dir: ../../idea-stage-UPBD/IDEA_06_CROWN
+core: core.py
+entry: train.py
+class: CROWN
+config: CROWNConfig
+dependencies: [torch]
+runtime_deps: [transformers, peft]
+decisive_experiments: [T0, T1, T2, T3, T4]
+hyperparameters:
+  lambda_margin: 0.1
+  risk_budget: 0.05
+claim_level: non-claim
+notes: "Commutativity is limited to normalized request specifications."

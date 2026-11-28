@@ -1,0 +1,15 @@
+method: stream
+idea_dir: ../../idea-stage-UPBD/IDEA_04_STREAM
+core: core.py
+entry: train.py
+class: STREAM
+config: StreamConfig
+dependencies: [torch]
+runtime_deps: [transformers, peft]
+decisive_experiments: [T0, T1, T2, T3, T4]
+hyperparameters:
+  dual_rate: 0.1
+  lambda_margin: 0.1
+  risk_budget: 0.05
+claim_level: non-claim
+notes: "No non-convex no-regret claim; proxy regret requires a defined comparator."

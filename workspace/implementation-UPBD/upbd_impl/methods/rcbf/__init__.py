@@ -1,0 +1,1 @@
+"""RCBF proposal plugin."""

@@ -1,0 +1,1 @@
+"""STREAM proposal plugin."""

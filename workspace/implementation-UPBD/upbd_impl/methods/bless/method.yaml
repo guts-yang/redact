@@ -1,0 +1,15 @@
+method: bless
+idea_dir: ../../idea-stage-UPBD/IDEA_02_BLESS
+core: core.py
+entry: train.py
+class: BLESS
+config: BLESSConfig
+dependencies: [torch]
+runtime_deps: [transformers, peft]
+decisive_experiments: [T0, T1, T2, T3, T4]
+hyperparameters:
+  margin_threshold: 1.0
+  reserve_per_step: 0.05
+  composition_depth: 4
+  lambda_margin: 0.1
+claim_level: non-claim
