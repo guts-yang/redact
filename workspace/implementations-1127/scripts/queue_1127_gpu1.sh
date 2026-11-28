@@ -104,17 +104,19 @@ wait_gpu1() {
 
 record_status() {
   local tag=$1 slug seed dir
-  touch "$LOG/status.tsv"
+  local out="$LOG/status_${tag}.tsv"
+  : > "$out"
   for slug in $SLUGS; do
     for seed in $SEEDS; do
       dir="$UNL1127_RESULTS/unl1127_${slug}_${tag}_s${seed}"
       if [ -s "$dir/train_summary.json" ]; then
-        printf '%s\t%s\t%s\tDONE\n' "$tag" "$slug" "$seed" >> "$LOG/status.tsv"
+        printf '%s\t%s\t%s\tDONE\n' "$tag" "$slug" "$seed" >> "$out"
       else
-        printf '%s\t%s\t%s\tMISSING\n' "$tag" "$slug" "$seed" >> "$LOG/status.tsv"
+        printf '%s\t%s\t%s\tMISSING\n' "$tag" "$slug" "$seed" >> "$out"
       fi
     done
   done
+  cp "$out" "$LOG/status.tsv"
 }
 
 DRY_RUN=0
@@ -176,4 +178,18 @@ else:
     print("[calibration] first decisive job summary missing; check phase_decisive.log")
 PY
 
+log "=== QUEUE SUMMARY smoke_rc=$SMOKE_RC decisive_rc=$DECISIVE_RC ==="
+# Only emit the completion marker when BOTH phases succeeded and every decisive
+# summary exists. The eval queue gates on this string; writing it after a
+# wholesale OOM (as happened 2026-11-28) would release an eval queue whose
+# adapters do not exist.
+if [ "$SMOKE_RC" -ne 0 ] || [ "$DECISIVE_RC" -ne 0 ]; then
+  log "QUEUE_FAILED: one or more training phases failed; NOT writing QUEUE ALL DONE"
+  exit 1
+fi
+MISSING=$(grep -c 'MISSING' "$LOG/status_decisive.tsv" 2>/dev/null || echo 0)
+if [ "$MISSING" -ne 0 ]; then
+  log "QUEUE_FAILED: $MISSING jobs have no train_summary.json; NOT writing QUEUE ALL DONE"
+  exit 1
+fi
 log "=== QUEUE ALL DONE smoke_rc=$SMOKE_RC decisive_rc=$DECISIVE_RC ==="

@@ -14,6 +14,7 @@ under UNL1127_RESULTS/<run_id>/.
 from __future__ import annotations
 
 import argparse
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -119,6 +120,11 @@ def main():
         print("\n(dry-run: nothing launched)")
         return
 
+    results_root = Path(os.environ.get(
+        "UNL1127_RESULTS",
+        str(ROOT.parents[2] / "R-TOFU" / "workspace" / "results" / "unl1127"),
+    ))
+    failures: list[str] = []
     for slug, idea, _ in ORDER:
         if slug not in targets:
             continue
@@ -128,8 +134,17 @@ def main():
             print(f"$ {c}", flush=True)
             rc = subprocess.call(c, shell=True, cwd=str(ROOT))
             if rc != 0:
+                failures.append(f"{slug}_s{seed}(rc={rc})")
                 print(f"[{slug} seed={seed}] exited {rc}; continuing", flush=True)
-    print("\nAll requested methods attempted. Each wrote its own train_summary.json.", flush=True)
+            elif not (results_root / f"unl1127_{slug}_{tag}_s{seed}" /
+                      "train_summary.json").is_file():
+                failures.append(f"{slug}_s{seed}(no_summary)")
+                print(f"[{slug} seed={seed}] produced no train_summary.json", flush=True)
+    print("\nAll requested methods attempted.", flush=True)
+    if failures:
+        print(f"FAILED {len(failures)} jobs: {', '.join(failures)}", flush=True)
+        sys.exit(1)
+    print("All jobs produced a train_summary.json.", flush=True)
 
 
 if __name__ == "__main__":

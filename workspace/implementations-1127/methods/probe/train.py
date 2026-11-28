@@ -27,7 +27,15 @@ def compute_loss(ctx):
     h = step_hidden.shape[-1]
     probes = ctx.extras.get("probes")
     if not probes:
-        probes = [m.new_probe(h), m.new_probe(h)]
+        # StepProbe is an nn.Module created on CPU by default. Put it on the
+        # same device as the hidden states AND register it on ctx.model so the
+        # runner collects its parameters into the optimizer (params are
+        # gathered after setup()). Without this, compute_loss mixes cpu/cuda
+        # tensors and the probes never receive gradients.
+        probes = [m.new_probe(h).to(step_hidden.device),
+                  m.new_probe(h).to(step_hidden.device)]
+        for i, probe in enumerate(probes):
+            setattr(ctx.model, f"_probe_{i}", probe)
         ctx.extras["probes"] = probes
     membership = torch.cat([torch.ones(4), torch.zeros(4)]).to(step_hidden.device)[:step_hidden.shape[0]]
     base = step_hidden.detach().clone()
