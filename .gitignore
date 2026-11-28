@@ -22,6 +22,7 @@ data/rtofu/*
 *.npy
 *.npz
 *.bin
+.aris/
 
 # Heavy artifact directories (regenerable / hosted externally)
 leak_classifiers/
