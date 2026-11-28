@@ -129,6 +129,18 @@ python -m scripts.hy4_judge_cfe_rtofu \
   --workers 4 --max_retries 2 --timeout 180 \
   2>&1 | tee -a "$OUT/logs/cfe.log"
 
+echo "=== ENSURE JUDGES $RUN_ID $(date -Iseconds) ==="
+python -m scripts.ensure_hy4_judges \
+  --csv "$OUT/forget10.csv" --split forget10 \
+  --afe "$OUT/afe.hy4.jsonl" --cfe "$OUT/cfe.hy4.jsonl" \
+  --rounds 3 --workers 4 --timeout 180 \
+  2>&1 | tee -a "$OUT/logs/ensure.log"
+ENSURE_RC=${PIPESTATUS[0]}
+if [ "$ENSURE_RC" -ne 0 ]; then
+  echo "=== CPU STAGE FAILED $RUN_ID (incomplete Hy4 judges) ==="
+  exit 5
+fi
+
 if [ "$FORGET_ONLY" -eq 1 ]; then
   echo "=== AFE/CFE ONLY (no MU) $RUN_ID $(date -Iseconds) ==="
   python -m scripts.evaluate_rtofu_from_csv \
@@ -137,6 +149,7 @@ if [ "$FORGET_ONLY" -eq 1 ]; then
     --rtofu_judge_scores "$OUT/cfe.hy4.jsonl" \
     --output_json "$OUT/eval.json" \
     2>&1 | tee -a "$OUT/logs/afe_cfe.log"
+  AGG_RC=${PIPESTATUS[0]}
 else
   echo "=== MU $RUN_ID $(date -Iseconds) ==="
   python -m scripts.evaluate_rtofu_from_csv \
@@ -148,6 +161,11 @@ else
     --mu_world_facts_csv "$OUT/world_facts.csv" \
     --output_json "$OUT/eval.json" \
     2>&1 | tee -a "$OUT/logs/mu.log"
+  AGG_RC=${PIPESTATUS[0]}
+fi
+if [ "$AGG_RC" -ne 0 ] || [ ! -s "$OUT/eval.json" ]; then
+  echo "=== CPU STAGE FAILED $RUN_ID (aggregate rc=$AGG_RC) ==="
+  exit 6
 fi
 
 echo "=== CPU STAGE DONE $RUN_ID $(date -Iseconds) ==="
