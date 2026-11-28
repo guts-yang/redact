@@ -69,7 +69,9 @@ def main() -> int:
     ap.add_argument("--csv", required=True)
     ap.add_argument("--split", required=True)
     ap.add_argument("--afe", required=True)
-    ap.add_argument("--cfe", required=True)
+    ap.add_argument("--cfe", default=None,
+                    help="CFE JSONL. Omit when the model emits no CoT (e.g. "
+                         "answer-only 1127 checkpoints): only AFE is checked.")
     ap.add_argument("--rounds", type=int, default=3)
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--timeout", type=float, default=180.0)
@@ -80,10 +82,12 @@ def main() -> int:
         print("[ensure] CSV produced no uids", flush=True)
         return 2
 
-    jobs = [
-        ("AFE", "scripts.hy4_judge_afe_rtofu", args.afe),
-        ("CFE", "scripts.hy4_judge_cfe_rtofu", args.cfe),
-    ]
+    jobs = [("AFE", "scripts.hy4_judge_afe_rtofu", args.afe)]
+    if args.cfe:
+        jobs.append(("CFE", "scripts.hy4_judge_cfe_rtofu", args.cfe))
+    else:
+        print("[ensure] CFE skipped: model emits no CoT", flush=True)
+
     for label, module, path in jobs:
         for attempt in range(1, args.rounds + 1):
             gaps = missing(path, want)
