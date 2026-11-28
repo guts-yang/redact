@@ -146,7 +146,7 @@ fi
 
 : > "$LOG/status.tsv"
 log "=== QUEUE START pid=$$ ==="
-log "WARNING: gate only checks GPU1 idle; UPBD chain completion marker is NOT checked (user choice). Short idle gaps may cause contention."
+log "GATE: requires UPBD chain 'CHAIN ALL DONE' marker AND GPU1 idle; failed training phases suppress the eval-release marker."
 log "env: RESULTS=$UNL1127_RESULTS DTYPE=$UNL1127_DTYPE CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
 
 monitor_gpu &

@@ -64,15 +64,24 @@ gpu1_used() {
 wait_gate() {
   local ok=0 start=$SECONDS marker=0
   while true; do
-    if grep -q 'QUEUE ALL DONE' "$TRAIN_LOG" 2>/dev/null; then marker=1; fi
+    # Anchor on the exact completion line. A plain substring grep also matches
+    # informational log lines that mention the marker (observed 2026-11-28),
+    # which released this queue while training was still in PHASE 1.
+    if grep -qE '^\[[^]]+\] === QUEUE ALL DONE ' "$TRAIN_LOG" 2>/dev/null; then marker=1; fi
+    # Second, independent check: the completion marker must correspond to real
+    # decisive artifacts. Require summaries for all 20 decisive runs.
+    local summaries
+    summaries=$(find "$UNL1127_RESULTS" -maxdepth 2 -path \
+      '*/unl1127_*_decisive_s*/train_summary.json' 2>/dev/null | wc -l)
+    if [ "$summaries" -lt 20 ]; then marker=0; fi
     local used
     used=$(gpu1_used); used=${used:-0}
     if [ "$marker" -eq 1 ] && [ "$used" -lt 3000 ]; then
       ok=$((ok + 1))
-      log "gate poll ${ok}/${DEBOUNCE}: training_done=1 GPU1_used=${used}MiB"
+      log "gate poll ${ok}/${DEBOUNCE}: training_done=1 summaries=$summaries GPU1_used=${used}MiB"
     else
       ok=0
-      log "gate waiting: training_done=$marker GPU1_used=${used}MiB; sleeping 60s"
+      log "gate waiting: training_done=$marker summaries=$summaries GPU1_used=${used}MiB; sleeping 60s"
     fi
     if [ "$ok" -ge "$DEBOUNCE" ]; then
       log "GATE RELEASED: training queue finished and GPU1 is free"
